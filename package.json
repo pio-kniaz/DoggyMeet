@@ -2,16 +2,20 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "husky": "^7.0.0",
+    "husky": "^7.0.4",
     "lerna": "^4.0.0",
-    "lint-staged": "^11.1.2"
+    "lint-staged": "^11.2.6",
+    "tsc-files": "^1.1.2"
   },
   "dependencies": {
-    "@commitlint/cli": "^13.1.0",
-    "@commitlint/config-conventional": "^13.1.0"
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0"
   },
   "scripts": {
     "pre-commit": "lint-staged",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "check-types": "tsc --pretty --noEmit",
+    "check-format": "prettier --check .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js"
   }
 }
