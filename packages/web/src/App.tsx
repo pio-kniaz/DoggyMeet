@@ -1,18 +1,6 @@
 import React from 'react';
 
-interface IProps {
-  text: string;
-}
-const TestComponent = ({ text }: IProps) => {
-  return <p>{text}</p>;
-};
 function App() {
-  const test = 'jake';
-
-  return (
-    <div>
-      <TestComponent text={test} />
-    </div>
-  );
+  return <div>Root App</div>;
 }
 export default App;
