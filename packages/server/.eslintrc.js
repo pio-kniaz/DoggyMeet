@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   env: {
     es2021: true,
@@ -9,8 +11,14 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'prettier'],
-  extends: ['airbnb-base', 'prettier', 'plugin:prettier/recommended'],
+  extends: [
+    'airbnb-base',
+    'prettier',
+    'plugin:prettier/recommended',
+    'plugin:import/typescript',
+  ],
   rules: {
+    'import/no-unresolved': 'error',
     'import/prefer-default-export': 'off',
     'prettier/prettier': [
       1,
@@ -24,5 +32,24 @@ module.exports = {
       },
     ],
     'no-console': 0,
+    'import/extensions': [
+      'error',
+      'always',
+      {
+        js: 'never',
+        ts: 'never',
+      },
+    ],
+  },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: path.resolve(__dirname, 'tsconfig.json'),
+      },
+    },
   },
 };
