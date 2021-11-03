@@ -63,6 +63,6 @@
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
     ],
-    "src/**/*.{ts,tsx}": "tsc-files --noEmit"
+    "src/**/*.{ts,tsx}": "npm run type-check"
   }
 }

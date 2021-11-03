@@ -9,7 +9,7 @@
       "esnext.asynciterable"
     ],
     "skipLibCheck": true,
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "../build/server",
     "moduleResolution": "node",
     "removeComments": true,
@@ -26,7 +26,18 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "baseUrl": "."
+    "baseUrl": "src/",
+    "paths": {
+      "@/*": [
+        "*"
+      ],
+      "@config/*": [
+        "config/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"
