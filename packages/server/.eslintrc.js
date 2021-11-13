@@ -10,10 +10,11 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['@typescript-eslint', 'security', 'prettier'],
   extends: [
     'airbnb-base',
     'prettier',
+    'plugin:security/recommended',
     'plugin:prettier/recommended',
     'plugin:import/typescript',
   ],
