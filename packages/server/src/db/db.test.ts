@@ -30,7 +30,7 @@ describe('database connection', () => {
     // Assert
     expect(mongooseConnectSpyOn).toHaveBeenNthCalledWith(
       1,
-      'mongodb://localhost:27017/merg'
+      'mongodb://localhost:27017/happy-dog-dev'
     );
   });
   it('should display correct message when successfully connected to db', async () => {
