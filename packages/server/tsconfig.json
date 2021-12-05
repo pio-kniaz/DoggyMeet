@@ -42,6 +42,9 @@
       ],
       "@routes/*": [
         "routes/*"
+      ],
+      "@interfaces/*": [
+        "types/interfaces/*"
       ]
     }
   },
