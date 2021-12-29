@@ -34,14 +34,29 @@
       "@config/*": [
         "config/*"
       ],
+      "@const/*": [
+        "const/*"
+      ],
       "@controllers/*": [
         "controllers/*"
       ],
       "@db/*": [
         "db/*"
       ],
+      "@helpers/*": [
+        "helpers/*"
+      ],
+      "@middlewares/*": [
+        "middlewares/*"
+      ],
+      "@models/*": [
+        "models/*"
+      ],
       "@routes/*": [
         "routes/*"
+      ],
+      "@utils/*": [
+        "utils/*"
       ],
       "@interfaces/*": [
         "types/interfaces/*"

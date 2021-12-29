@@ -39,13 +39,4 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.post('save', (error: any, _doc: Document, next: unknown) => {
-  if (typeof next === 'function') {
-    if (error?.code === 11000 && error?.keyValue?.email) {
-      next(new Error('email must be unique'));
-    } else {
-      next(error);
-    }
-  }
-});
 export const User: Model<IUser & Document> = mongoose.model('User', userSchema);

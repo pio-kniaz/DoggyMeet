@@ -1,6 +1,8 @@
 import express from 'express';
 
 import helmet from 'helmet';
+import { errorHandler } from '@/middlewares/error-handler/error-handler';
+import { errorNoMatch } from '@/middlewares/error-no-match/error-no-match';
 import routes from '@/routes/api';
 
 if (!process.env.PORT) {
@@ -12,5 +14,8 @@ app.use(helmet());
 app.use(express.json());
 
 app.use('/api', routes);
+
+app.use(errorNoMatch);
+app.use(errorHandler);
 
 export default app;
