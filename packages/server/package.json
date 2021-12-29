@@ -8,7 +8,8 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "precommit": "lint-staged",
     "test": "jest --coverage --silent",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:staged": "jest --bail --findRelatedTests"
   },
   "devDependencies": {
     "@types/express": "4.17.13",
@@ -49,6 +50,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
+    ],
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "npm run test:staged"
     ]
   }
 }
