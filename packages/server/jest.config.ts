@@ -87,6 +87,15 @@ export default {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@config(.*)$': '<rootDir>/src/config/$1',
+    '^@const(.*)$': '<rootDir>/src/const/$1',
+    '^@controllers(.*)$': '<rootDir>/src/controllers/$1',
+    '^@db(.*)$': '<rootDir>/src/db/$1',
+    '^@helpers(.*)$': '<rootDir>/src/helpers/$1',
+    '^@middlewares(.*)$': '<rootDir>/src/middlewares/$1',
+    '^@models(.*)$': '<rootDir>/src/models/$1',
+    '^@routes(.*)$': '<rootDir>/src/routes/$1',
+    '^@interfaces(.*)$': '<rootDir>/src/types/interfaces/$1',
+    '^@utils(.*)$': '<rootDir>/src/utils/$1',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
