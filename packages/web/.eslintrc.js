@@ -1,3 +1,7 @@
+const path = require('path');
+
+const ROOT_PATH = path.resolve(__dirname);
+
 module.exports = {
   env: {
     browser: true,
@@ -24,6 +28,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
+  ignorePatterns: ['webpack'],
   rules: {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
@@ -40,7 +45,7 @@ module.exports = {
       },
     ],
     'no-console': 0,
-    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
+    'react/jsx-filename-extension': [1, {extensions: ['.ts', '.tsx']}],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -51,5 +56,12 @@ module.exports = {
         tsx: 'never',
       },
     ],
+  },
+  settings: {
+    'import/resolver': {
+      webpack: {
+        config: `${ROOT_PATH}/webpack/webpack.common.js`,
+      },
+    },
   },
 };

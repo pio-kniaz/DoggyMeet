@@ -35,10 +35,12 @@
     "@typescript-eslint/eslint-plugin": "5.2.0",
     "@typescript-eslint/parser": "5.2.0",
     "babel-loader": "8.2.3",
-    "clean-webpack-plugin": "4.0.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
     "eslint": "8.1.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-prettier": "8.3.0",
+    "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-plugin-eslint-comments": "3.2.0",
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-jsx-a11y": "6.4.1",
@@ -49,9 +51,16 @@
     "fork-ts-checker-webpack-plugin": "6.4.0",
     "html-webpack-plugin": "5.5.0",
     "lint-staged": "11.2.6",
+    "mini-css-extract-plugin": "^2.4.5",
+    "postcss": "^8.4.5",
+    "postcss-loader": "^6.2.1",
+    "postcss-preset-env": "^7.1.0",
     "prettier": "2.4.1",
     "react-refresh": "0.10.0",
+    "sass": "^1.45.1",
+    "sass-loader": "^12.4.0",
     "tsc-files": "^1.1.2",
+    "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "4.4.4",
     "webpack": "5.61.0",
     "webpack-bundle-analyzer": "4.5.0",
@@ -62,7 +71,11 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix"
-    ],
-    "src/**/*.{ts,tsx}": "npm run type-check"
-  }
+    ]
+  },
+    "browserslist": [
+      "last 2 version",
+      "> 1%",
+      "IE 11"
+    ]
 }
