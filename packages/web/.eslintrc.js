@@ -30,9 +30,16 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint', 'testing-library', 'jest-dom'],
+  plugins: [
+    'react',
+    '@typescript-eslint',
+    'testing-library',
+    'jest-dom',
+    'import',
+  ],
   ignorePatterns: ['webpack'],
   rules: {
+    'import/no-unresolved': 'error',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     'import/prefer-default-export': 'off',
@@ -65,9 +72,13 @@ module.exports = {
     ],
   },
   settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
     'import/resolver': {
-      webpack: {
-        config: `${ROOT_PATH}/webpack/webpack.common.js`,
+      typescript: {
+        alwaysTryTypes: true,
+        project: `${ROOT_PATH}`,
       },
     },
   },
