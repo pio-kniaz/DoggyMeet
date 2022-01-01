@@ -1,0 +1,11 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/colors" as *;
+
+body {
+  background-color: $remyColor;
+  font-size: 26px;
+}
+
+h1 {
+  font-family: $text-roboto-regular;
+}

@@ -1,0 +1,10 @@
+/*
+ * Global sass scripts (variables, functions, mixins) which won't generate output code!
+ * that can be included in every component style.
+ *
+ * If you include here code which generates output it will be duplicated a lot of times!
+ */
+
+@forward 'mixins';
+@forward 'variables';
+@forward 'colors';
