@@ -3,7 +3,7 @@
  * that can be included only on root level
  */
 
-@import 'global';
-@import 'reset';
-@import 'typography';
-@import 'fonts';
+@forward 'global';
+@forward 'reset';
+@forward 'typography';
+@forward 'fonts';
