@@ -6,6 +6,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: [
     'plugin:react/recommended',
@@ -18,6 +19,8 @@ module.exports = {
     'plugin:eslint-comments/recommended',
     'prettier',
     'plugin:prettier/recommended',
+    'plugin:testing-library/react',
+    'plugin:jest-dom/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -27,7 +30,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@typescript-eslint'],
+  plugins: ['react', '@typescript-eslint', 'testing-library', 'jest-dom'],
   ignorePatterns: ['webpack'],
   rules: {
     'no-use-before-define': 'off',
@@ -55,6 +58,10 @@ module.exports = {
         ts: 'never',
         tsx: 'never',
       },
+    ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {devDependencies: ['**/*.test.ts', '**/*.test.tsx']},
     ],
   },
   settings: {

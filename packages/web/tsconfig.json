@@ -31,6 +31,24 @@
       "@pages/*": [
         "pages/*"
       ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@components/*": [
+        "components/*"
+      ],
+      "@helpers/*": [
+        "helpers/*"
+      ],
+      "@redux/*": [
+        "redux/*"
+      ],
+      "@routes/*": [
+        "routes/*"
+      ],
+      "@styles/*": [
+        "styles/*"
+      ],
     }
   },
   "include": [
