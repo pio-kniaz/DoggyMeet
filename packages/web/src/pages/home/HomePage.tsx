@@ -1,11 +1,13 @@
 import React from 'react';
-import './home-page.scss';
+
+import RegisterForm from '@pages/home/register-form/RegisterForm';
+import {PageWrapper} from '@/components/shared';
 
 function HomePage() {
   return (
-    <div className="home-page">
-      <h1>Home Page</h1>
-    </div>
+    <PageWrapper>
+      <RegisterForm />
+    </PageWrapper>
   );
 }
 

@@ -39,6 +39,9 @@ module.exports = {
   ],
   ignorePatterns: ['webpack'],
   rules: {
+    'react/prop-types': 'off',
+    'react/require-default-props': 'off',
+    'react/jsx-props-no-spreading': 'off',
     'import/no-unresolved': 'error',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
@@ -81,5 +84,9 @@ module.exports = {
         project: `${ROOT_PATH}`,
       },
     },
+  },
+  globals: {
+    React: true,
+    JSX: true,
   },
 };
