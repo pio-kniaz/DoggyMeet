@@ -32,13 +32,13 @@ export const postUsers = async (
     const newUser = new User(newUserData);
     await newUser.save();
 
-    const { firstName, lastName, _id } = newUser;
-    const newUserResponse: Pick<IUser, 'firstName' | 'lastName'> & {
+    const { name, email, _id } = newUser;
+    const newUserResponse: Pick<IUser, 'name' | 'email'> & {
       _id: string;
     } = {
       _id,
-      firstName,
-      lastName,
+      name,
+      email,
     };
 
     return res.status(200).json({
