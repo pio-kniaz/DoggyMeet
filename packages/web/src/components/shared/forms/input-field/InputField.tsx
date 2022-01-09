@@ -25,7 +25,7 @@ interface IInputField<TFormValues> extends Omit<InputProps, 'name'> {
   inputRightElement?: JSX.Element;
   errors?: Partial<DeepMap<TFormValues, FieldError>>;
 }
-function InputField<TFormValues>({
+function InputField<TFormValues extends Record<string, unknown>>({
   name,
   placeholder,
   label,

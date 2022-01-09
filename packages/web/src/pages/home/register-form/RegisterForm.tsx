@@ -29,7 +29,6 @@ function RegisterForm() {
     register,
     formState: {errors, isSubmitting},
   } = useForm<IRegisterUser>({
-    // mode: 'onChange',
     defaultValues: {
       name: '',
       email: '',
@@ -56,9 +55,9 @@ function RegisterForm() {
       <Text fontSize="2xl" mb="3" textAlign="center">
         Create Account
       </Text>
-      <form onSubmit={handleSubmit(handleOnSubmit)}>
+      <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
         <Box mb="2">
-          <InputField
+          <InputField<IRegisterUser>
             name="name"
             label="Name"
             register={register}
@@ -78,7 +77,7 @@ function RegisterForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField
+          <InputField<IRegisterUser>
             type="text"
             name="email"
             label="Email"
@@ -99,7 +98,7 @@ function RegisterForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField
+          <InputField<IRegisterUser>
             name="password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
