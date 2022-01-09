@@ -4,6 +4,7 @@
 import supertest from 'supertest';
 import mongoose from 'mongoose';
 
+import { validationMessage } from '@const/index';
 import app from '@/app';
 
 beforeEach(() => {
@@ -24,12 +25,9 @@ describe('POST /api/users', () => {
   describe('Add new users', () => {
     it('Should add new user and returns correct response', async () => {
       const dataPayload = {
-        firstName: 'Piotr',
-        lastName: 'JSON',
+        name: 'Piotr',
         email: '123@doggyMeet-test.pl',
-        password: '123',
-        passwordConfirm: '123',
-        terms: true,
+        password: 'JSON',
       };
       await supertest(app)
         .post('/api/users')
@@ -38,16 +36,13 @@ describe('POST /api/users', () => {
         .then((response) => {
           expect(response.body.success).toBe(true);
           expect(response.body.user._id).toBeTruthy();
-          expect(response.body.user.firstName).toBe('Piotr');
-          expect(response.body.user.lastName).toBe('JSON');
+          expect(response.body.user.name).toBe('Piotr');
+          expect(response.body.user.email).toBe('123@doggyMeet-test.pl');
         });
     });
     it('Should check max length fields validation', async () => {
       const payload = {
-        firstName:
-          'TOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONG',
-        lastName:
-          'TOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONG',
+        name: 'TOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONGTOOOLONG',
       };
       for (let i = 0; i < Object.keys(payload).length; i += 1) {
         const field = Object.keys(payload)[i];
@@ -64,12 +59,9 @@ describe('POST /api/users', () => {
     });
     it('Should check required fields validation', async () => {
       const fields = {
-        firstName: '',
-        lastName: '',
+        name: '',
         email: '',
         password: '',
-        passwordConfirm: '',
-        terms: false,
       };
       for (let i = 0; i < Object.keys(fields).length; i += 1) {
         const field = Object.keys(fields)[i];
@@ -78,31 +70,23 @@ describe('POST /api/users', () => {
           .post('/api/users')
           .send({});
         expect(statusCode).toBe(400);
-        expect(body.metaData.fieldsError[field]).toBe('is required');
+        expect(body.metaData.fieldsError[field]).toBe('required');
         expect(body.name).toBe('ClientError');
       }
     });
     it('Should check empty fields validation', async () => {
       const fieldsWithErrors = [
         {
-          field: 'firstName',
-          error: 'is not allowed to be empty',
-        },
-        {
-          field: 'lastName',
-          error: 'is not allowed to be empty',
+          field: 'name',
+          error: validationMessage.notEmpty,
         },
         {
           field: 'email',
-          error: 'is not allowed to be empty',
+          error: validationMessage.notEmpty,
         },
         {
           field: 'password',
-          error: 'is not allowed to be empty',
-        },
-        {
-          field: 'terms',
-          error: 'must be a boolean',
+          error: validationMessage.notEmpty,
         },
       ];
       const payload = fieldsWithErrors.reduce((acc, elem) => {
@@ -124,12 +108,9 @@ describe('POST /api/users', () => {
     describe('email field', () => {
       it('Should return error with correct message when email has been already exists', async () => {
         const dataPayload = {
-          firstName: 'Piotr',
-          lastName: 'JSON',
+          name: 'Piotr',
           email: '123@doggyMeet-test.pl',
           password: '123',
-          passwordConfirm: '123',
-          terms: true,
         };
         await supertest(app).post('/api/users').send(dataPayload);
         const { statusCode, body } = await supertest(app)
@@ -150,18 +131,15 @@ describe('POST /api/users', () => {
       });
       it('Should return correct response when email is invalid', async () => {
         const dataPayload = {
-          firstName: 'Blek',
-          lastName: '12',
-          email: '123',
+          name: 'Piotr',
+          email: 'invalidEmial',
           password: '123',
-          passwordConfirm: '123',
-          terms: true,
         };
         const { statusCode, body } = await supertest(app)
           .post('/api/users')
           .send(dataPayload);
         expect(statusCode).toBe(400);
-        expect(body.metaData.fieldsError.email).toBe('must be a valid email');
+        expect(body.metaData.fieldsError.email).toBe(validationMessage.email);
         expect(body.name).toBe('ClientError');
       });
     });

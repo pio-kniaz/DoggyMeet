@@ -1,12 +1,15 @@
 import React from 'react';
-import HomePage from '@pages/home/HomePage';
+import {ChakraProvider} from '@chakra-ui/react';
+
 import '@styles/index.scss';
+import HomePage from '@pages/home/HomePage';
+import {theme} from './theme';
 
 function App() {
   return (
-    <div>
+    <ChakraProvider resetCSS theme={theme}>
       <HomePage />
-    </div>
+    </ChakraProvider>
   );
 }
 export default App;

@@ -9,6 +9,7 @@ module.exports = {
   devServer: {
     hot: true,
     open: true,
+    port: 8081,
   },
   plugins: [
     new ReactRefreshWebpackPlugin(),
@@ -20,6 +21,7 @@ module.exports = {
     }),
     new ESLintPlugin({
       extensions: ['js', 'jsx', 'ts', 'tsx'],
+      emitWarning: false,
     }),
   ],
 }

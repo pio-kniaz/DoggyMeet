@@ -5,12 +5,7 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    firstName: {
-      type: 'string',
-      trim: true,
-      required: true,
-    },
-    lastName: {
+    name: {
       type: 'string',
       trim: true,
       required: true,
@@ -23,14 +18,6 @@ const userSchema = new Schema(
     },
     password: {
       type: 'string',
-      required: true,
-    },
-    passwordConfirm: {
-      type: 'string',
-      required: true,
-    },
-    terms: {
-      type: 'boolean',
       required: true,
     },
   },

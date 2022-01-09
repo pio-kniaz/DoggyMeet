@@ -46,6 +46,9 @@
       "@routes/*": [
         "routes/*"
       ],
+      "@regex/*": [
+        "regex/*"
+      ],
       "@styles/*": [
         "styles/*"
       ],
