@@ -1,4 +1,5 @@
 export const validationMessage = {
-  email: 'Incorrect email format',
+  email: 'incorrect email format',
   requiredFiled: 'required',
+  notEmpty: 'cannot be an empty',
 } as const;
