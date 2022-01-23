@@ -87,7 +87,11 @@ function RegisterForm() {
   };
 
   return (
-    <Container maxWidth="420" pointerEvents={isLoading ? 'none' : 'auto'}>
+    <Container
+      maxWidth="420"
+      pointerEvents={isLoading ? 'none' : 'auto'}
+      data-testid="register-form"
+    >
       <Text fontSize="2xl" mb="3" textAlign="center">
         Create Account
       </Text>

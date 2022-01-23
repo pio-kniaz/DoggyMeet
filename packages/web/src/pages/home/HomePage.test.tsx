@@ -1,11 +1,17 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react';
+import {screen} from '@testing-library/react';
 import HomePage from '@pages/home/HomePage';
+import {renderWithClient} from '@/utils/tests/createWrapper';
 
 describe('HomePage tests', () => {
-  it('Should render home page title', () => {
-    render(<HomePage />);
-    const title = screen.getByRole('heading', {name: /home page/i});
-    expect(title).toBeInTheDocument();
+  it('Should render homepage container', () => {
+    renderWithClient(<HomePage />);
+    const homePage = screen.getByTestId('home-page');
+    expect(homePage).toBeInTheDocument();
+  });
+  it('Should render children in HomePage', () => {
+    renderWithClient(<HomePage />);
+    const registerForm = screen.getByTestId('register-form');
+    expect(registerForm).toBeInTheDocument();
   });
 });
