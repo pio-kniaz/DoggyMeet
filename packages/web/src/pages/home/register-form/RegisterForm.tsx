@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
+import isArray from 'lodash/isArray';
 import {yupResolver} from '@hookform/resolvers/yup';
 import {
   Container,
@@ -8,6 +9,7 @@ import {
   InputRightElement,
   Text,
 } from '@chakra-ui/react';
+
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
   faUser,
@@ -16,34 +18,68 @@ import {
   faEye,
   faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
+
+import {useUserCreate} from '@queries/users/users-queries';
 import {CustomButton, InputField} from '@/components/shared';
 import {
   registerValidationSchema,
   IRegisterUser,
 } from './registerValidationSchema';
+import {isApiError} from '@/utils';
+
+const defaultValues = {
+  name: '',
+  email: '',
+  password: '',
+};
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const {
     handleSubmit,
     register,
-    formState: {errors, isSubmitting},
+    formState: {errors},
+    setError,
+    reset,
   } = useForm<IRegisterUser>({
-    defaultValues: {
-      name: '',
-      email: '',
-      password: '',
-    },
+    defaultValues,
     resolver: yupResolver(registerValidationSchema),
   });
+  const {isLoading, mutateAsync} = useUserCreate();
 
-  const handleOnSubmit = (values: IRegisterUser) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log(JSON.stringify(values, null, 2));
-        resolve('');
-      }, 500);
-    });
+  const handleOnSubmit = async (values: IRegisterUser) => {
+    try {
+      await mutateAsync(values);
+      // TODO: ADD SUCCESS TOAST.
+      // const toastId = 'register-form-success';
+      // if (!toast.isActive(toastId)) {
+      //   toast({
+      //     id: toastId,
+      //     position: 'top-right',
+      //     title: 'Account created.',
+      //     description: `Thank ${values.name} for joining us 🐶`,
+      //     status: 'success',
+      //     duration: 2500,
+      //     isClosable: true,
+      //   });
+      // }
+      reset(defaultValues);
+    } catch (err: unknown) {
+      if (isApiError(err)) {
+        if (isArray(err.response?.data?.metaData?.fieldsError)) {
+          err.response?.data?.metaData?.fieldsError?.forEach(
+            (elem: Record<string, string>, index: number) => {
+              const fieldName = Object.keys(elem)[index] as keyof IRegisterUser;
+              setError(fieldName, {
+                type: 'manual',
+                message: elem[fieldName],
+              });
+            }
+          );
+        }
+        // TODO: ADD ERROR TOAST.
+      }
+    }
   };
 
   const handleShowPassword = () => {
@@ -51,7 +87,7 @@ function RegisterForm() {
   };
 
   return (
-    <Container maxWidth="420" pointerEvents={isSubmitting ? 'none' : 'auto'}>
+    <Container maxWidth="420" pointerEvents={isLoading ? 'none' : 'auto'}>
       <Text fontSize="2xl" mb="3" textAlign="center">
         Create Account
       </Text>
@@ -134,7 +170,7 @@ function RegisterForm() {
           px="10"
           mt="4"
           colorScheme="teal"
-          isLoading={isSubmitting}
+          isLoading={isLoading}
           type="submit"
         >
           Submit

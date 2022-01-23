@@ -46,11 +46,17 @@
       "@routes/*": [
         "routes/*"
       ],
+      "@queries/*": [
+        "queries/*"
+      ],
       "@regex/*": [
         "regex/*"
       ],
       "@styles/*": [
         "styles/*"
+      ],
+      "@interfaces/*": [
+        "interfaces/*"
       ],
     }
   },
