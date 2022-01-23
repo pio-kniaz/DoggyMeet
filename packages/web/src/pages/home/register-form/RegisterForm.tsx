@@ -20,12 +20,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import {useUserCreate} from '@queries/users/users-queries';
-import {CustomButton, InputField} from '@/components/shared';
+import {CustomButton, InputField} from '@components/shared';
+import {isApiError} from '@helpers/index';
 import {
   registerValidationSchema,
   IRegisterUser,
 } from './registerValidationSchema';
-import {isApiError} from '@/utils';
 
 const defaultValues = {
   name: '',

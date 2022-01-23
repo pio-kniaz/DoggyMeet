@@ -28,17 +28,20 @@
       "@/*": [
         "*"
       ],
-      "@pages/*": [
-        "pages/*"
-      ],
       "@assets/*": [
         "assets/*"
       ],
       "@components/*": [
         "components/*"
       ],
+      "@constants": [
+        "utils/constants/"
+      ],
       "@helpers/*": [
-        "helpers/*"
+        "utils/helpers/*"
+      ],
+      "@pages/*": [
+        "pages/*"
       ],
       "@redux/*": [
         "redux/*"
@@ -56,7 +59,10 @@
         "styles/*"
       ],
       "@interfaces/*": [
-        "interfaces/*"
+        "utils/interfaces/*"
+      ],
+      "@services/*": [
+        "utils/services/*"
       ],
     }
   },

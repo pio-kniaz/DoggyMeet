@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import {validationMessage, regex} from '@/const/index';
+import {validationMessage, regex} from '@constants';
 
 export const registerValidationSchema = Yup.object({
   name: Yup.string().trim().required(validationMessage.requiredFiled),

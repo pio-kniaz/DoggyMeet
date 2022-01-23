@@ -5,8 +5,8 @@ import {ReactQueryDevtools} from 'react-query/devtools';
 
 import '@styles/index.scss';
 import HomePage from '@pages/home/HomePage';
+import {Api} from '@services/index';
 import {theme} from './theme';
-import {Api} from '@/services/Api';
 
 function App() {
   return (

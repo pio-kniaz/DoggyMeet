@@ -1,7 +1,7 @@
 import {IRegisterUser} from '@pages/home/register-form/registerValidationSchema';
 import {useMutation} from 'react-query';
-import {ISuccessResponse, IApiError} from '@/interfaces';
-import {Api} from '@/services/Api';
+import {Api} from '@services/index';
+import {ISuccessResponse, IApiError} from '@interfaces/index';
 
 const baseUrl = '/users';
 
