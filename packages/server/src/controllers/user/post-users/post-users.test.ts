@@ -122,7 +122,7 @@ describe('POST /api/users', () => {
           metaData: {
             fieldsError: [
               {
-                email: 'Must be unique',
+                email: 'Email already exists',
               },
             ],
           },

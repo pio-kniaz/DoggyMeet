@@ -51,7 +51,7 @@ export const postUsers = async (
         new ErrorException(errorCodeName.ClientError, {
           fieldsError: [
             {
-              [Object.keys(error.keyValue)[0]]: 'Must be unique',
+              [Object.keys(error.keyValue)[0]]: 'Email already exists',
             },
           ],
         })
