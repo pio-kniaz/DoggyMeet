@@ -1,9 +1,10 @@
 import React from 'react';
 import {screen} from '@testing-library/react';
+
 import HomePage from '@pages/home/HomePage';
 import {renderWithClient} from '@/utils/tests/createWrapper';
 
-describe('HomePage tests', () => {
+describe('HomePageComponent tests', () => {
   it('Should render homepage container', () => {
     renderWithClient(<HomePage />);
     const homePage = screen.getByTestId('home-page');

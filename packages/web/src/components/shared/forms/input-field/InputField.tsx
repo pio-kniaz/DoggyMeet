@@ -48,6 +48,7 @@ function InputField<TFormValues extends Record<string, unknown>>({
       <InputGroup>
         {inputLeftElement}
         <Input
+          id={name}
           type={type}
           name={name}
           placeholder={placeholder}
