@@ -42,7 +42,7 @@ describe('database connection', () => {
     // Assert
     expect(currentLogOutput).toHaveBeenNthCalledWith(
       1,
-      `MongoDB Connected: localhost`.green.bold
+      `MongoDB Connected: localhost`
     );
   });
   it('should thrown an error when can not connect to db', async () => {

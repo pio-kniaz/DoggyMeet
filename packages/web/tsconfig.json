@@ -28,17 +28,20 @@
       "@/*": [
         "*"
       ],
-      "@pages/*": [
-        "pages/*"
-      ],
       "@assets/*": [
         "assets/*"
       ],
       "@components/*": [
         "components/*"
       ],
+      "@constants": [
+        "utils/constants/"
+      ],
       "@helpers/*": [
-        "helpers/*"
+        "utils/helpers/*"
+      ],
+      "@pages/*": [
+        "pages/*"
       ],
       "@redux/*": [
         "redux/*"
@@ -46,11 +49,20 @@
       "@routes/*": [
         "routes/*"
       ],
+      "@queries/*": [
+        "queries/*"
+      ],
       "@regex/*": [
         "regex/*"
       ],
       "@styles/*": [
         "styles/*"
+      ],
+      "@interfaces/*": [
+        "utils/interfaces/*"
+      ],
+      "@services/*": [
+        "utils/services/*"
       ],
     }
   },

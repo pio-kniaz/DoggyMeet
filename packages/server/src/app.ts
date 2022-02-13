@@ -1,6 +1,9 @@
 import express from 'express';
-
 import helmet from 'helmet';
+import cors from 'cors';
+import morgan from 'morgan';
+import chalk from 'chalk';
+
 import { errorHandler } from '@/middlewares/error-handler/error-handler';
 import { errorNoMatch } from '@/middlewares/error-no-match/error-no-match';
 import routes from '@/routes/api';
@@ -10,8 +13,22 @@ if (!process.env.PORT) {
 }
 const app = express();
 
+app.use(
+  morgan((tokens, req, res) => {
+    return [
+      chalk.green(tokens.method(req, res)),
+      chalk.blue(tokens.url(req, res)),
+      chalk.yellow(tokens.status(req, res)),
+      chalk.cyan(tokens.res(req, res, 'content-length')),
+      '-',
+      chalk.red(`${tokens['response-time'](req, res)} ms`),
+    ].join(' ');
+  })
+);
+
 app.use(helmet());
 app.use(express.json());
+app.use(cors());
 
 app.use('/api', routes);
 

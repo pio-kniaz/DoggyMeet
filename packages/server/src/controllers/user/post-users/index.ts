@@ -20,7 +20,6 @@ export const postUsers = async (
     }
   );
   if (validationErrors) {
-    console.log(JSON.stringify(validationErrors, null, 2), 'validationErrors');
     return next(
       new ErrorException(errorCodeName.ClientError, {
         fieldsError: fieldValidation(validationErrors),
@@ -51,7 +50,7 @@ export const postUsers = async (
         new ErrorException(errorCodeName.ClientError, {
           fieldsError: [
             {
-              [Object.keys(error.keyValue)[0]]: 'Must be unique',
+              [Object.keys(error.keyValue)[0]]: 'Email already exists',
             },
           ],
         })

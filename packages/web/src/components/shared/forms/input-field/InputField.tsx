@@ -1,20 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
-import type {
-  UseFormRegister,
-  Path,
-  RegisterOptions,
-  DeepMap,
-  FieldError,
-} from 'react-hook-form';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputProps,
-  FormErrorMessage,
-} from '@chakra-ui/react';
+import type { UseFormRegister, Path, RegisterOptions, DeepMap, FieldError } from 'react-hook-form';
+import { FormControl, FormLabel, Input, InputGroup, InputProps, FormErrorMessage } from '@chakra-ui/react';
 
 interface IInputField<TFormValues> extends Omit<InputProps, 'name'> {
   name: Path<TFormValues>;
@@ -48,6 +35,7 @@ function InputField<TFormValues extends Record<string, unknown>>({
       <InputGroup>
         {inputLeftElement}
         <Input
+          id={name}
           type={type}
           name={name}
           placeholder={placeholder}

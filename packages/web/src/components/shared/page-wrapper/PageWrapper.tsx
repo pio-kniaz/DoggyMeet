@@ -9,7 +9,7 @@ const EmotionPageWrapper = styled.section`
   background: transparent;
 `;
 
-function PageWrapper({children}: IPageWrapper) {
+function PageWrapper({ children }: IPageWrapper) {
   return <EmotionPageWrapper>{children}</EmotionPageWrapper>;
 }
 
