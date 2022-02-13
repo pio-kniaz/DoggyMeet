@@ -30,13 +30,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-    'testing-library',
-    'jest-dom',
-    'import',
-  ],
+  plugins: ['react', '@typescript-eslint', 'testing-library', 'jest-dom', 'import'],
   ignorePatterns: ['webpack'],
   rules: {
     'react/prop-types': 'off',
@@ -50,15 +44,16 @@ module.exports = {
       1,
       {
         semi: true,
-        trailingComma: 'es5',
+        trailingComma: 'all',
         singleQuote: true,
-        printWidth: 80,
+        printWidth: 120,
         tabWidth: 2,
         endOfLine: 'auto',
+        bracketSpacing: true,
       },
     ],
     'no-console': 0,
-    'react/jsx-filename-extension': [1, {extensions: ['.ts', '.tsx']}],
+    'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -69,10 +64,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'import/no-extraneous-dependencies': [
-      'error',
-      {devDependencies: ['**/*.test.ts', '**/*.test.tsx']},
-    ],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts', '**/*.test.tsx'] }],
   },
   settings: {
     'import/parsers': {

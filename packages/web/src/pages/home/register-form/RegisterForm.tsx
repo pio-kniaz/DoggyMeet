@@ -1,31 +1,16 @@
-import React, {useState} from 'react';
-import {useForm} from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import isArray from 'lodash/isArray';
-import {yupResolver} from '@hookform/resolvers/yup';
-import {
-  Container,
-  Box,
-  InputLeftElement,
-  InputRightElement,
-  Text,
-} from '@chakra-ui/react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Container, Box, InputLeftElement, InputRightElement, Text, useToast } from '@chakra-ui/react';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {
-  faUser,
-  faEnvelope,
-  faLock,
-  faEye,
-  faEyeSlash,
-} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-import {useUserCreate} from '@queries/users/users-queries';
-import {CustomButton, InputField} from '@components/shared';
-import {isApiError} from '@helpers/index';
-import {
-  registerValidationSchema,
-  IRegisterUser,
-} from './registerValidationSchema';
+import { useUserCreate } from '@queries/users/users-queries';
+import { CustomButton, InputField } from '@components/shared';
+import { isApiError } from '@helpers/index';
+import { registerValidationSchema, IRegisterUser } from './registerValidationSchema';
 
 const defaultValues = {
   name: '',
@@ -35,49 +20,64 @@ const defaultValues = {
 
 function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const toast = useToast();
   const {
     handleSubmit,
     register,
-    formState: {errors},
+    formState: { errors },
     setError,
     reset,
   } = useForm<IRegisterUser>({
     defaultValues,
     resolver: yupResolver(registerValidationSchema),
   });
-  const {isLoading, mutateAsync} = useUserCreate();
+  const { isLoading, mutateAsync } = useUserCreate();
 
+  React.useEffect(() => {
+    console.log(isLoading);
+  }, [isLoading, reset]);
   const handleOnSubmit = async (values: IRegisterUser) => {
     try {
       await mutateAsync(values);
       // TODO: ADD SUCCESS TOAST.
-      // const toastId = 'register-form-success';
-      // if (!toast.isActive(toastId)) {
-      //   toast({
-      //     id: toastId,
-      //     position: 'top-right',
-      //     title: 'Account created.',
-      //     description: `Thank ${values.name} for joining us 🐶`,
-      //     status: 'success',
-      //     duration: 2500,
-      //     isClosable: true,
-      //   });
-      // }
+      const toastId = 'register-form-success';
+      if (!toast.isActive(toastId)) {
+        toast({
+          id: toastId,
+          position: 'top-right',
+          title: 'Account created.',
+          description: `Thank ${values.name} for joining us 🐶`,
+          status: 'success',
+          duration: 2500,
+          isClosable: true,
+        });
+      }
       reset(defaultValues);
     } catch (err: unknown) {
+      console.log(isApiError(err), 'isAxios');
       if (isApiError(err)) {
         if (isArray(err.response?.data?.metaData?.fieldsError)) {
-          err.response?.data?.metaData?.fieldsError?.forEach(
-            (elem: Record<string, string>, index: number) => {
-              const fieldName = Object.keys(elem)[index] as keyof IRegisterUser;
-              setError(fieldName, {
-                type: 'manual',
-                message: elem[fieldName],
-              });
-            }
-          );
+          err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
+            const fieldName = Object.keys(elem)[index] as keyof IRegisterUser;
+            setError(fieldName, {
+              type: 'manual',
+              message: elem[fieldName],
+            });
+          });
+        } else {
+          const toastId = 'register-form-error';
+          if (!toast.isActive(toastId)) {
+            toast({
+              id: toastId,
+              position: 'top-right',
+              title: 'Account not created.',
+              description: `Unable to create account`,
+              status: 'error',
+              duration: 2500,
+              isClosable: true,
+            });
+          }
         }
-        // TODO: ADD ERROR TOAST.
       }
     }
   };
@@ -89,7 +89,7 @@ function RegisterForm() {
   return (
     <Container
       maxWidth="420"
-      pointerEvents={isLoading ? 'none' : 'auto'}
+      // pointerEvents={isLoading ? 'none' : 'auto'}
       data-testid="register-form"
     >
       <Text fontSize="2xl" mb="3" textAlign="center">
@@ -159,24 +159,13 @@ function RegisterForm() {
             inputRightElement={
               <InputRightElement>
                 <CustomButton variant="unstyled" onClick={handleShowPassword}>
-                  <FontAwesomeIcon
-                    icon={showPassword ? faEye : faEyeSlash}
-                    size="xs"
-                  />
+                  <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} size="xs" />
                 </CustomButton>
               </InputRightElement>
             }
           />
         </Box>
-        <CustomButton
-          display="flex"
-          mx="auto"
-          px="10"
-          mt="4"
-          colorScheme="teal"
-          isLoading={isLoading}
-          type="submit"
-        >
+        <CustomButton display="flex" mx="auto" px="10" mt="4" colorScheme="teal" isLoading={isLoading} type="submit">
           Submit
         </CustomButton>
       </form>

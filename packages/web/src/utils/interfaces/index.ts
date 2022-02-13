@@ -1,2 +1,2 @@
-export type {ISuccessResponse} from './SuccessResponse';
-export type {IApiError} from './ApiError';
+export type { ISuccessResponse } from './SuccessResponse';
+export type { IApiError } from './ApiError';

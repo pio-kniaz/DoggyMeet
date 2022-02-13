@@ -16,8 +16,6 @@ export const errorHandler = (
     // For handled Operational Errors
     console.log('Error is known.');
     res.status(err.status as number).send(err);
-    console.log(err.status, 'err status');
-    console.log(err, 'err');
   } else {
     // TODO: ADD LOGGER.
     // For unhandled Programmer Errors

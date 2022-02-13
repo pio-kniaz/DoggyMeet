@@ -1,1 +1,1 @@
-export {isApiError} from './isApiError';
+export { isApiError } from './isApiError';

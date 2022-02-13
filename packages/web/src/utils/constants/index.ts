@@ -1,2 +1,2 @@
-export {validationMessage} from './validationMessage';
-export {regex} from './regex';
+export { validationMessage } from './validationMessage';
+export { regex } from './regex';

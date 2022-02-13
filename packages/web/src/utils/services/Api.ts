@@ -1,10 +1,5 @@
-import axios, {
-  AxiosInstance,
-  AxiosResponse,
-  AxiosRequestConfig,
-  Method,
-} from 'axios';
-import {QueryClient} from 'react-query';
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, Method } from 'axios';
+import { QueryClient } from 'react-query';
 
 export class Api {
   public static instance: AxiosInstance = axios.create({
@@ -22,7 +17,7 @@ export class Api {
   static query<T = never, R = unknown>(
     url: string,
     method: Extract<Method, 'get'>,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ): Promise<AxiosResponse<R>> {
     return this.instance[method](url, config);
   }
@@ -31,7 +26,7 @@ export class Api {
     url: string,
     method: Extract<Method, 'post' | 'put' | 'patch' | 'delete'>,
     data?: T,
-    config?: AxiosRequestConfig<T>
+    config?: AxiosRequestConfig<T>,
   ): Promise<AxiosResponse<R>> {
     return this.instance[method](url, data, config);
   }

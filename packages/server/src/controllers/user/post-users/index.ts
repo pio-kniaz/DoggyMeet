@@ -20,7 +20,6 @@ export const postUsers = async (
     }
   );
   if (validationErrors) {
-    console.log(JSON.stringify(validationErrors, null, 2), 'validationErrors');
     return next(
       new ErrorException(errorCodeName.ClientError, {
         fieldsError: fieldValidation(validationErrors),
