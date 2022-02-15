@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Stack, useColorModeValue, useBreakpointValue } from '@chakra-ui/react';
 import { CustomButton } from '@components/shared';
+import { Link } from 'react-router-dom';
 
 function Header() {
   return (
@@ -11,15 +12,21 @@ function Header() {
         color={useColorModeValue('gray.600', 'white')}
         minH="60px"
         align="center"
+        py={{ base: 2 }}
+        px={{ base: 4 }}
       >
         <Flex flex={1} justify="start">
-          <Text
-            textAlign={useBreakpointValue({ base: 'left' })}
-            fontFamily="heading"
-            color={useColorModeValue('gray.800', 'white')}
-          >
-            Logo
-          </Text>
+          <CustomButton variant="link" as="span">
+            <Link to="/">
+              <Text
+                textAlign={useBreakpointValue({ base: 'left' })}
+                fontFamily="heading"
+                color={useColorModeValue('gray.800', 'white')}
+              >
+                Logo
+              </Text>
+            </Link>
+          </CustomButton>
         </Flex>
 
         <Stack flex={{ base: 1 }} justify="flex-end" direction="row" spacing={6}>
@@ -29,7 +36,7 @@ function Header() {
           <CustomButton
             onClick={() => console.log('Open modal with login on register')}
             colorScheme="green"
-            variant="outline"
+            bgGradient="linear(to-r, green.400, green.500, green.600)"
           >
             Zarejestruj
           </CustomButton>
