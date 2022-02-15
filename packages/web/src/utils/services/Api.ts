@@ -3,7 +3,7 @@ import { QueryClient } from 'react-query';
 
 export class Api {
   public static instance: AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/api',
+    baseURL: `${process.env.API_URL}/api`,
   });
 
   static queryClient() {
