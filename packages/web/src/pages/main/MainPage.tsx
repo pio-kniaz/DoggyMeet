@@ -54,7 +54,7 @@ function MainPage() {
           display="flex"
           rightIcon={<FontAwesomeIcon icon={faPaw} size="1x" />}
           colorScheme="green"
-          variant="outline"
+          bgGradient="linear(to-r, green.400, green.500, green.600)"
           margin="1.5rem auto"
           padding="1.45rem"
         >
