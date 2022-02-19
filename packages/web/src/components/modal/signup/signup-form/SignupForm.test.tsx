@@ -3,15 +3,10 @@ import React from 'react';
 import MockAdapter from 'axios-mock-adapter';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { Api } from '@services/index';
-import RegisterForm from './RegisterForm';
+import RegisterForm from './SignupForm';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 
-describe('RegisterFormComponent tests', () => {
-  test('Should render title', () => {
-    renderWithClient(<RegisterForm />);
-    const title = screen.getByText('Create Account');
-    expect(title).toBeInTheDocument();
-  });
+describe('SignupForm component tests', () => {
   describe('Submit button', () => {
     test('Should render submit button', () => {
       renderWithClient(<RegisterForm />);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import isArray from 'lodash/isArray';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Container, Box, InputLeftElement, InputRightElement, Text, useToast } from '@chakra-ui/react';
+import { Box, InputLeftElement, InputRightElement, useToast } from '@chakra-ui/react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free
 import { useUserCreate } from '@queries/users/users-queries';
 import { CustomButton, InputField } from '@components/shared';
 import { isApiError } from '@helpers/index';
-import { registerValidationSchema, IRegisterUser } from './registerValidationSchema';
+import { signupValidationSchema, ISignup } from './signupValidationSchema';
 
 const defaultValues = {
   name: '',
@@ -18,7 +18,7 @@ const defaultValues = {
   password: '',
 };
 
-function RegisterForm() {
+function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
   const toast = useToast();
   const {
@@ -27,16 +27,13 @@ function RegisterForm() {
     formState: { errors },
     setError,
     reset,
-  } = useForm<IRegisterUser>({
+  } = useForm<ISignup>({
     defaultValues,
-    resolver: yupResolver(registerValidationSchema),
+    resolver: yupResolver(signupValidationSchema),
   });
   const { isLoading, mutateAsync } = useUserCreate();
 
-  React.useEffect(() => {
-    console.log(isLoading);
-  }, [isLoading, reset]);
-  const handleOnSubmit = async (values: IRegisterUser) => {
+  const handleOnSubmit = async (values: ISignup) => {
     try {
       await mutateAsync(values);
       // TODO: ADD SUCCESS TOAST.
@@ -58,7 +55,7 @@ function RegisterForm() {
       if (isApiError(err)) {
         if (isArray(err.response?.data?.metaData?.fieldsError)) {
           err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
-            const fieldName = Object.keys(elem)[index] as keyof IRegisterUser;
+            const fieldName = Object.keys(elem)[index] as keyof ISignup;
             setError(fieldName, {
               type: 'manual',
               message: elem[fieldName],
@@ -87,17 +84,10 @@ function RegisterForm() {
   };
 
   return (
-    <Container
-      maxWidth="420"
-      // pointerEvents={isLoading ? 'none' : 'auto'}
-      data-testid="register-form"
-    >
-      <Text fontSize="2xl" mb="3" textAlign="center">
-        Create Account
-      </Text>
+    <Box pointerEvents={isLoading ? 'none' : 'auto'} data-testid="register-form">
       <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
         <Box mb="2">
-          <InputField<IRegisterUser>
+          <InputField<ISignup>
             name="name"
             label="Name"
             register={register}
@@ -117,7 +107,7 @@ function RegisterForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField<IRegisterUser>
+          <InputField<ISignup>
             type="text"
             name="email"
             label="Email"
@@ -138,7 +128,7 @@ function RegisterForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField<IRegisterUser>
+          <InputField<ISignup>
             name="password"
             type={showPassword ? 'text' : 'password'}
             label="Password"
@@ -165,12 +155,21 @@ function RegisterForm() {
             }
           />
         </Box>
-        <CustomButton display="flex" mx="auto" px="10" mt="4" colorScheme="teal" isLoading={isLoading} type="submit">
+        <CustomButton
+          bgGradient="linear(to-r, green.400, green.500, green.600)"
+          display="flex"
+          mx="auto"
+          px="10"
+          mt="4"
+          colorScheme="green"
+          isLoading={isLoading}
+          type="submit"
+        >
           Submit
         </CustomButton>
       </form>
-    </Container>
+    </Box>
   );
 }
 
-export default RegisterForm;
+export default SignupForm;

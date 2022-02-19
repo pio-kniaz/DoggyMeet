@@ -1,25 +1,33 @@
 import type { RootState } from '@redux/store';
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export enum ModalTypes {
+  SIGN_UP = 'SIGN_UP',
+}
 
 export interface IModalState {
-  isOpen: boolean;
-  modalProps: unknown;
+  modalType: null | ModalTypes;
+  modalProps: any;
 }
 
 const initialState: IModalState = {
-  isOpen: false,
+  modalType: null,
   modalProps: {},
+};
+
+type ModalActionPayload = {
+  modalType: ModalTypes.SIGN_UP;
 };
 
 export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    openModal: (state) => {
-      state.isOpen = true;
+    openModal: (state, action: PayloadAction<ModalActionPayload>) => {
+      state.modalType = action.payload.modalType;
     },
-    closeModal: (state) => {
-      state.isOpen = false;
+    closeModal: () => {
+      return initialState;
     },
   },
 });

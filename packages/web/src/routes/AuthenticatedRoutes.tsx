@@ -1,6 +1,5 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HomePage from '@pages/home/HomePage';
 import MainLayout from '@components/layouts/main-layout/MainLayout';
 
 function AuthenticatedRoutes() {
@@ -13,7 +12,12 @@ function AuthenticatedRoutes() {
   };
   return (
     <Routes>
-      <Route path="/" element={withMainLayout(HomePage)} />
+      <Route
+        path="/"
+        element={withMainLayout(() => (
+          <p>sds</p>
+        ))}
+      />
     </Routes>
   );
 }

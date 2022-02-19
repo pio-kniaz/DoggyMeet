@@ -1,7 +1,7 @@
-import { IRegisterUser } from '@pages/home/register-form/registerValidationSchema';
 import { useMutation } from 'react-query';
 import { Api } from '@services/index';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
+import { ISignup } from '@/components/modal/signup/signup-form/signupValidationSchema';
 
 const baseUrl = '/users';
 
@@ -14,8 +14,8 @@ export interface IUserCreateResponse extends ISuccessResponse {
 }
 
 const usersMethod = {
-  create: async (payload: IRegisterUser): Promise<IUserCreateResponse> => {
-    const { data } = await Api.mutate<IRegisterUser, IUserCreateResponse>(baseUrl, 'post', payload);
+  create: async (payload: ISignup): Promise<IUserCreateResponse> => {
+    const { data } = await Api.mutate<ISignup, IUserCreateResponse>(baseUrl, 'post', payload);
     console.log(data);
     return data;
   },
@@ -23,4 +23,4 @@ const usersMethod = {
 
 // eslint-disable-next-line prettier/prettier
 export const useUserCreate = () =>
-  useMutation<IUserCreateResponse, IApiError, IRegisterUser>((data) => usersMethod.create(data));
+  useMutation<IUserCreateResponse, IApiError, ISignup>((data) => usersMethod.create(data));
