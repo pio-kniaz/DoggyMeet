@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import modalReducer from '@redux/modal/modal.slice';
 import logger from 'redux-logger';
+import modalReducer from '@/redux/modal/modal.slice';
 
 export const store = configureStore({
   reducer: {

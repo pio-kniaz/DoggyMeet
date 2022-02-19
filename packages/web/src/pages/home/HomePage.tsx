@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import girlWithDogImg from '@assets/icons/girl-with-dog.svg';
 import { CustomButton } from '@components/shared';
 import { useAppDispatch } from '@hooks/useRedux';
-import { ModalTypes, openModal } from '@redux/modal/modal.slice';
+import { ModalTypes, openModal } from '@/redux/modal/modal.slice';
 
 function HomePage() {
   const dispatch = useAppDispatch();

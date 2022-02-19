@@ -1,5 +1,5 @@
-import type { RootState } from '@redux/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { RootState } from '@/redux/store';
 
 export enum ModalTypes {
   SIGN_UP = 'SIGN_UP',
