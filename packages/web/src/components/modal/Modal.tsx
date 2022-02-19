@@ -15,11 +15,8 @@ function Modal() {
   const handleCloseModal = () => dispatch(closeModal());
 
   const modalComponent = useMemo(() => {
-    if (modalType) {
-      const ModalComponent = MODAL_COMPONENTS[modalType];
-      return <ModalComponent />;
-    }
-    return null;
+    const ModalComponent = modalType && MODAL_COMPONENTS[modalType];
+    return ModalComponent ? <ModalComponent /> : null;
   }, [modalType]);
 
   return (
