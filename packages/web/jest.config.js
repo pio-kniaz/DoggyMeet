@@ -3,7 +3,7 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/?(*.)test.{ts,tsx}'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testPathIgnorePatterns: ['/node_modules/'],
-  setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+  setupFilesAfterEnv: ['<rootDir>/src/utils/tests/setupTests.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@pages(.*)$': '<rootDir>/src/pages/$1',
