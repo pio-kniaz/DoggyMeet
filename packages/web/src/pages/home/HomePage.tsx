@@ -26,7 +26,7 @@ function HomePage() {
         <Image objectFit="cover" src={girlWithDogImg} alt="Girl with Dog" margin="auto" />
       </AspectRatio>
       <Box maxWidth="600" textAlign="left" margin="2rem auto">
-        <List spacing={3}>
+        <List spacing={3} aria-label="info-list">
           <ListItem display="flex" alignItems="baseline">
             <FontAwesomeIcon icon={faInfoCircle} size="1x" />
             <Text fontSize="xl" marginLeft="1rem">
