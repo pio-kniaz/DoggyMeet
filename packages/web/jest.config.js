@@ -3,7 +3,7 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/?(*.)test.{ts,tsx}'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   testPathIgnorePatterns: ['/node_modules/'],
-  setupFilesAfterEnv: ['<rootDir>/src/utils/tests/setupTests.ts', '<rootDir>/src/utils/tests/setupTests.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/utils/tests/setupTests.ts', '<rootDir>/src/utils/tests/matchMedia.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@pages(.*)$': '<rootDir>/src/pages/$1',
