@@ -1,10 +1,17 @@
-import { Box, Flex, Text, Stack, useColorModeValue, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Flex, Text, Stack, useColorModeValue, useBreakpointValue, Image } from '@chakra-ui/react';
 import { CustomButton } from '@components/shared';
 import { Link } from 'react-router-dom';
+import logo from '@assets/images/logo.jpg';
 
 function Header() {
   return (
-    <Box as="header" borderBottom={1} borderStyle="solid" borderColor={useColorModeValue('gray.200', 'gray.900')}>
+    <Box
+      data-testid="header"
+      as="header"
+      borderBottom={1}
+      borderStyle="solid"
+      borderColor={useColorModeValue('gray.200', 'gray.900')}
+    >
       <Flex
         maxW="container.xl"
         margin="auto"
@@ -23,7 +30,7 @@ function Header() {
                 fontFamily="heading"
                 color={useColorModeValue('gray.800', 'white')}
               >
-                Logo
+                <Image src={logo} boxSize="80px" objectFit="contain" alt="Doggy Meet" />
               </Text>
             </Link>
           </CustomButton>

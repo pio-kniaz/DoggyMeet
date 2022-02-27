@@ -25,7 +25,7 @@ const LoaderWrapper = styled('div')<ILoader>((props) => {
 
 function Loader({ fullscreen = false, color = 'green.500', ...spinnerProps }: ILoader) {
   return (
-    <LoaderWrapper fullscreen={fullscreen}>
+    <LoaderWrapper fullscreen={fullscreen} data-testid="loader">
       <Spinner color={color} {...spinnerProps} />
     </LoaderWrapper>
   );

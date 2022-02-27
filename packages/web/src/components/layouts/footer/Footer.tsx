@@ -5,6 +5,7 @@ function Footer() {
   const date = useConst(() => new Date().getFullYear());
   return (
     <Box
+      data-testid="footer"
       background="green.600"
       as="footer"
       padding="1.25rem"

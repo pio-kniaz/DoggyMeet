@@ -1,5 +1,3 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable no-unreachable */
 import React, { useState, Suspense } from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -9,8 +7,7 @@ const AuthenticatedRoutes = React.lazy(() => import('@routes/AuthenticatedRoutes
 const UnAuthenticatedRoutes = React.lazy(() => import('@routes/UnAuthenticatedRoutes'));
 
 function Routes() {
-  // eslint-disable-next-line no-unused-vars
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged] = useState(false);
   const routes = isLogged ? <AuthenticatedRoutes /> : <UnAuthenticatedRoutes />;
 
   return (
