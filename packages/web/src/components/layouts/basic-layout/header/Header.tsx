@@ -38,14 +38,14 @@ function Header() {
 
         <Stack flex={{ base: 1 }} justify="flex-end" direction="row" spacing={6}>
           <CustomButton fontSize="sm" fontWeight={400} variant="link">
-            Zaloguj
+            Login
           </CustomButton>
           <CustomButton
             onClick={() => console.log('Open modal with login on register')}
             colorScheme="green"
             bgGradient="linear(to-r, green.400, green.500, green.600)"
           >
-            Zarejestruj
+            Register
           </CustomButton>
         </Stack>
       </Flex>

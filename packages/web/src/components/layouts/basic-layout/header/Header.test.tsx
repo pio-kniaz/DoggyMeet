@@ -29,7 +29,7 @@ describe('Header component tests', () => {
   describe('Signup visibility / interaction', () => {
     it('Should render sing up button', () => {
       renderWithClient(<Header />);
-      const signup = screen.getByRole('button', { name: /zarejestruj/i });
+      const signup = screen.getByRole('button', { name: /register/i });
       expect(signup).toBeInTheDocument();
     });
     it.todo('Should open sing up modal after sign up button click');
@@ -37,7 +37,7 @@ describe('Header component tests', () => {
   describe('Signin visibility / interaction', () => {
     it('Should render sing in button', () => {
       renderWithClient(<Header />);
-      const signin = screen.getByRole('button', { name: /zaloguj/i });
+      const signin = screen.getByRole('button', { name: /login/i });
       expect(signin).toBeInTheDocument();
     });
     it.todo('Should open sing in modal after sign in button click');

@@ -20,7 +20,7 @@ function HomePage() {
   return (
     <Box padding="3rem 0">
       <Heading fontSize="4xl" textAlign="center" marginBottom="3rem" marginTop="1rem">
-        Tworz wspaniala psia społeczność i pomagaj sobie wzajemnie.
+        Create a great canine community and help each other.
       </Heading>
       <AspectRatio maxW="320px" ratio={1 / 1} margin="auto">
         <Image objectFit="cover" src={girlWithDogImg} alt="Girl with Dog" margin="auto" />
@@ -31,14 +31,14 @@ function HomePage() {
             <FontAwesomeIcon icon={faInfoCircle} size="1x" />
             <Text fontSize="xl" marginLeft="1rem">
               {' '}
-              Dodaj informacje o potrzebie spaceru dla Twgojego psa.
+              Add information about the need for a walk for your dog.
             </Text>
           </ListItem>
           <ListItem display="flex" alignItems="baseline">
             <FontAwesomeIcon icon={faHandsHelping} size="1x" />
             <Text fontSize="xl" marginLeft="1rem">
               {' '}
-              Pomoz innym zabierajac na spacer czyjegos psa.
+              Help others by taking someone&apos;s dog for a walk.
             </Text>
           </ListItem>
         </List>
@@ -54,7 +54,7 @@ function HomePage() {
           margin="1.5rem auto"
           padding="1.45rem"
         >
-          Dołącz do nas!
+          Join us!
         </CustomButton>
       </Box>
     </Box>
