@@ -10,7 +10,7 @@ describe('HomePage tests', () => {
   it('Should render main title', () => {
     renderWithClient(<HomePage />);
     const title = screen.getByRole('heading', {
-      name: /tworz wspaniala psia społeczność i pomagaj sobie wzajemnie\./i,
+      name: /Create a great canine community and help each other.\./i,
     });
     expect(title).toBeInTheDocument();
   });
@@ -22,17 +22,17 @@ describe('HomePage tests', () => {
     const { getAllByRole } = within(list);
     const items = getAllByRole('listitem');
     expect(items.length).toBe(2);
-    expect(items[0]).toHaveTextContent('Dodaj informacje o potrzebie spaceru dla Twgojego psa.');
-    expect(items[1]).toHaveTextContent('Pomoz innym zabierajac na spacer czyjegos psa.');
+    expect(items[0]).toHaveTextContent('Add information about the need for a walk for your dog.');
+    expect(items[1]).toHaveTextContent('Help others by taking someone&apos;s dog for a walk.');
   });
   it('Should render join to us button on page', () => {
     renderWithClient(<HomePage />);
-    const button = screen.getByRole('button', { name: /dołącz do nas!/i });
+    const button = screen.getByRole('button', { name: /join us!/i });
     expect(button).toBeInTheDocument();
   });
   it('Should open sign up modal after button click', async () => {
     renderWithClient(<HomePage />);
-    const button = screen.getByRole('button', { name: /dołącz do nas!/i });
+    const button = screen.getByRole('button', { name: /join us!/i });
     fireEvent.click(button);
     expect(spyOpenModal).toBeCalledWith({
       modalType: modalSlice.ModalTypes.SIGN_UP,
