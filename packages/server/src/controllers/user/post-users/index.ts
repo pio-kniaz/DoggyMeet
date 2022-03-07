@@ -1,4 +1,3 @@
-/* eslint-disable no-unreachable */
 import type { Request, Response, NextFunction } from 'express';
 import type { IUser } from '@interfaces/index';
 import { errorCodeName } from '@const/index';
