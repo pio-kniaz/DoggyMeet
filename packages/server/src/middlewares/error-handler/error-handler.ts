@@ -20,7 +20,6 @@ export const errorHandler = (
   // eslint-disable-next-line no-unused-vars
   _next: NextFunction
 ) => {
-  console.log('Error handling middleware called...');
   if (err instanceof ErrorException) {
     // For handled Operational Errors
     res.status(err.status as number).send(err);
