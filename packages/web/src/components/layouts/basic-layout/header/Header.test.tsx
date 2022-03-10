@@ -3,6 +3,7 @@ import { screen, fireEvent } from '@testing-library/react';
 
 import Header from '@components/layouts/basic-layout/header/Header';
 import { renderWithClient } from '@/utils/tests/createWrapper';
+import * as modalSlice from '@/redux/modal/modal.slice';
 
 describe('Header component tests', () => {
   it('Should render Header component', () => {
@@ -32,7 +33,16 @@ describe('Header component tests', () => {
       const signup = screen.getByRole('button', { name: /register/i });
       expect(signup).toBeInTheDocument();
     });
-    it.todo('Should open sing up modal after sign up button click');
+    it('Should trigger open signup modal after sign up button click', async () => {
+      const spyOpenModal = jest.spyOn(modalSlice, 'openModal');
+      renderWithClient(<Header />);
+      const signup = screen.getByRole('button', { name: /register/i });
+      fireEvent.click(signup);
+      expect(spyOpenModal).toBeCalledWith({
+        modalType: modalSlice.ModalTypes.SIGN_UP,
+      });
+      spyOpenModal.mockRestore();
+    });
   });
   describe('Signin visibility / interaction', () => {
     it('Should render sing in button', () => {
