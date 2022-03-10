@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
 import type { IUser } from '@interfaces/index';
 import { errorCodeName } from '@const/index';
@@ -27,7 +28,10 @@ export const postUsers = async (
   }
 
   try {
-    const newUser = new User(newUserData);
+    const newUser = new User({
+      ...newUserData,
+      password: await User.setPassword(newUserData.password),
+    });
     await newUser.save();
 
     const { name, email, _id } = newUser;
