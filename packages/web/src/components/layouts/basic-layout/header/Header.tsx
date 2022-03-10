@@ -1,9 +1,21 @@
 import { Box, Flex, Text, Stack, useColorModeValue, useBreakpointValue, Image } from '@chakra-ui/react';
+
+import { useAppDispatch } from '@hooks/useRedux';
 import { CustomButton } from '@components/shared';
 import { Link } from 'react-router-dom';
 import logo from '@assets/images/logo.jpg';
+import { openModal, ModalTypes } from '@/redux/modal/modal.slice';
 
 function Header() {
+  const dispatch = useAppDispatch();
+
+  const handleOpenRegistration = () => {
+    dispatch(
+      openModal({
+        modalType: ModalTypes.SIGN_UP,
+      }),
+    );
+  };
   return (
     <Box
       data-testid="header"
@@ -41,7 +53,7 @@ function Header() {
             Login
           </CustomButton>
           <CustomButton
-            onClick={() => console.log('Open modal with login on register')}
+            onClick={handleOpenRegistration}
             colorScheme="green"
             bgGradient="linear(to-r, green.400, green.500, green.600)"
           >
