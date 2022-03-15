@@ -1,10 +1,14 @@
-import mongoose, { Document, Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { IUser } from '@interfaces/index';
 
+interface IUserModel extends Model<IUser> {
+  setPassword(password: string): Promise<string>;
+}
+
 const { Schema } = mongoose;
 
-const userSchema = new Schema(
+const userSchema = new Schema<IUser, IUserModel>(
   {
     name: {
       type: 'string',
@@ -33,4 +37,4 @@ userSchema.statics.setPassword = async function hashPassword(password: string) {
   return hash;
 };
 
-export const User: Model<IUser & Document> = mongoose.model('User', userSchema);
+export const User = mongoose.model<IUser, IUserModel>('User', userSchema);

@@ -1,20 +1,22 @@
-// @ts-nocheck
 import type { Request, Response, NextFunction } from 'express';
 import type { IUser } from '@interfaces/index';
 import { errorCodeName } from '@const/index';
-import { User } from '@/models/User';
 import { ErrorException } from '@/utils/error-handler/error-exception';
 import { fieldValidation } from '@/utils/field-validation/fieldValidation';
+
+import { User } from '@/models/User';
 import { addUserValidationSchema } from './validation';
 
-export const postUsers = async (
+// @desc Create user
+// @route POST /api/users
+// @access public
+export const createUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const newUserData = req.body;
   const { error: validationErrors } = addUserValidationSchema.validate(
-    newUserData,
+    req.body,
     {
       abortEarly: false,
     }
@@ -26,15 +28,15 @@ export const postUsers = async (
       })
     );
   }
-
   try {
     const newUser = new User({
-      ...newUserData,
-      password: await User.setPassword(newUserData.password),
+      ...req.body,
+      password: await User.setPassword(req.body.password),
     });
     await newUser.save();
 
     const { name, email, _id } = newUser;
+
     const newUserResponse: Pick<IUser, 'name' | 'email'> & {
       _id: string;
     } = {
