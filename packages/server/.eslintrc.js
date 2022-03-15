@@ -18,8 +18,11 @@ module.exports = {
     'plugin:security/recommended',
     'plugin:prettier/recommended',
     'plugin:import/typescript',
+    'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
     'import/no-unresolved': 'error',
     'import/prefer-default-export': 'off',
     'prettier/prettier': [
