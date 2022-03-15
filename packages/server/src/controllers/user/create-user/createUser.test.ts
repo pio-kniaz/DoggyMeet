@@ -21,7 +21,7 @@ afterAll((done) => {
   });
 });
 
-describe('POST /api/users/create', () => {
+describe('POST /api/users', () => {
   describe('Add new users', () => {
     it('Should add new user and returns correct response', async () => {
       const dataPayload = {
@@ -30,7 +30,7 @@ describe('POST /api/users/create', () => {
         password: 'JSON',
       };
       await supertest(app)
-        .post('/api/users/create')
+        .post('/api/users')
         .send(dataPayload)
         .expect(200)
         .then((response) => {
@@ -48,7 +48,7 @@ describe('POST /api/users/create', () => {
         const field = Object.keys(payload)[i];
         // eslint-disable-next-line no-await-in-loop
         const { statusCode, body } = await supertest(app)
-          .post('/api/users/create')
+          .post('/api/users')
           .send(payload);
         expect(statusCode).toBe(400);
         expect(body.metaData.fieldsError[field]).toBe(
@@ -67,7 +67,7 @@ describe('POST /api/users/create', () => {
         const field = Object.keys(fields)[i];
         // eslint-disable-next-line no-await-in-loop
         const { statusCode, body } = await supertest(app)
-          .post('/api/users/create')
+          .post('/api/users')
           .send({});
         expect(statusCode).toBe(400);
         expect(body.metaData.fieldsError[field]).toBe('required');
@@ -98,7 +98,7 @@ describe('POST /api/users/create', () => {
         const { field, error } = fieldsWithErrors[i];
         // eslint-disable-next-line no-await-in-loop
         const { statusCode, body } = await supertest(app)
-          .post('/api/users/create')
+          .post('/api/users')
           .send(payload);
         expect(statusCode).toBe(400);
         expect(body.metaData.fieldsError[field]).toBe(error);
@@ -112,9 +112,9 @@ describe('POST /api/users/create', () => {
           email: '123@doggyMeet-test.pl',
           password: '123',
         };
-        await supertest(app).post('/api/users/create').send(dataPayload);
+        await supertest(app).post('/api/users').send(dataPayload);
         const { statusCode, body } = await supertest(app)
-          .post('/api/users/create')
+          .post('/api/users')
           .send(dataPayload);
         expect(statusCode).toBe(400);
         expect(body).toEqual({
@@ -136,7 +136,7 @@ describe('POST /api/users/create', () => {
           password: '123',
         };
         const { statusCode, body } = await supertest(app)
-          .post('/api/users/create')
+          .post('/api/users')
           .send(dataPayload);
         expect(statusCode).toBe(400);
         expect(body.metaData.fieldsError.email).toBe(validationMessage.email);
