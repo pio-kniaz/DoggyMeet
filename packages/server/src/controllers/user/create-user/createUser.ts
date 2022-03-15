@@ -7,6 +7,9 @@ import { fieldValidation } from '@/utils/field-validation/fieldValidation';
 import { User } from '@/models/User';
 import { addUserValidationSchema } from './validation';
 
+// @desc Create user
+// @route POST /api/users/create
+// @access public
 export const createUser = async (
   req: Request,
   res: Response,
