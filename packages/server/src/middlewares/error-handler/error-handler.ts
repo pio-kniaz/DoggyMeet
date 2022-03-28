@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Request, Response, NextFunction } from 'express';
 import { errorCodeName } from '@const/index';
 import { ErrorException } from '@utils/error-handler/error-exception';
@@ -7,12 +8,10 @@ const stringifyError = (err: unknown, filter: null, space: string) => {
   const plainObject: {
     [key: string]: unknown;
   } = {};
-  if (err instanceof ErrorException) {
-    Object.getOwnPropertyNames(err).forEach((key) => {
-      plainObject[`${key}`] =
-        err[`${key as 'stack' | 'message' | 'name' | 'metaData'}`];
-    });
-  }
+  Object.getOwnPropertyNames(err).forEach((key) => {
+    /* @ts-ignore */
+    plainObject[`${key}`] = err[`${key}`];
+  });
   return JSON.stringify(plainObject, filter, space);
 };
 
@@ -20,7 +19,6 @@ export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  // eslint-disable-next-line no-unused-vars
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) => {
