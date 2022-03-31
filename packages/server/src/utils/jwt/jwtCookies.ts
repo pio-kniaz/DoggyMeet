@@ -1,4 +1,5 @@
 import type { Response } from 'express';
+
 import { config } from '@/config';
 
 interface ISetJWTCookie {

@@ -9,7 +9,7 @@ import { User } from '@/models/User';
 
 import { loginValidationSchema } from './validation';
 
-export const login = async (
+export const loginController = async (
   req: Request,
   res: Response,
   next: NextFunction
