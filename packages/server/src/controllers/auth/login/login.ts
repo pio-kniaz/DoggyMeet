@@ -1,10 +1,10 @@
 import type { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
 
 import { ErrorException } from '@utils/error-handler/error-exception';
 import { fieldValidation } from '@utils/field-validation/fieldValidation';
 import { errorCodeName } from '@const/error-code-name';
-import { config } from '@config/index';
+import { createJWT } from '@/utils/jwt/createJWT';
+import { setJWTCookie } from '@/utils/jwt/jwtCookies';
 import { User } from '@/models/User';
 
 import { loginValidationSchema } from './validation';
@@ -26,39 +26,35 @@ export const login = async (
   }
   try {
     const currentUser = await User.findByCredentials(req.body);
-    const accessToken = jwt.sign(
-      {
+    const accessToken = createJWT({
+      type: 'accessToken',
+      data: {
         userInfo: {
           id: currentUser._id,
           email: currentUser.email,
           name: currentUser.name,
         },
       },
-      `${config.ACCESS_TOKEN_SECRET}`,
-      { expiresIn: '5m' }
-    );
-    const refreshToken = jwt.sign(
-      {
-        id: currentUser._id,
+    });
+
+    const refreshToken = createJWT({
+      type: 'refreshToken',
+      data: {
+        userInfo: {
+          id: currentUser._id,
+          email: currentUser.email,
+          name: currentUser.name,
+        },
       },
-      `${config.REFRESH_TOKEN_SECRET}`,
-      { expiresIn: '1d' }
-    );
+    });
 
     currentUser.refreshToken = refreshToken;
 
     await currentUser.save();
-    res.cookie('jwt', refreshToken, {
-      httpOnly: true,
-      secure: config.NODE_ENV === 'production',
-      sameSite: 'none',
-      maxAge: 24 * 60 * 60 * 1000,
-      // path: '/api/refreshToken',
-    });
+    setJWTCookie({ refreshToken, res });
 
     return res.status(200).json({
       accessToken,
-      currentUser,
     });
   } catch (error) {
     return next(error);

@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import chalk from 'chalk';
 
 import { errorHandler } from '@/middlewares/error-handler/error-handler';
@@ -28,6 +29,7 @@ app.use(
 
 app.use(helmet());
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors());
 
 app.use('/api', routes);

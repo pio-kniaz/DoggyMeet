@@ -10,9 +10,8 @@ export const verifyJWT = (
   next: NextFunction
 ) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader, 'authHeader');
   if (!authHeader?.startsWith('Bearer ')) {
-    return res.sendStatus(403);
+    return res.sendStatus(401);
   }
   const token = authHeader.split(' ')[1];
   try {
@@ -22,8 +21,7 @@ export const verifyJWT = (
     ) as JwtPayload;
     req.user = decoded.userInfo;
   } catch (error) {
-    console.log(error, 'error');
-    return res.sendStatus(401);
+    return res.sendStatus(403);
   }
   return next();
 };
