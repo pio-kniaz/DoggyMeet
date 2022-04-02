@@ -36,7 +36,6 @@ function SignupForm() {
   const handleOnSubmit = async (values: ISignup) => {
     try {
       await mutateAsync(values);
-      // TODO: ADD SUCCESS TOAST.
       const toastId = 'register-form-success';
       if (!toast.isActive(toastId)) {
         toast({
@@ -50,8 +49,8 @@ function SignupForm() {
         });
       }
       reset(defaultValues);
+      // TODO: CLOSE MODAL
     } catch (err: unknown) {
-      console.log(isApiError(err), 'isAxios');
       if (isApiError(err)) {
         if (isArray(err.response?.data?.metaData?.fieldsError)) {
           err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
