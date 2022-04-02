@@ -1,7 +1,8 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import Signup from './Signup';
 import { renderWithClient } from '@/utils/tests/createWrapper';
+import * as modalSlice from '@/redux/modal/modal.slice';
 
 describe('Signup component test', () => {
   it('Should render heading', () => {
@@ -23,5 +24,14 @@ describe('Signup component test', () => {
     renderWithClient(<Signup />);
     const button = screen.getByRole('button', { name: /login/i });
     expect(button).toBeInTheDocument();
+  });
+  it('Should open login modal after Login button click', () => {
+    const openLoginModalSpy = jest.spyOn(modalSlice, 'openModal');
+    renderWithClient(<Signup />);
+    const button = screen.getByRole('button', { name: /login/i });
+    fireEvent.click(button);
+    expect(openLoginModalSpy).toBeCalledWith({
+      modalType: modalSlice.ModalTypes.SIGN_IN,
+    });
   });
 });
