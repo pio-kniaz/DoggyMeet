@@ -16,6 +16,13 @@ function Header() {
       }),
     );
   };
+  const handleOpenLogin = () => {
+    dispatch(
+      openModal({
+        modalType: ModalTypes.SIGN_IN,
+      }),
+    );
+  };
   return (
     <Box
       data-testid="header"
@@ -49,7 +56,7 @@ function Header() {
         </Flex>
 
         <Stack flex={{ base: 1 }} justify="flex-end" direction="row" spacing={6}>
-          <CustomButton fontSize="sm" fontWeight={400} variant="link">
+          <CustomButton fontSize="sm" fontWeight={400} variant="link" onClick={handleOpenLogin}>
             Login
           </CustomButton>
           <CustomButton
