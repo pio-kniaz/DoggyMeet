@@ -7,4 +7,4 @@ export const signupValidationSchema = Yup.object({
   password: Yup.string().trim().required(validationMessage.requiredFiled),
 });
 
-export type ISignup = Yup.InferType<typeof signupValidationSchema>;
+export type Signup = Yup.InferType<typeof signupValidationSchema>;

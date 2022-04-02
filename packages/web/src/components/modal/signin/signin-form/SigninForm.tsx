@@ -10,7 +10,7 @@ import { useAuthLogin } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
 import { isApiError } from '@helpers/index';
 import { closeModal } from '@/redux/modal/modal.slice';
-import { signinValidationSchema, ISignin } from './signinValidationSchema';
+import { signinValidationSchema, Signin } from './signinValidationSchema';
 
 const defaultValues = {
   email: '',
@@ -27,11 +27,11 @@ function SigninForm() {
     register,
     formState: { errors },
     reset,
-  } = useForm<ISignin>({
+  } = useForm<Signin>({
     defaultValues,
     resolver: yupResolver(signinValidationSchema),
   });
-  const handleOnSubmit = async (values: ISignin) => {
+  const handleOnSubmit = async (values: Signin) => {
     try {
       await mutateAsync(values);
       const toastId = 'login-form-success';
@@ -75,7 +75,7 @@ function SigninForm() {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
       <Box mb="2">
-        <InputField<ISignin>
+        <InputField<Signin>
           type="text"
           name="email"
           label="Email"
@@ -96,7 +96,7 @@ function SigninForm() {
         />
       </Box>
       <Box mb="2">
-        <InputField<ISignin>
+        <InputField<Signin>
           name="password"
           type={showPassword ? 'text' : 'password'}
           label="Password"

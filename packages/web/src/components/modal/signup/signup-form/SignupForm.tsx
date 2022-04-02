@@ -10,7 +10,7 @@ import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free
 import { useUserCreate } from '@queries/users/users-queries';
 import { CustomButton, InputField } from '@components/shared';
 import { isApiError } from '@helpers/index';
-import { signupValidationSchema, ISignup } from './signupValidationSchema';
+import { signupValidationSchema, Signup } from './signupValidationSchema';
 
 const defaultValues = {
   name: '',
@@ -27,13 +27,13 @@ function SignupForm() {
     formState: { errors },
     setError,
     reset,
-  } = useForm<ISignup>({
+  } = useForm<Signup>({
     defaultValues,
     resolver: yupResolver(signupValidationSchema),
   });
   const { isLoading, mutateAsync } = useUserCreate();
 
-  const handleOnSubmit = async (values: ISignup) => {
+  const handleOnSubmit = async (values: Signup) => {
     try {
       await mutateAsync(values);
       const toastId = 'register-form-success';
@@ -54,7 +54,7 @@ function SignupForm() {
       if (isApiError(err)) {
         if (isArray(err.response?.data?.metaData?.fieldsError)) {
           err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
-            const fieldName = Object.keys(elem)[index] as keyof ISignup;
+            const fieldName = Object.keys(elem)[index] as keyof Signup;
             setError(fieldName, {
               type: 'manual',
               message: elem[fieldName],
@@ -86,7 +86,7 @@ function SignupForm() {
     <Box pointerEvents={isLoading ? 'none' : 'auto'} data-testid="register-form">
       <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
         <Box mb="2">
-          <InputField<ISignup>
+          <InputField<Signup>
             name="name"
             label="Name"
             register={register}
@@ -106,7 +106,7 @@ function SignupForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField<ISignup>
+          <InputField<Signup>
             type="text"
             name="email"
             label="Email"
@@ -127,7 +127,7 @@ function SignupForm() {
           />
         </Box>
         <Box mb="2">
-          <InputField<ISignup>
+          <InputField<Signup>
             name="password"
             type={showPassword ? 'text' : 'password'}
             label="Password"

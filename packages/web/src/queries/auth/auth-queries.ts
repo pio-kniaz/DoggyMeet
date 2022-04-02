@@ -1,7 +1,7 @@
 import { useMutation } from 'react-query';
 import { Api } from '@services/index';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
-import { ISignin } from '@components/modal/signin/signin-form/signinValidationSchema';
+import { Signin } from '@components/modal/signin/signin-form/signinValidationSchema';
 
 const baseUrl = '/auth';
 
@@ -10,14 +10,14 @@ export interface IAuthLoginResponse extends ISuccessResponse {
 }
 
 const authMethods = {
-  login: async (payload: ISignin): Promise<IAuthLoginResponse> => {
-    const { data } = await Api.mutate<ISignin, IAuthLoginResponse>(`${baseUrl}/login`, 'post', payload);
+  login: async (payload: Signin): Promise<IAuthLoginResponse> => {
+    const { data } = await Api.mutate<Signin, IAuthLoginResponse>(`${baseUrl}/login`, 'post', payload);
     return data;
   },
 };
 
 export const useAuthLogin = () =>
-  useMutation<IAuthLoginResponse, IApiError, ISignin>(authMethods.login, {
+  useMutation<IAuthLoginResponse, IApiError, Signin>(authMethods.login, {
     onSuccess: (data: IAuthLoginResponse) => {
       console.log(data.accessToken);
     },
