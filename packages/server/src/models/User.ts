@@ -61,7 +61,9 @@ userSchema.statics.findByCredentials = async function hashPassword({
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    throw new ErrorException(errorCodeName.Forbidden, 'Password not correct');
+    throw new ErrorException(errorCodeName.Forbidden, {
+      message: 'Password not correct',
+    });
   }
   return user;
 };
