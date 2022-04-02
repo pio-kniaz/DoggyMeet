@@ -18,4 +18,10 @@ describe('Modal reducer tests', () => {
       modalProps: {},
     });
   });
+  it('Should handle a SING IN modal being opened', () => {
+    expect(modalReducer(initialState, openModal({ modalType: ModalTypes.SIGN_IN }))).toEqual({
+      modalType: ModalTypes.SIGN_IN,
+      modalProps: {},
+    });
+  });
 });
