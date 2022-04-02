@@ -17,6 +17,19 @@ describe('Modal component test', () => {
     const signupModal = screen.getByTestId('signup-modal');
     expect(signupModal).toBeInTheDocument();
   });
+
+  it('Should render SIGN IN modal', () => {
+    renderWithClient(<Modal />, {
+      preloadedState: {
+        modal: {
+          modalType: 'SIGN_IN',
+          modalProps: {},
+        },
+      },
+    });
+    const signinModal = screen.getByTestId('signin-modal');
+    expect(signinModal).toBeInTheDocument();
+  });
   it('Should render close button and after click modal should be closed', async () => {
     renderWithClient(<Modal />, {
       preloadedState: {
