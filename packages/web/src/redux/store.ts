@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import modalReducer from '@/redux/modal/modal.slice';
+import authReducer from '@/redux/auth/auth.slice';
 
 export const rootReducer = {
   modal: modalReducer,
+  auth: authReducer,
 };
 
 export const store = configureStore({
