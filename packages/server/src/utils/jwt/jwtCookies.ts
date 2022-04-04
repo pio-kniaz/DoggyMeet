@@ -10,16 +10,14 @@ export const setJWTCookie = ({ refreshToken, res }: ISetJWTCookie) => {
   res.cookie('jwt', refreshToken, {
     httpOnly: true,
     secure: config.NODE_ENV === 'production',
-    sameSite: 'none',
+    sameSite: 'lax',
     maxAge: 24 * 60 * 60 * 1000,
-    // path: '/api/auth/refresh-token',
   });
 };
 export const clearJWTCookie = (res: Response) => {
   res.clearCookie('jwt', {
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: 'lax',
     secure: config.NODE_ENV === 'production',
-    // path: '/api/auth/refresh-token',
   });
 };
