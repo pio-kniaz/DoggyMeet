@@ -10,6 +10,7 @@ import { useAuthLogin } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
 import { isApiError } from '@helpers/index';
 import { closeModal } from '@/redux/modal/modal.slice';
+import { setUser } from '@/redux/auth/auth.slice';
 import { signinValidationSchema, Signin } from './signinValidationSchema';
 
 const defaultValues = {
@@ -33,7 +34,7 @@ function SigninForm() {
   });
   const handleOnSubmit = async (values: Signin) => {
     try {
-      await mutateAsync(values);
+      const { accessToken } = await mutateAsync(values);
       const toastId = 'login-form-success';
       if (!toast.isActive(toastId)) {
         toast({
@@ -48,6 +49,7 @@ function SigninForm() {
       }
       reset(defaultValues);
       dispatch(closeModal());
+      dispatch(setUser({ accessToken }));
     } catch (err: unknown) {
       const toastId = 'login-form-error';
       if (isApiError(err)) {
@@ -61,9 +63,16 @@ function SigninForm() {
             duration: 2500,
             isClosable: true,
           });
-        } else if (err.response?.data?.metaData === 'User not found') {
-          // TODO: ADD NOT FOUND MODAL USER
-          console.log('NOT FOUND USER MODAL');
+        } else {
+          toast({
+            id: toastId,
+            position: 'top-right',
+            title: 'Unable to login.',
+            description: 'Something went wrong',
+            status: 'error',
+            duration: 2500,
+            isClosable: true,
+          });
         }
       }
     }
