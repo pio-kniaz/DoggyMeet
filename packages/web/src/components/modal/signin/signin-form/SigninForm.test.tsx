@@ -6,6 +6,7 @@ import SigninForm from '@components/modal/signin/signin-form/SigninForm';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 import * as modalSlice from '@/redux/modal/modal.slice';
+import * as authSlice from '@/redux/auth/auth.slice';
 
 describe('SigninForm component tests', () => {
   describe('Input email', () => {
@@ -73,14 +74,13 @@ describe('SigninForm component tests', () => {
       mock.resetHistory();
     });
     describe('Success login user', () => {
-      it('Should submit button be disabled, display toast, reset form, close modal after successful login', async () => {
-        const spyOpenModal = jest.spyOn(modalSlice, 'closeModal');
+      it('Should submit button be disabled, display toast, reset form, close modal and setUser after successful login', async () => {
+        const spyCloseModal = jest.spyOn(modalSlice, 'closeModal');
+        const spySetUser = jest.spyOn(authSlice, 'setUser');
         renderWithClient(<SigninForm />);
 
         mock.onPost('/auth/login').reply(200, {
-          data: {
-            accessToken: 'accessToken',
-          },
+          accessToken: 'xxx123xxx',
         });
 
         const emailInput = screen.getByRole('textbox', { name: /email/i });
@@ -108,12 +108,14 @@ describe('SigninForm component tests', () => {
         expect(successToast).toBeInTheDocument();
         expect(emailInput).toHaveValue('');
         expect(passwordInput).toHaveValue('');
-        expect(spyOpenModal).toBeCalledWith();
-        spyOpenModal.mockRestore();
+        expect(spyCloseModal).toBeCalledWith();
+        expect(spySetUser).toBeCalledWith({ accessToken: 'xxx123xxx' });
+        spyCloseModal.mockRestore();
+        spySetUser.mockRestore();
       });
     });
     describe('Failure login user', () => {
-      it('Should submit button be disabled, display Password not correct toast, persist form values after submit', async () => {
+      it('Should submit button be disabled, display server message in toast, persist form values after submit', async () => {
         renderWithClient(<SigninForm />);
         mock.onPost('/auth/login').reply(403, {
           status: 403,
@@ -143,7 +145,35 @@ describe('SigninForm component tests', () => {
           expect(submitButton).toBeEnabled();
         });
       });
-      it.todo('Should submit button be disabled, display modal not user found, persist form values after submit');
+      it('Should display default toast message when failure', async () => {
+        renderWithClient(<SigninForm />);
+        mock.onPost('/auth/login').reply(403, {
+          status: 403,
+          name: 'ClientError',
+        });
+        const emailInput = screen.getByRole('textbox', { name: /email/i });
+        const passwordInput = screen.getByLabelText('Password');
+        const submitButton = screen.getByRole('button', { name: /submit/i });
+
+        fireEvent.change(emailInput, { target: { value: 'testEmail@op.pl' } });
+        fireEvent.change(passwordInput, { target: { value: 'wrongPassword' } });
+        fireEvent.click(submitButton);
+        await waitFor(() => {
+          expect(submitButton).toBeDisabled();
+        });
+        expect(mock.history.post[0].data).toBe(
+          JSON.stringify({
+            email: 'testEmail@op.pl',
+            password: 'wrongPassword',
+          }),
+        );
+
+        const errorToast = await screen.findByRole('alert', { name: /unable to login\./i });
+        expect(errorToast).toHaveTextContent('Something went wrong');
+        await waitFor(() => {
+          expect(submitButton).toBeEnabled();
+        });
+      });
     });
   });
 });
