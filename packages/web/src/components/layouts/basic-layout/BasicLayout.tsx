@@ -1,19 +1,16 @@
 import React from 'react';
 import { Container, Flex } from '@chakra-ui/react';
+import { Outlet } from 'react-router-dom';
 
 import Footer from '@components/layouts/footer/Footer';
 import Header from '@/components/layouts/basic-layout/header/Header';
 
-interface IBasicLayout {
-  children: JSX.Element;
-}
-
-function BasicLayout({ children }: IBasicLayout) {
+function BasicLayout() {
   return (
     <Flex flexDirection="column" height="100vh">
       <Header />
       <Container maxW="container.xl" flexGrow={1}>
-        {children}
+        <Outlet />
       </Container>
       <Footer />
     </Flex>
