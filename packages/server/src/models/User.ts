@@ -57,7 +57,9 @@ userSchema.statics.findByCredentials = async function hashPassword({
 }) {
   const user = await this.findOne({ email });
   if (!user) {
-    throw new ErrorException(errorCodeName.ClientError, 'User not found');
+    throw new ErrorException(errorCodeName.ClientError, {
+      message: 'Incorrect username or password',
+    });
   }
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
