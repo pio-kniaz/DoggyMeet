@@ -5,6 +5,8 @@ import type { JwtPayload } from '@interfaces/index';
 import { setJWTCookie, clearJWTCookie } from '@/utils/jwt/jwtCookies';
 import { User } from '@/models/User';
 import { config } from '@/config';
+import { createJWT } from '@/utils/jwt/createJWT';
+
 // TODO: ADD TOKEN ROTATION;
 export const refreshTokenController = async (req: Request, res: Response) => {
   const { cookies } = req;
@@ -25,26 +27,26 @@ export const refreshTokenController = async (req: Request, res: Response) => {
     if (decodedRefreshToken.userInfo.id !== currentUser._id.toString()) {
       return res.sendStatus(403);
     }
-    const newAccessToken = jwt.sign(
-      {
+    const newAccessToken = createJWT({
+      type: 'accessToken',
+      data: {
         userInfo: {
           id: currentUser._id,
           email: currentUser.email,
           name: currentUser.name,
         },
       },
-      `${config.ACCESS_TOKEN_SECRET}`,
-      { expiresIn: '2m' }
-    );
-    const newRefreshToken = jwt.sign(
-      {
+    });
+    const newRefreshToken = createJWT({
+      type: 'refreshToken',
+      data: {
         userInfo: {
           id: currentUser._id,
+          email: currentUser.email,
+          name: currentUser.name,
         },
       },
-      `${config.REFRESH_TOKEN_SECRET}`,
-      { expiresIn: '1d' }
-    );
+    });
     currentUser.refreshToken = newRefreshToken;
     await currentUser.save();
     setJWTCookie({
