@@ -1,12 +1,15 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, Method } from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { QueryClient } from 'react-query';
 
-import { authSelector } from '@/redux/auth/auth.slice';
+import { authMethods } from '@queries/auth/auth-queries';
+import { authSelector, logout, setUser } from '@/redux/auth/auth.slice';
 import { store } from '@/redux/store';
 
 export class Api {
   public static instance: AxiosInstance = axios.create({
     baseURL: `${process.env.API_URL}/api`,
+    withCredentials: true,
   });
 
   public static privateInstance: AxiosInstance = axios.create({
@@ -81,3 +84,18 @@ Api.getPrivateInstance().interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+export const getRefreshToken = async () => {
+  try {
+    const { accessToken } = await authMethods.refreshToken();
+    store.dispatch(setUser({ accessToken }));
+    return Promise.resolve();
+  } catch (error) {
+    store.dispatch(logout());
+    return Promise.reject(error);
+  }
+};
+
+createAuthRefreshInterceptor(Api.getPrivateInstance(), getRefreshToken, {
+  pauseInstanceWhileRefreshing: true,
+});
