@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import * as authQueries from '@queries/auth/auth-queries';
-import * as ApiService from '@/utils/services/api';
+import * as ApiService from '@services/api';
 import * as authSlice from '@/redux/auth/auth.slice';
 
 describe('Api privateInstance', () => {

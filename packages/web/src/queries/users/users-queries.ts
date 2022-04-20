@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from 'react-query';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
-import { Api } from '@/utils/services/api';
+import { Api } from '@services/api'; // eslint-disable-line import/no-cycle
 import { Signup } from '@/components/modal/signup/signup-form/signupValidationSchema';
 
 const baseUrl = '/users';
