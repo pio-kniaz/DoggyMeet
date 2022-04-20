@@ -1,8 +1,9 @@
 {
   "name": "server",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "index.js",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "start": "nodemon -r tsconfig-paths/register ./src/server.ts",
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
