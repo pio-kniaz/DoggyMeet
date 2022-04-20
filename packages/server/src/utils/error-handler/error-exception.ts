@@ -1,7 +1,7 @@
 import { errorCodeName } from '@const/index';
 
 export class ErrorException extends Error {
-  public status: number = 500;
+  public status = 500;
 
   public metaData: unknown = null;
 

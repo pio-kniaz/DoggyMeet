@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Request, Response, NextFunction } from 'express';
 import { errorCodeName } from '@const/index';
 import { ErrorException } from '@utils/error-handler/error-exception';
 import { logger } from '@/utils/logger/logger';
 
-const stringifyError = (err: unknown, filter: any, space: string) => {
-  const plainObject = {};
+const stringifyError = (err: unknown, filter: null, space: string) => {
+  const plainObject: {
+    [key: string]: unknown;
+  } = {};
   Object.getOwnPropertyNames(err).forEach((key) => {
     /* @ts-ignore */
-    // eslint-disable-next-line security/detect-object-injection
-    plainObject[key] = err[key];
+    plainObject[`${key}`] = err[`${key}`];
   });
   return JSON.stringify(plainObject, filter, space);
 };
@@ -17,7 +19,7 @@ export const errorHandler = (
   err: Error,
   req: Request,
   res: Response,
-  // eslint-disable-next-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _next: NextFunction
 ) => {
   if (err instanceof ErrorException) {

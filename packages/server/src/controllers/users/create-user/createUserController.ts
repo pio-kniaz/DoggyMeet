@@ -10,7 +10,7 @@ import { addUserValidationSchema } from './validation';
 // @desc Create user
 // @route POST /api/users
 // @access public
-export const createUser = async (
+export const createUserController = async (
   req: Request,
   res: Response,
   next: NextFunction

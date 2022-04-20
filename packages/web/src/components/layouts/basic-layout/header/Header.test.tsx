@@ -47,9 +47,18 @@ describe('Header component tests', () => {
   describe('Signin visibility / interaction', () => {
     it('Should render sing in button', () => {
       renderWithClient(<Header />);
-      const signin = screen.getByRole('button', { name: /login/i });
-      expect(signin).toBeInTheDocument();
+      const signinButton = screen.getByRole('button', { name: /login/i });
+      expect(signinButton).toBeInTheDocument();
     });
-    it.todo('Should open sing in modal after sign in button click');
+    it('Should open signin modal after login button click', () => {
+      const spyOpenModal = jest.spyOn(modalSlice, 'openModal');
+      renderWithClient(<Header />);
+      const signinButton = screen.getByRole('button', { name: /login/i });
+      fireEvent.click(signinButton);
+      expect(spyOpenModal).toBeCalledWith({
+        modalType: modalSlice.ModalTypes.SIGN_IN,
+      });
+      spyOpenModal.mockRestore();
+    });
   });
 });

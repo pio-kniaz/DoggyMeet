@@ -2,8 +2,11 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import chalk from 'chalk';
+import { corsOptions } from '@config/corsOptions';
 
+import { credentials } from '@/middlewares/credentials/credentials';
 import { errorHandler } from '@/middlewares/error-handler/error-handler';
 import { errorNoMatch } from '@/middlewares/error-no-match/error-no-match';
 import routes from '@/routes/api';
@@ -28,7 +31,9 @@ app.use(
 
 app.use(helmet());
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(credentials);
+app.use(cors(corsOptions));
 
 app.use('/api', routes);
 

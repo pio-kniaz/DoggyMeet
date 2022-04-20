@@ -2,18 +2,18 @@ import React from 'react';
 // import mockAxios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { Api } from '@services/index';
+import { Api } from '@/utils/services/api';
 import RegisterForm from './SignupForm';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 
 describe('SignupForm component tests', () => {
   describe('Submit button', () => {
-    test('Should render submit button', () => {
+    it('Should render submit button', () => {
       renderWithClient(<RegisterForm />);
       const submit = screen.getByRole('button', { name: /submit/i });
       expect(submit).toBeInTheDocument();
     });
-    test('Should render submit button with correct attributes', () => {
+    it('Should render submit button with correct attributes', () => {
       renderWithClient(<RegisterForm />);
       const submit = screen.getByRole('button', { name: /submit/i });
       expect(submit).toHaveAttribute('type', 'submit');
@@ -21,18 +21,18 @@ describe('SignupForm component tests', () => {
     });
   });
   describe('Input name', () => {
-    test('Should render name input', () => {
+    it('Should render name input', () => {
       renderWithClient(<RegisterForm />);
       const nameInput = screen.getByRole('textbox', { name: /name/i });
       expect(nameInput).toBeInTheDocument();
     });
-    test('Should render name input with empty value and correct attributes', () => {
+    it('Should render name input with empty value and correct attributes', () => {
       renderWithClient(<RegisterForm />);
       const nameInput = screen.getByRole('textbox', { name: /name/i });
       expect(nameInput).toHaveValue('');
       expect(nameInput).toHaveAttribute('type', 'text');
     });
-    test('Should display an error after submit form', async () => {
+    it('Should display an error after submit form', async () => {
       renderWithClient(<RegisterForm />);
 
       const submit = screen.getByRole('button', { name: /submit/i });
@@ -43,18 +43,18 @@ describe('SignupForm component tests', () => {
     });
   });
   describe('Input email', () => {
-    test('Should render email input', () => {
+    it('Should render email input', () => {
       renderWithClient(<RegisterForm />);
       const emailInput = screen.getByRole('textbox', { name: /email/i });
       expect(emailInput).toBeInTheDocument();
     });
-    test('Should render email input with empty value and correct attributes', () => {
+    it('Should render email input with empty value and correct attributes', () => {
       renderWithClient(<RegisterForm />);
       const emailInput = screen.getByRole('textbox', { name: /email/i });
       expect(emailInput).toHaveValue('');
       expect(emailInput).toHaveAttribute('type', 'text');
     });
-    test('Should display an error after submit form', async () => {
+    it('Should display an error after submit form', async () => {
       renderWithClient(<RegisterForm />);
 
       const submit = screen.getByRole('button', { name: /submit/i });
@@ -65,18 +65,18 @@ describe('SignupForm component tests', () => {
     });
   });
   describe('Input password', () => {
-    test('Should render password input', () => {
+    it('Should render password input', () => {
       renderWithClient(<RegisterForm />);
       const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toBeInTheDocument();
     });
-    test('Should render password input with empty value and correct attributes', () => {
+    it('Should render password input with empty value and correct attributes', () => {
       renderWithClient(<RegisterForm />);
       const passwordInput = screen.getByLabelText('Password');
       expect(passwordInput).toHaveValue('');
       expect(passwordInput).toHaveAttribute('type', 'password');
     });
-    test('Should display an error after submit form', async () => {
+    it('Should display an error after submit form', async () => {
       renderWithClient(<RegisterForm />);
 
       const submit = screen.getByRole('button', { name: /submit/i });
@@ -86,7 +86,7 @@ describe('SignupForm component tests', () => {
       expect(passwordInput).toBeInvalid();
     });
   });
-  describe('Login REST API', () => {
+  describe('Register REST API', () => {
     const mock = new MockAdapter(Api.getInstance(), {
       onNoMatch: 'throwException',
     });
@@ -94,7 +94,7 @@ describe('SignupForm component tests', () => {
     beforeAll(() => {
       mock.reset();
     });
-    test('Should submit button be disabled, display toast and reset form after successful create user', async () => {
+    it('Should submit button be disabled, display toast and reset form after successful create user', async () => {
       renderWithClient(<RegisterForm />);
 
       mock.onPost('/users').reply(200, {
@@ -142,7 +142,7 @@ describe('SignupForm component tests', () => {
       expect(emailInput).toHaveValue('');
       expect(passwordInput).toHaveValue('');
     });
-    test('Should submit button be disabled, display error toast and persist values form after failure create user', async () => {
+    it('Should submit button be disabled, display error toast and persist values form after failure create user', async () => {
       renderWithClient(<RegisterForm />);
       // mockAxios.post.mockImplementation(
       //   () =>
@@ -175,7 +175,7 @@ describe('SignupForm component tests', () => {
       expect(emailInput).toHaveValue('xxxxxasd@op.pl');
       expect(passwordInput).toHaveValue('1239890');
     });
-    test('Should throw an form validation message that Email already exists', async () => {
+    it('Should throw an form validation message that Email already exists', async () => {
       renderWithClient(<RegisterForm />);
       mock.onPost('/users').reply(400, {
         status: 400,

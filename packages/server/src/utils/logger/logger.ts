@@ -19,6 +19,7 @@ export const logger = winston.createLogger({
 
   format: winston.format.combine(
     winston.format.colorize({ all: true }),
+    winston.format.errors({ stack: true }),
     winston.format.timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
     myFormat
   ),
@@ -37,7 +38,8 @@ export const logger = winston.createLogger({
 if (process.env.NODE_ENV !== 'production') {
   logger.add(
     new winston.transports.Console({
-      format: winston.format.simple(),
+      level: 'debug',
+      handleExceptions: true,
     })
   );
 }

@@ -1,7 +1,7 @@
-import { useMutation } from 'react-query';
-import { Api } from '@services/index';
+import { useMutation, useQuery } from 'react-query';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
-import { ISignup } from '@/components/modal/signup/signup-form/signupValidationSchema';
+import { Api } from '@/utils/services/api';
+import { Signup } from '@/components/modal/signup/signup-form/signupValidationSchema';
 
 const baseUrl = '/users';
 
@@ -13,14 +13,27 @@ export interface IUserCreateResponse extends ISuccessResponse {
   };
 }
 
-const usersMethod = {
-  create: async (payload: ISignup): Promise<IUserCreateResponse> => {
-    const { data } = await Api.mutate<ISignup, IUserCreateResponse>(baseUrl, 'post', payload);
-    console.log(data);
+const userKeys = {
+  all: [baseUrl] as const,
+};
+
+export const usersMethod = {
+  create: async (payload: Signup): Promise<IUserCreateResponse> => {
+    const { data } = await Api.mutate<Signup, IUserCreateResponse>(baseUrl, 'post', payload);
+    return data;
+  },
+  // TODO: REMOVE FOR DEV PURPOSE
+  getAllUsers: async (): Promise<any> => {
+    const { data } = await Api.privateQuery<Signup, IUserCreateResponse>(baseUrl, 'get');
     return data;
   },
 };
 
 // eslint-disable-next-line prettier/prettier
 export const useUserCreate = () =>
-  useMutation<IUserCreateResponse, IApiError, ISignup>((data) => usersMethod.create(data));
+  useMutation<IUserCreateResponse, IApiError, Signup>((data) => usersMethod.create(data));
+
+// TODO: REMOVE FOR DEV PURPOSE
+export const useGetUsers = () => {
+  return useQuery<unknown, IApiError>(userKeys.all, usersMethod.getAllUsers);
+};
