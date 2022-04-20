@@ -7,12 +7,14 @@ import NotFoundPage from '@pages/not-found/NotFoundPage';
 
 function AuthenticatedRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<MainLayout />}>
-        <Route path="" element={<UsersPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <div data-testid="authenticatedRoutes">
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route path="" element={<UsersPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 

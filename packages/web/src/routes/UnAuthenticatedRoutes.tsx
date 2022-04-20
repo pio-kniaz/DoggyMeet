@@ -7,12 +7,14 @@ import BasicLayout from '@components/layouts/basic-layout/BasicLayout';
 
 function UnAuthenticatedRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<BasicLayout />}>
-        <Route path="" element={<HomePage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
+    <div data-testid="unAuthenticatedRoutes">
+      <Routes>
+        <Route path="/" element={<BasicLayout />}>
+          <Route path="" element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </div>
   );
 }
 
