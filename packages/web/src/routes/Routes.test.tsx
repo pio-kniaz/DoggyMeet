@@ -1,9 +1,9 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
-import { Api } from '@services/index';
-
 import Routes from '@routes/Routes';
+import { Api } from '@/utils/services/api';
+
 import { renderWithClient } from '@/utils/tests/createWrapper';
 
 import * as authSlice from '@/redux/auth/auth.slice';

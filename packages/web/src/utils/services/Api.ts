@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig, Method } from 
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { QueryClient } from 'react-query';
 
-import { authMethods } from '@queries/auth/auth-queries';
+import { authMethods } from '@queries/auth/auth-queries'; // eslint-disable-line import/no-cycle
 import { authSelector, logout, setUser } from '@/redux/auth/auth.slice';
 import { store } from '@/redux/store';
 

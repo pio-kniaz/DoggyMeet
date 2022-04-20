@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
-import { Api } from '@services/index';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
 import { Signin } from '@components/modal/signin/signin-form/signinValidationSchema';
+import { Api } from '../../utils/services/api'; // eslint-disable-line import/no-cycle
 
 const baseUrl = '/auth';
 

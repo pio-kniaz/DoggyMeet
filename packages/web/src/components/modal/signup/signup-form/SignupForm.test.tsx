@@ -2,7 +2,7 @@ import React from 'react';
 // import mockAxios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { Api } from '@services/index';
+import { Api } from '@/utils/services/api';
 import RegisterForm from './SignupForm';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 
