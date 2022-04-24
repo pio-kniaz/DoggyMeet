@@ -23,7 +23,7 @@ export const createJWT = ({ type, data }: ICreateJWT) => {
         userInfo: data.userInfo,
       },
       `${config.REFRESH_TOKEN_SECRET}`,
-      { expiresIn: '20s' }
+      { expiresIn: '15m' }
     );
   }
   throw new Error('Wrong token type provided');
