@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRefreshToken } from '@queries/auth/auth-queries';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { Loader } from '@components/shared';
-import { logout, authSelector, setUser } from '@/redux/auth/auth.slice';
+import { clearAccessToken, authSelector, setAccessToken } from '@/redux/auth/auth.slice';
 
 const AuthenticatedRoutes = React.lazy(() => import('@routes/AuthenticatedRoutes'));
 const UnAuthenticatedRoutes = React.lazy(() => import('@routes/UnAuthenticatedRoutes'));
@@ -20,9 +20,9 @@ function Routes() {
     const checkToken = async () => {
       try {
         const { accessToken: accessTokenResp } = await mutateAsync();
-        dispatch(setUser({ accessToken: accessTokenResp }));
+        dispatch(setAccessToken({ accessToken: accessTokenResp }));
       } catch (error) {
-        dispatch(logout());
+        dispatch(clearAccessToken());
         navigate('/', { replace: true });
       } finally {
         setIsLoading(false);

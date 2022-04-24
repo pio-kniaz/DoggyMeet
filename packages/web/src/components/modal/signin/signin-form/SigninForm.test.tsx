@@ -74,9 +74,9 @@ describe('SigninForm component tests', () => {
       mock.resetHistory();
     });
     describe('Success login user', () => {
-      it('Should submit button be disabled, display toast, reset form, close modal and setUser after successful login', async () => {
+      it('Should submit button be disabled, display toast, reset form, close modal and setAccessToken after successful login', async () => {
         const spyCloseModal = jest.spyOn(modalSlice, 'closeModal');
-        const spySetUser = jest.spyOn(authSlice, 'setUser');
+        const spySetUser = jest.spyOn(authSlice, 'setAccessToken');
         renderWithClient(<SigninForm />);
 
         mock.onPost('/auth/login').reply(200, {

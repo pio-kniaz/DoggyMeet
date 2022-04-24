@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Loader } from '@components/shared';
 import { useRefreshToken } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
-import { setUser } from '@/redux/auth/auth.slice';
+import { setAccessToken } from '@/redux/auth/auth.slice';
 
 function withPersistUser<P>(WrappedComponent: React.ComponentType<P>) {
   return function ComponentWithPersistUser(props: P) {
@@ -15,9 +15,9 @@ function withPersistUser<P>(WrappedComponent: React.ComponentType<P>) {
       const getUser = async () => {
         try {
           const { accessToken } = await mutateAsync();
-          dispatch(setUser({ accessToken }));
+          dispatch(setAccessToken({ accessToken }));
         } catch (error) {
-          // dispatch(logout());
+          // dispatch(clearAccessToken());
           navigate('/', { replace: true });
         }
       };

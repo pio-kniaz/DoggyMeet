@@ -3,7 +3,7 @@ import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { QueryClient } from 'react-query';
 
 import { authMethods } from '@queries/auth/auth-queries'; // eslint-disable-line import/no-cycle
-import { authSelector, logout, setUser } from '@/redux/auth/auth.slice';
+import { authSelector, clearAccessToken, setAccessToken } from '@/redux/auth/auth.slice';
 import { store } from '@/redux/store';
 
 export class Api {
@@ -88,10 +88,10 @@ Api.getPrivateInstance().interceptors.request.use(
 export const getRefreshToken = async () => {
   try {
     const { accessToken } = await authMethods.refreshToken();
-    store.dispatch(setUser({ accessToken }));
+    store.dispatch(setAccessToken({ accessToken }));
     return Promise.resolve();
   } catch (error) {
-    store.dispatch(logout());
+    store.dispatch(clearAccessToken());
     return Promise.reject(error);
   }
 };

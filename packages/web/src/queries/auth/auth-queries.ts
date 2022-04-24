@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions } from 'react-query';
 import { ISuccessResponse, IApiError } from '@interfaces/index';
 import { Signin } from '@components/modal/signin/signin-form/signinValidationSchema';
-import { Api } from '@services/api'; // eslint-disable-line import/no-cycle
+import { Api } from '@/utils/services/api'; // eslint-disable-line import/no-cycle
 
 const baseUrl = '/auth';
 
@@ -14,6 +14,10 @@ export const authMethods = {
     const { data } = await Api.mutate<Signin, IAuthLoginResponse>(`${baseUrl}/login`, 'post', payload);
     return data;
   },
+  logout: async (): Promise<ISuccessResponse> => {
+    const { data } = await Api.privateMutate<unknown, IAuthLoginResponse>(`${baseUrl}/logout`, 'post');
+    return data;
+  },
   refreshToken: async (): Promise<IAuthLoginResponse> => {
     const { data } = await Api.mutate<undefined, IAuthLoginResponse>(`${baseUrl}/refresh-token`, 'post');
     return data;
@@ -23,3 +27,4 @@ export const authMethods = {
 export const useAuthLogin = () => useMutation<IAuthLoginResponse, IApiError, Signin>(authMethods.login);
 export const useRefreshToken = (options?: Omit<UseMutationOptions<IAuthLoginResponse, IApiError>, 'mutationFn'>) =>
   useMutation<IAuthLoginResponse, IApiError>(authMethods.refreshToken, options);
+export const useLogout = () => useMutation<ISuccessResponse, IApiError>(authMethods.logout);

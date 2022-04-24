@@ -1,9 +1,13 @@
 import React from 'react';
-import { screen, fireEvent } from '@testing-library/react';
+import MockAdapter from 'axios-mock-adapter';
 
-import Header from '@components/layouts/basic-layout/header/Header';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
+
+import Header from '@/components/layouts/header/Header';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 import * as modalSlice from '@/redux/modal/modal.slice';
+import * as authSlice from '@/redux/auth/auth.slice';
+import { Api } from '@/utils/services/api';
 
 describe('Header component tests', () => {
   it('Should render Header component', () => {
@@ -27,15 +31,15 @@ describe('Header component tests', () => {
       expect(history.location.pathname).toBe('/');
     });
   });
-  describe('Signup visibility / interaction', () => {
+  describe('Signup visibility / interaction basic header', () => {
     it('Should render sing up button', () => {
-      renderWithClient(<Header />);
+      renderWithClient(<Header type="basic" />);
       const signup = screen.getByRole('button', { name: /register/i });
       expect(signup).toBeInTheDocument();
     });
     it('Should trigger open signup modal after sign up button click', async () => {
       const spyOpenModal = jest.spyOn(modalSlice, 'openModal');
-      renderWithClient(<Header />);
+      renderWithClient(<Header type="basic" />);
       const signup = screen.getByRole('button', { name: /register/i });
       fireEvent.click(signup);
       expect(spyOpenModal).toBeCalledWith({
@@ -44,15 +48,15 @@ describe('Header component tests', () => {
       spyOpenModal.mockRestore();
     });
   });
-  describe('Signin visibility / interaction', () => {
+  describe('Signin visibility / interaction basic header', () => {
     it('Should render sing in button', () => {
-      renderWithClient(<Header />);
+      renderWithClient(<Header type="basic" />);
       const signinButton = screen.getByRole('button', { name: /login/i });
       expect(signinButton).toBeInTheDocument();
     });
     it('Should open signin modal after login button click', () => {
       const spyOpenModal = jest.spyOn(modalSlice, 'openModal');
-      renderWithClient(<Header />);
+      renderWithClient(<Header type="basic" />);
       const signinButton = screen.getByRole('button', { name: /login/i });
       fireEvent.click(signinButton);
       expect(spyOpenModal).toBeCalledWith({
@@ -60,5 +64,46 @@ describe('Header component tests', () => {
       });
       spyOpenModal.mockRestore();
     });
+  });
+  describe('Logout visibility / interaction main header', () => {
+    const mock = new MockAdapter(Api.getPrivateInstance(), {
+      onNoMatch: 'throwException',
+    });
+    beforeAll(() => {
+      mock.reset();
+    });
+    beforeEach(() => {
+      mock.resetHistory();
+    });
+    it('Should render logout button', () => {
+      renderWithClient(<Header type="main" />);
+      const logoutButton = screen.getByRole('button', { name: /log out/i });
+      expect(logoutButton).toBeInTheDocument();
+    });
+    it('Should logout button be disabled and clearAccessToken when logout API call success', async () => {
+      const clearAccessToken = jest.spyOn(authSlice, 'clearAccessToken');
+      renderWithClient(<Header type="main" />);
+      mock.onPost('/auth/logout').reply(200, {
+        success: true,
+      });
+      const logoutButton = screen.getByRole('button', { name: /log out/i });
+      fireEvent.click(logoutButton);
+      await waitFor(() => {
+        expect(logoutButton).toBeDisabled();
+      });
+      expect(clearAccessToken).toBeCalled();
+      clearAccessToken.mockRestore();
+    });
+    it('Should logout button be disabled and display error toast when logout API call fails', async () => {
+      renderWithClient(<Header type="main" />);
+      mock.onPost('/auth/logout').reply(400);
+      const logoutButton = screen.getByRole('button', { name: /log out/i });
+      fireEvent.click(logoutButton);
+      await waitFor(() => {
+        expect(logoutButton).toBeDisabled();
+      });
+      const alert = await screen.findByRole('alert');
+      expect(alert).toBeInTheDocument();
+    })
   });
 });

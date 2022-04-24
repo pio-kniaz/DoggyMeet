@@ -25,7 +25,9 @@ export const logoutController = async (
     currentUser.refreshToken = '';
     await currentUser.save();
     clearJWTCookie(res);
-    return res.sendStatus(200);
+    return res.status(200).json({
+      success: true,
+    });
   } catch (error) {
     return next(error);
   }
