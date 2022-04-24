@@ -15,7 +15,7 @@
     "test:staged": "jest --passWithNoTests --watchAll=false  --bail --silent"
   },
   "dependencies": {
-    "@chakra-ui/react": "^1.7.3",
+    "@chakra-ui/react": "^1.8.8",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@fontsource/kalam": "^4.5.1",
@@ -108,8 +108,7 @@
       "eslint --fix",
       "npm run test:staged"
     ],
-    "src/**/*.{js,jsx,ts,tsx}": [
-    ]
+    "src/**/*.{js,jsx,ts,tsx}": []
   },
   "browserslist": [
     "last 2 version",
