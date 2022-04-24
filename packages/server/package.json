@@ -9,8 +9,7 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "precommit": "lint-staged",
     "test": "jest --coverage --silent",
-    "test:watch": "jest --watch",
-    "test:staged": "jest --bail --findRelatedTests"
+    "test:staged": "jest --passWithNoTests --watchAll=false  --bail --silent"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -61,10 +60,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "npm run test:staged"
     ],
     "src/**/*.{js,jsx,ts,tsx}": [
-      "npm run test:staged"
     ]
   }
 }

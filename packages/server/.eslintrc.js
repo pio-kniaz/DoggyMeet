@@ -40,7 +40,7 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-    'no-console': 2,
+    'no-console': 1,
     'import/extensions': [
       'error',
       'always',

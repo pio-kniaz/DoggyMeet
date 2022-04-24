@@ -57,7 +57,7 @@ module.exports = {
         bracketSpacing: true,
       },
     ],
-    'no-console': 2,
+    'no-console': 1,
     'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
     'import/extensions': [
       'error',

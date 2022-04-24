@@ -33,29 +33,24 @@ function SigninForm() {
     resolver: yupResolver(signinValidationSchema),
   });
   const handleOnSubmit = async (values: Signin) => {
+    toast.closeAll();
     try {
       const { accessToken } = await mutateAsync(values);
-      const toastId = 'login-form-success';
-      if (!toast.isActive(toastId)) {
-        toast({
-          id: toastId,
-          position: 'top-right',
-          title: 'Login success',
-          description: '',
-          status: 'success',
-          duration: 2500,
-          isClosable: true,
-        });
-      }
+      toast({
+        position: 'top-right',
+        title: 'Login success',
+        description: '',
+        status: 'success',
+        duration: 2500,
+        isClosable: true,
+      });
       reset(defaultValues);
       dispatch(closeModal());
       dispatch(setUser({ accessToken }));
     } catch (err: unknown) {
-      const toastId = 'login-form-error';
       if (isApiError(err)) {
-        if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
+        if (err.response?.data?.metaData?.message) {
           toast({
-            id: toastId,
             position: 'top-right',
             title: 'Unable to login.',
             description: err.response?.data?.metaData?.message ?? '',
@@ -65,7 +60,6 @@ function SigninForm() {
           });
         } else {
           toast({
-            id: toastId,
             position: 'top-right',
             title: 'Unable to login.',
             description: 'Something went wrong',
