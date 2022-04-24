@@ -14,7 +14,7 @@ export const createJWT = ({ type, data }: ICreateJWT) => {
         userInfo: data.userInfo,
       },
       `${config.ACCESS_TOKEN_SECRET}`,
-      { expiresIn: '10s' }
+      { expiresIn: '5m' }
     );
   }
   if (type === 'refreshToken') {
