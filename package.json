@@ -16,6 +16,7 @@
     "start": "lerna run start  --stream --scope={web,server}",
     "diff": "lerna diff",
     "new-version": "lerna version --conventional-commits --yes",
+    "test": "lerna run test --stream --scope={web,server}",
     "pre-commit": "lint-staged",
     "prepare": "husky install",
     "check-types": "tsc --pretty --noEmit",

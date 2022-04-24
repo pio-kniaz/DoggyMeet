@@ -11,7 +11,8 @@
     "precommit": "lint-staged",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage --silent",
+    "test:staged": "jest --passWithNoTests --watchAll=false  --bail --silent"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.3",
@@ -104,7 +105,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "npm run test:staged"
+    ],
+    "src/**/*.{js,jsx,ts,tsx}": [
     ]
   },
   "browserslist": [
