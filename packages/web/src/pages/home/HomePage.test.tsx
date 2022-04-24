@@ -10,7 +10,7 @@ describe('HomePage tests', () => {
   it('Should render main title', () => {
     renderWithClient(<HomePage />);
     const title = screen.getByRole('heading', {
-      name: /Create a great canine community and help each other.\./i,
+      name: 'Create a great canine community and help each other.',
     });
     expect(title).toBeInTheDocument();
   });
@@ -23,7 +23,7 @@ describe('HomePage tests', () => {
     const items = getAllByRole('listitem');
     expect(items.length).toBe(2);
     expect(items[0]).toHaveTextContent('Add information about the need for a walk for your dog.');
-    expect(items[1]).toHaveTextContent('Help others by taking someone&apos;s dog for a walk.');
+    expect(items[1]).toHaveTextContent(`Help others by taking someone's dog for a walk.`);
   });
   it('Should render join to us button on page', () => {
     renderWithClient(<HomePage />);
