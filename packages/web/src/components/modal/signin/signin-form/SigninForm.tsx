@@ -10,7 +10,7 @@ import { useAuthLogin } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
 import { isApiError } from '@helpers/index';
 import { closeModal } from '@/redux/modal/modal.slice';
-import { setUser } from '@/redux/auth/auth.slice';
+import { setAccessToken } from '@/redux/auth/auth.slice';
 import { signinValidationSchema, Signin } from './signinValidationSchema';
 
 const defaultValues = {
@@ -46,7 +46,7 @@ function SigninForm() {
       });
       reset(defaultValues);
       dispatch(closeModal());
-      dispatch(setUser({ accessToken }));
+      dispatch(setAccessToken({ accessToken }));
     } catch (err: unknown) {
       if (isApiError(err)) {
         if (err.response?.data?.metaData?.message) {

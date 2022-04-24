@@ -9,7 +9,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 
 import Routes from '@routes/Routes';
 import Modal from '@components/modal/Modal';
-import { Api } from '@services/api';
+import { Api } from '@/utils/services/api';
 import { theme } from './theme';
 
 function App() {

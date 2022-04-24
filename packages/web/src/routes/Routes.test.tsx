@@ -20,7 +20,7 @@ describe('Routes component tests', () => {
     onNoMatch: 'throwException',
   });
   it('Should render Loader and then AuthenticatedRoutes', async () => {
-    const setUserSpy = jest.spyOn(authSlice, 'setUser');
+    const setUserSpy = jest.spyOn(authSlice, 'setAccessToken');
     mock.onPost('auth/refresh-token').reply(200, {
       accessToken: 'fakeAccessToken',
     });
@@ -35,7 +35,7 @@ describe('Routes component tests', () => {
     setUserSpy.mockRestore();
   });
   it('Should render Loader and then UnAuthenticatedRoutes', async () => {
-    const logoutSpy = jest.spyOn(authSlice, 'logout');
+    const logoutSpy = jest.spyOn(authSlice, 'clearAccessToken');
     mock.onPost('auth/refresh-token').reply(403);
     renderWithClient(<Routes />);
     const loader = screen.getByTestId('loader');

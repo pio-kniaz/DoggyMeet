@@ -17,16 +17,16 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<AuthActionPayload>) => {
+    setAccessToken: (state, action: PayloadAction<AuthActionPayload>) => {
       state.accessToken = action.payload.accessToken;
     },
-    logout: () => {
+    clearAccessToken: () => {
       return initialState;
     },
   },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setAccessToken, clearAccessToken } = authSlice.actions;
 
 export const authSelector = (state: RootState): IAuthState => state.auth;
 

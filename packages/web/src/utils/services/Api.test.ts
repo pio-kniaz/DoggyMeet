@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter';
 
 import * as authQueries from '@queries/auth/auth-queries';
-import * as ApiService from '@services/api';
+import * as ApiService from '@/utils/services/api';
 import * as authSlice from '@/redux/auth/auth.slice';
 
 describe('Api privateInstance', () => {
@@ -26,7 +26,7 @@ describe('Api privateInstance', () => {
     expect(result.headers).not.toHaveProperty('Authorization');
   });
   it('Should set new accessToken in refreshToken logic success', async () => {
-    const setUserSpy = jest.spyOn(authSlice, 'setUser');
+    const setUserSpy = jest.spyOn(authSlice, 'setAccessToken');
     const getRefreshTokenSpy = jest.spyOn(authQueries.authMethods, 'refreshToken');
     getRefreshTokenSpy.mockResolvedValue({ accessToken: 'fakeAccessToken', success: true });
     privateInstanceMock.onGet('/get-some-data').reply(401);
@@ -39,10 +39,10 @@ describe('Api privateInstance', () => {
     getRefreshTokenSpy.mockRestore();
     setUserSpy.mockRestore();
   });
-  it('Should executes refreshToken API call if server returns 401 status code and logout user when refreshToken failure', async () => {
+  it('Should executes refreshToken API call if server returns 401 status code and clearAccessToken user when refreshToken failure', async () => {
     const getRefreshTokenSpy = jest.spyOn(authQueries.authMethods, 'refreshToken');
     getRefreshTokenSpy.mockRejectedValue(true);
-    const logOutSpy = jest.spyOn(authSlice, 'logout');
+    const logOutSpy = jest.spyOn(authSlice, 'clearAccessToken');
 
     privateInstanceMock.onGet('/get-some-data').reply(401);
     try {
