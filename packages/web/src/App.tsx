@@ -1,6 +1,5 @@
 import '@fontsource/roboto';
 import '@fontsource/kalam';
-import '@styles/index.scss';
 
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
