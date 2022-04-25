@@ -6,7 +6,7 @@ import { User } from '@models/User';
 import { ErrorException } from '@utils/error-handler/error-exception';
 import { errorCodeName } from '@const/index';
 
-export async function getMeController(
+export async function currentUserController(
   req: IVerifyJWTRequest,
   res: Response,
   next: NextFunction

@@ -19,24 +19,45 @@ describe('Routes component tests', () => {
   const mock = new MockAdapter(Api.getInstance(), {
     onNoMatch: 'throwException',
   });
+  const mockPrivate = new MockAdapter(Api.getPrivateInstance(), {
+    onNoMatch: 'throwException',
+  });
   it('Should render Loader and then AuthenticatedRoutes', async () => {
-    const setUserSpy = jest.spyOn(authSlice, 'setAccessToken');
-    mock.onPost('auth/refresh-token').reply(200, {
+    const setAccessTokenSpy = jest.spyOn(authSlice, 'setAccessToken');
+    const setUserSpy = jest.spyOn(authSlice, 'setUser');
+    mock.onGet('auth/refresh-token').reply(200, {
       accessToken: 'fakeAccessToken',
+    });
+    mockPrivate.onGet('users/me').reply(200, {
+      user: {
+        _id: '_id',
+        name: 'name',
+        email: 'email',
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+      },
     });
     renderWithClient(<Routes />);
     const loader = screen.getByTestId('loader');
     expect(loader).toBeVisible();
     const UnAuthenticatedRoutes = await screen.findByTestId('authenticatedRoutes');
-    expect(setUserSpy).toHaveBeenNthCalledWith(1, {
+    expect(setAccessTokenSpy).toHaveBeenNthCalledWith(1, {
       accessToken: 'fakeAccessToken',
     });
+    expect(setUserSpy).toHaveBeenNthCalledWith(1, {
+      _id: '_id',
+      createdAt: 'createdAt',
+      email: 'email',
+      name: 'name',
+      updatedAt: 'updatedAt',
+    });
     expect(UnAuthenticatedRoutes).toBeVisible();
+    setAccessTokenSpy.mockRestore();
     setUserSpy.mockRestore();
   });
   it('Should render Loader and then UnAuthenticatedRoutes', async () => {
     const logoutSpy = jest.spyOn(authSlice, 'clearAccessToken');
-    mock.onPost('auth/refresh-token').reply(403);
+    mock.onGet('auth/refresh-token').reply(403);
     renderWithClient(<Routes />);
     const loader = screen.getByTestId('loader');
     expect(loader).toBeVisible();

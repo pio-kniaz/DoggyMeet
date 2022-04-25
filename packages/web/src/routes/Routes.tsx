@@ -1,10 +1,11 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useRefreshToken } from '@queries/auth/auth-queries';
+import { useGetMe } from '@queries/users/users-queries';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { Loader } from '@components/shared';
-import { clearAccessToken, authSelector, setAccessToken } from '@/redux/auth/auth.slice';
+import { clearAccessToken, authSelector, setAccessToken, setUser } from '@/redux/auth/auth.slice';
 
 const AuthenticatedRoutes = React.lazy(() => import('@routes/AuthenticatedRoutes'));
 const UnAuthenticatedRoutes = React.lazy(() => import('@routes/UnAuthenticatedRoutes'));
@@ -12,30 +13,32 @@ const UnAuthenticatedRoutes = React.lazy(() => import('@routes/UnAuthenticatedRo
 function Routes() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { mutateAsync } = useRefreshToken();
-  const [isLoading, setIsLoading] = useState(true);
+
   const { accessToken } = useAppSelector(authSelector);
 
-  useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const { accessToken: accessTokenResp } = await mutateAsync();
-        dispatch(setAccessToken({ accessToken: accessTokenResp }));
-      } catch (error) {
-        dispatch(clearAccessToken());
-        navigate('/', { replace: true });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (!accessToken) {
-      checkToken();
-    } else {
-      setIsLoading(false);
-    }
-  }, [accessToken, dispatch, mutateAsync, navigate]);
+  const { isLoading } = useRefreshToken({
+    onSuccess: (data) => {
+      dispatch(setAccessToken({ accessToken: data.accessToken }));
+    },
+    onError: () => {
+      dispatch(clearAccessToken());
+      navigate('/', { replace: true });
+    },
+  });
 
-  if (isLoading) {
+  const { isLoading: isGetMeLoading } = useGetMe({
+    enabled: !!accessToken,
+    onSuccess: (data) => {
+      dispatch(setUser(data.user));
+    },
+    onError: () => {
+      dispatch(clearAccessToken());
+      navigate('/', { replace: true });
+    },
+  });
+
+  // TODO: Content visibility hidden;
+  if (isLoading || isGetMeLoading) {
     return <Loader fullscreen size="xl" />;
   }
 

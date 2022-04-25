@@ -7,7 +7,7 @@ import { verifyJWT } from '@/middlewares/verifyJWT/verifyJWT';
 const authRouter = Router();
 
 authRouter.route('/login').post(loginController);
-authRouter.route('/refresh-token').post(refreshTokenController);
+authRouter.route('/refresh-token').get(refreshTokenController);
 authRouter.route('/logout').post(verifyJWT, logoutController);
 
 export default authRouter;

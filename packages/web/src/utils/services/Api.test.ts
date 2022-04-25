@@ -12,7 +12,7 @@ describe('Api privateInstance', () => {
   });
   it('Should add Authorization token to privateInstance if access token exits in auth store', () => {
     const authSelectorSpy = jest.spyOn(authSlice, 'authSelector');
-    authSelectorSpy.mockReturnValueOnce({ accessToken: 'mockedTOken' });
+    authSelectorSpy.mockReturnValueOnce({ accessToken: 'mockedTOken', user: null });
     // @ts-ignore
     const result = ApiService.Api.getPrivateInstance().interceptors.request.handlers[0].fulfilled({ headers: {} });
 
