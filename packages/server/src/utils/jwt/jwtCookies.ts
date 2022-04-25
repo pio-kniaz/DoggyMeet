@@ -11,7 +11,7 @@ export const setJWTCookie = ({ refreshToken, res }: ISetJWTCookie) => {
     httpOnly: true,
     secure: config.NODE_ENV === 'production',
     sameSite: 'lax',
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000, // TODO: add correct value
   });
 };
 export const clearJWTCookie = (res: Response) => {

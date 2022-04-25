@@ -18,6 +18,7 @@
     "@types/express": "4.17.13",
     "@types/helmet": "^4.0.0",
     "@types/jsonwebtoken": "^8.5.8",
+    "@types/lodash": "^4.14.182",
     "@types/morgan": "^1.9.3",
     "@types/node": "16.11.6",
     "@types/supertest": "^2.0.11",
@@ -63,7 +64,6 @@
       "eslint --fix",
       "npm run test:staged"
     ],
-    "src/**/*.{js,jsx,ts,tsx}": [
-    ]
+    "src/**/*.{js,jsx,ts,tsx}": []
   }
 }

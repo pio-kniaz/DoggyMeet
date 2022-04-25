@@ -3,10 +3,12 @@ import type { IVerifyJWTRequest } from '@interfaces/index';
 
 import { verifyJWT } from '@/middlewares/verifyJWT/verifyJWT';
 import { createUserController } from '@/controllers/users/create-user/createUserController';
+import { currentUserController } from '@/controllers/users/currentUser/currentUserController';
 
 const userRouter = Router();
 
 userRouter.route('/').post(createUserController);
+userRouter.route('/me').get(verifyJWT, currentUserController);
 // TODO: REMOVE FOR DEV PURPOSE
 userRouter.route('/').get(verifyJWT, (_req: IVerifyJWTRequest, res) => {
   return res.status(200).json([

@@ -6,7 +6,7 @@ import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { InputField, CustomButton } from '@components/shared';
-import { useAuthLogin } from '@queries/auth/auth-queries';
+import { useLogin } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
 import { isApiError } from '@helpers/index';
 import { closeModal } from '@/redux/modal/modal.slice';
@@ -22,7 +22,7 @@ function SigninForm() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const { isLoading, mutateAsync } = useAuthLogin();
+  const { isLoading, mutateAsync } = useLogin();
   const {
     handleSubmit,
     register,
@@ -33,24 +33,18 @@ function SigninForm() {
     resolver: yupResolver(signinValidationSchema),
   });
   const handleOnSubmit = async (values: Signin) => {
+    const toastId = 'signin-toast';
     toast.closeAll();
     try {
       const { accessToken } = await mutateAsync(values);
-      toast({
-        position: 'top-right',
-        title: 'Login success',
-        description: '',
-        status: 'success',
-        duration: 2500,
-        isClosable: true,
-      });
       reset(defaultValues);
       dispatch(closeModal());
       dispatch(setAccessToken({ accessToken }));
     } catch (err: unknown) {
       if (isApiError(err)) {
-        if (err.response?.data?.metaData?.message) {
+        if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
           toast({
+            id: toastId,
             position: 'top-right',
             title: 'Unable to login.',
             description: err.response?.data?.metaData?.message ?? '',
@@ -58,8 +52,9 @@ function SigninForm() {
             duration: 2500,
             isClosable: true,
           });
-        } else {
+        } else if (!toast.isActive(toastId)) {
           toast({
+            id: toastId,
             position: 'top-right',
             title: 'Unable to login.',
             description: 'Something went wrong',
