@@ -14,8 +14,8 @@ import { setAccessToken } from '@/redux/auth/auth.slice';
 import { signinValidationSchema, Signin } from './signinValidationSchema';
 
 const defaultValues = {
-  email: '',
-  password: '',
+  email: process.env.__DEV__ ? process.env.login : '',
+  password: process.env.__DEV__ ? process.env.password : '',
 } as const;
 
 function SigninForm() {

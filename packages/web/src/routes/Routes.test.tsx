@@ -38,8 +38,8 @@ describe('Routes component tests', () => {
       },
     });
     renderWithClient(<Routes />);
-    const loader = screen.getByTestId('loader');
-    expect(loader).toBeVisible();
+    const placeHolderRoutes = screen.getByTestId('routes-placeholder');
+    expect(placeHolderRoutes).toBeVisible();
     const UnAuthenticatedRoutes = await screen.findByTestId('authenticatedRoutes');
     expect(setAccessTokenSpy).toHaveBeenNthCalledWith(1, {
       accessToken: 'fakeAccessToken',
@@ -59,8 +59,8 @@ describe('Routes component tests', () => {
     const logoutSpy = jest.spyOn(authSlice, 'clearAccessToken');
     mock.onGet('auth/refresh-token').reply(403);
     renderWithClient(<Routes />);
-    const loader = screen.getByTestId('loader');
-    expect(loader).toBeVisible();
+    const placeHolderRoutes = screen.getByTestId('routes-placeholder');
+    expect(placeHolderRoutes).toBeVisible();
     const UnAuthenticatedRoutes = await screen.findByTestId('unAuthenticatedRoutes');
     expect(logoutSpy).toHaveBeenNthCalledWith(1);
     expect(mockedUsedNavigate).toHaveBeenNthCalledWith(1, '/', { replace: true });
