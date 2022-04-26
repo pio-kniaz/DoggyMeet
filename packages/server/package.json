@@ -9,7 +9,7 @@
     "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json",
     "precommit": "lint-staged",
     "test": "jest --coverage --silent",
-    "test:staged": "jest --passWithNoTests --watchAll=false  --bail --silent"
+    "test:staged": "jest --passWithNoTests  --bail --silent"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
