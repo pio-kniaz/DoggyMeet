@@ -33,6 +33,7 @@ module.exports = {
   plugins: ['react', '@typescript-eslint', 'testing-library', 'jest-dom', 'import'],
   ignorePatterns: ['webpack'],
   rules: {
+    'no-underscore-dangle': ['error', { allow: ['__DEV__'] }],
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],

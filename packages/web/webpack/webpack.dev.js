@@ -15,7 +15,7 @@ module.exports = {
   plugins: [
     new ReactRefreshWebpackPlugin(),
     new webpack.DefinePlugin({
-      'process.env.name': JSON.stringify('Januszek dev'),
+      'process.env.__DEV__': true,
     }),
     new ForkTsCheckerWebpackPlugin({
       async: false,
