@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Flex } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 
 import Footer from '@components/layouts/footer/Footer';
@@ -17,7 +17,9 @@ function MainLayout() {
           </Flex>
         }
       >
-        <Outlet />
+        <Box flexGrow={1}>
+          <Outlet />
+        </Box>
       </Suspense>
       <Footer />
     </Flex>
