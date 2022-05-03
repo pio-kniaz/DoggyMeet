@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import MainLayout from '@components/layouts/main-layout/MainLayout';
 
-const UserPage = React.lazy(() => import('@pages/users/UsersPage'));
+const AnnouncementPage = React.lazy(() => import('@pages/announcement/AnnouncementPage'));
 const NotFoundPage = React.lazy(() => import('@pages/not-found/NotFoundPage'));
 
 function AuthenticatedRoutes() {
@@ -11,7 +11,7 @@ function AuthenticatedRoutes() {
     <div data-testid="authenticatedRoutes">
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route index element={<UserPage />} />
+          <Route index element={<AnnouncementPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
