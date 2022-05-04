@@ -39,7 +39,7 @@ function Modal() {
     if (modalType) {
       switch (modalType) {
         case ModalTypes.ANNOUNCEMENT:
-          setSize(modalSizes.full);
+          setSize(modalSizes.xl);
           break;
         default:
           setSize(modalSizes.md);
