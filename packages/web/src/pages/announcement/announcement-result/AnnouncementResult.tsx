@@ -1,5 +1,5 @@
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Input } from '@chakra-ui/react';
 import React from 'react';
+import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Input } from '@chakra-ui/react';
 
 function AnnouncementResult() {
   return (
