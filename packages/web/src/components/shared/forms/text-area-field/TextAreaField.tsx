@@ -34,7 +34,7 @@ function TextAreaField<TFormValues>({
       <InputGroup>
         <Textarea
           minH="unset"
-          overflow="hidden"
+          overflowY="auto"
           w="100%"
           resize="none"
           minRows={1}
