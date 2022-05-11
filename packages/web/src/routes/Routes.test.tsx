@@ -40,7 +40,7 @@ describe('Routes component tests', () => {
     renderWithClient(<Routes />);
     const placeHolderRoutes = screen.getByTestId('routes-placeholder');
     expect(placeHolderRoutes).toBeVisible();
-    const UnAuthenticatedRoutes = await screen.findByTestId('authenticatedRoutes');
+    const UnAuthenticatedRoutes = await screen.findByTestId('routes-authenticated');
     expect(setAccessTokenSpy).toHaveBeenNthCalledWith(1, {
       accessToken: 'fakeAccessToken',
     });
@@ -61,9 +61,8 @@ describe('Routes component tests', () => {
     renderWithClient(<Routes />);
     const placeHolderRoutes = screen.getByTestId('routes-placeholder');
     expect(placeHolderRoutes).toBeVisible();
-    const UnAuthenticatedRoutes = await screen.findByTestId('unAuthenticatedRoutes');
+    const UnAuthenticatedRoutes = await screen.findByTestId('routes-unAuthenticated');
     expect(logoutSpy).toHaveBeenNthCalledWith(1);
-    expect(mockedUsedNavigate).toHaveBeenNthCalledWith(1, '/', { replace: true });
     expect(UnAuthenticatedRoutes).toBeVisible();
     logoutSpy.mockRestore();
   });
