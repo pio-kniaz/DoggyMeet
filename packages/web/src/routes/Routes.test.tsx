@@ -66,4 +66,20 @@ describe('Routes component tests', () => {
     expect(UnAuthenticatedRoutes).toBeVisible();
     logoutSpy.mockRestore();
   });
+  it('Should display un authenticated routes, trigger logout and redirect user when jwt expired', async () => {
+    const logoutSpy = jest.spyOn(authSlice, 'clearAccessToken');
+    mock.onGet('auth/refresh-token').reply(403, {
+      metaData: {
+        message: 'jwt expired',
+      },
+    });
+    renderWithClient(<Routes />);
+    const placeHolderRoutes = screen.getByTestId('routes-placeholder');
+    expect(placeHolderRoutes).toBeVisible();
+    const UnAuthenticatedRoutes = await screen.findByTestId('routes-unAuthenticated');
+    expect(UnAuthenticatedRoutes).toBeVisible();
+    expect(logoutSpy).toHaveBeenNthCalledWith(1);
+    expect(mockedUsedNavigate).toHaveBeenNthCalledWith(1, '/', { replace: true });
+    logoutSpy.mockRestore();
+  });
 });

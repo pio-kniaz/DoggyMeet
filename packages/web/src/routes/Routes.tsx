@@ -6,6 +6,7 @@ import { useGetMe } from '@queries/users/users-queries';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { authRoutes } from '@routes/AuthenticatedRoutes';
 import { unAuthRoutes } from '@routes/UnAuthenticatedRoutes';
+import { isApiError } from '@helpers/index';
 import { clearAccessToken, authSelector, setAccessToken, setUser } from '@/redux/auth/auth.slice';
 import { PlaceHolder } from './Routes.styles';
 
@@ -19,8 +20,11 @@ function Router() {
     onSuccess: (data) => {
       dispatch(setAccessToken({ accessToken: data.accessToken }));
     },
-    onError: () => {
+    onError: (error: unknown) => {
       dispatch(clearAccessToken());
+      if (isApiError(error) && error.response?.data?.metaData?.message === 'jwt expired') {
+        navigate('/', { replace: true });
+      }
     },
   });
 
