@@ -37,7 +37,7 @@ function SelectField<TFormValues>({ name, control, options, errors, ...restProps
   }, [field.value, options]);
 
   return (
-    <FormControl>
+    <FormControl isInvalid={hasError}>
       <Select
         {...field}
         isInvalid={hasError}

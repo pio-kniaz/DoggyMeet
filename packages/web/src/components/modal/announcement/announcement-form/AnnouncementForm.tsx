@@ -1,29 +1,75 @@
 import React from 'react';
-import { Box } from '@chakra-ui/react';
+import { Box, Code } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-import { InputField, CustomButton, TextAreaField } from '@components/shared';
+import cities from '@assets/cities.json';
+import { createFilter } from 'chakra-react-select';
+import { SelectField, CustomButton, TextAreaField } from '@components/shared';
+import { FixedSizeList as List } from 'react-window';
 import { announcementFormValidationSchema } from './announcementFormValidationSchema';
+import { ListWrapper } from './AnnouncementForm.styles';
 
 const defaultValues = {
-  city: '',
+  city: null,
   description: '',
 };
+
 type FormData = {
-  city: string;
+  city: string | null;
   description: string;
 };
 
+type CityOption = {
+  label: string;
+  value: string;
+};
+
+const options: CityOption[] = cities
+  .map((elem) => {
+    return {
+      label: elem.label,
+      value: elem.id,
+    };
+  })
+  .sort((a, b) => (a.label.toLowerCase() > b.label.toLowerCase() ? 1 : -1));
+
+const height = 37;
+
+function MenuList({ options: selectOptions, children, maxHeight, getValue }: any) {
+  const [value] = getValue();
+  const initialOffset = selectOptions.indexOf(value) * height;
+  return (
+    <List
+      height={maxHeight}
+      itemCount={children.length}
+      itemSize={height}
+      initialScrollOffset={initialOffset}
+      width="100%"
+    >
+      {({ index, style }) => (
+        <div style={style}>
+          <ListWrapper>{children[index]}</ListWrapper>
+        </div>
+      )}
+    </List>
+  );
+}
+
 function AnnouncementForm() {
   const {
+    control,
     handleSubmit,
     register,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     defaultValues,
     resolver: yupResolver(announcementFormValidationSchema),
   });
+
+  const watchCity = watch('city');
+
+  const currentMapPlace = React.useMemo(() => cities.find((city) => city.id === watchCity), [watchCity]);
 
   const handleOnSubmit = (values: FormData) => {
     console.log(values);
@@ -31,8 +77,25 @@ function AnnouncementForm() {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
       <Box mb="2">
-        <InputField<FormData> register={register} name="city" label="City" placeholder="City" errors={errors} />
+        <SelectField<FormData>
+          control={control}
+          name="city"
+          placeholder="City"
+          errors={errors}
+          options={options}
+          filterOption={createFilter({ ignoreAccents: false })}
+          components={{ MenuList }}
+        />
       </Box>
+      {currentMapPlace && (
+        <Box>
+          <Code>
+            {currentMapPlace?.lat} : LAT
+            <br />
+            {currentMapPlace?.lon} : LON
+          </Code>
+        </Box>
+      )}
       <Box mb="2">
         <TextAreaField<FormData>
           register={register}
@@ -42,9 +105,6 @@ function AnnouncementForm() {
           placeholder="Description"
           minRows={8}
           maxRows={14}
-          style={{
-            width: '100%',
-          }}
         />
       </Box>
       <CustomButton
