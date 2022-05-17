@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, Code } from '@chakra-ui/react';
+import { Box, Code, AspectRatio, Image } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import cities from '@assets/cities.json';
 import { createFilter } from 'chakra-react-select';
 import { SelectField, CustomButton, TextAreaField } from '@components/shared';
 import { FixedSizeList as List } from 'react-window';
+import mapImgPlaceholder from '@assets/images/placeholder-map.png';
 import { announcementFormValidationSchema } from './announcementFormValidationSchema';
 import { ListWrapper } from './AnnouncementForm.styles';
 
@@ -88,7 +89,10 @@ function AnnouncementForm() {
         />
       </Box>
       {currentMapPlace && (
-        <Box>
+        <Box mb="2">
+          <AspectRatio ratio={3 / 2}>
+            <Image src={mapImgPlaceholder} alt="naruto" objectFit="cover" />
+          </AspectRatio>
           <Code>
             {currentMapPlace?.lat} : LAT
             <br />
