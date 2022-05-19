@@ -9,6 +9,17 @@ import * as modalSlice from '@/redux/modal/modal.slice';
 import * as authSlice from '@/redux/auth/auth.slice';
 import { Api } from '@/utils/services/api';
 
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => {
+  const originalModule = jest.requireActual('react-router-dom');
+
+  return {
+    ...originalModule,
+    useNavigate: () => mockedUsedNavigate,
+  };
+});
+
 describe('Header component tests', () => {
   it('Should render Header component', () => {
     renderWithClient(<Header />);
@@ -80,7 +91,7 @@ describe('Header component tests', () => {
       const logoutButton = screen.getByRole('button', { name: /log out/i });
       expect(logoutButton).toBeInTheDocument();
     });
-    it('Should logout button be disabled and clearAccessToken when logout API call success', async () => {
+    it('Should logout button be disabled trigger clearAccessToken and redirect to main route when logout API call success', async () => {
       const clearAccessToken = jest.spyOn(authSlice, 'clearAccessToken');
       renderWithClient(<Header type="main" />);
       mock.onPost('/auth/logout').reply(200, {
@@ -92,6 +103,7 @@ describe('Header component tests', () => {
         expect(logoutButton).toBeDisabled();
       });
       expect(clearAccessToken).toBeCalled();
+      expect(mockedUsedNavigate).toBeCalledWith('/', { replace: true });
       clearAccessToken.mockRestore();
     });
     it('Should logout button be disabled and display error toast when logout API call fails', async () => {
@@ -104,6 +116,6 @@ describe('Header component tests', () => {
       });
       const alert = await screen.findByRole('alert');
       expect(alert).toBeInTheDocument();
-    })
+    });
   });
 });
