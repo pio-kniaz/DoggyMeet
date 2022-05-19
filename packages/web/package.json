@@ -8,6 +8,7 @@
   "scripts": {
     "start": "webpack serve --config webpack/webpack.config.js --env env=dev",
     "build": "webpack --config webpack/webpack.config.js --env env=prod",
+    "build-analyzer": "webpack --config  webpack/webpack.config.js --env env=prod analyzer=true",
     "precommit": "lint-staged",
     "type-check": "tsc --pretty --noEmit",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
@@ -99,6 +100,7 @@
     "react-test-renderer": "^17.0.2",
     "sass": "^1.45.1",
     "sass-loader": "^12.4.0",
+    "terser-webpack-plugin": "5.3.1",
     "tsc-files": "^1.1.2",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "4.4.4",

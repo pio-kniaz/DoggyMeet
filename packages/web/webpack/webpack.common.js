@@ -4,7 +4,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const Dotenv = require('dotenv-webpack');
 
-module.exports = (env) => {
+module.exports = ({env}) => {
   return {
     entry: path.resolve(__dirname, '..', './src/index.tsx'),
     resolve: {
@@ -39,6 +39,7 @@ module.exports = (env) => {
     output: {
       path: path.resolve(__dirname, '..', './build'),
       filename: 'bundle.js',
+      publicPath: '/',
     },
     plugins: [
       new MiniCssExtractPlugin(),
@@ -50,6 +51,6 @@ module.exports = (env) => {
         systemvars: true,
       }),
     ],
-    stats: 'errors-only',
+    stats: 'normal',
   };
 }
