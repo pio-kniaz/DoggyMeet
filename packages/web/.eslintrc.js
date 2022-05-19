@@ -35,7 +35,7 @@ module.exports = {
   rules: {
     'no-underscore-dangle': ['error', { allow: ['__DEV__'] }],
     'no-param-reassign': ['error', { props: true, ignorePropertyModificationsFor: ['state'] }],
-    'no-unused-vars': 'off',
+    // 'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],

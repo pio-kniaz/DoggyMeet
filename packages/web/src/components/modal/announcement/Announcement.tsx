@@ -1,6 +1,7 @@
 import React from 'react';
+import { Flex, Heading, Stack, Box } from '@chakra-ui/react';
 
-import { Flex, Heading, Stack } from '@chakra-ui/react';
+import AnnouncementForm from '@components/modal/announcement/announcement-form/AnnouncementForm';
 
 function Announcement() {
   return (
@@ -11,6 +12,9 @@ function Announcement() {
             Add new announcement
           </Heading>
         </Stack>
+        <Box>
+          <AnnouncementForm />
+        </Box>
       </Stack>
     </Flex>
   );

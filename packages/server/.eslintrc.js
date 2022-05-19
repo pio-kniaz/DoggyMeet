@@ -22,6 +22,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   rules: {
+    // 'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
     'no-underscore-dangle': 'off',
     '@typescript-eslint/no-var-requires': 'error',

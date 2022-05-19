@@ -17,6 +17,7 @@ export const UserBioWrapper = styled.div<IUserBioWrapper>`
   padding-bottom: 1rem;
   width: 185px;
   position: absolute;
+  z-index: ${(props) => (props.isOpen ? '1' : '0')};
   top: 88px;
   border-radius: 5px;
   border: ${(props) => {

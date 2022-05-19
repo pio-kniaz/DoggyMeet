@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import dotenv from 'dotenv';
 
 dotenv.config();
