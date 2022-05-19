@@ -13,10 +13,10 @@ import {
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
 import { CustomButton } from '@components/shared';
-import { Link } from 'react-router-dom';
 import logo from '@assets/images/logo.jpg';
 import { useLogout } from '@queries/auth/auth-queries';
 import avatarImg from '@assets/images/Abi-avatar.jpeg';
@@ -72,6 +72,8 @@ function MainHeader() {
     enabled: isUserBioOpen,
   });
 
+  const navigate = useNavigate();
+
   const { mutateAsync: logOutUser, isLoading } = useLogout();
 
   const handleBioToggle = () => {
@@ -87,6 +89,7 @@ function MainHeader() {
     try {
       await logOutUser();
       dispatch(clearAccessToken());
+      navigate('/', { replace: true });
     } catch (error) {
       toast({
         position: 'top-right',
