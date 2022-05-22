@@ -46,6 +46,9 @@ function MenuList({ options: selectOptions, children, maxHeight, getValue }: any
       itemSize={height}
       initialScrollOffset={initialOffset}
       width="100%"
+      style={{
+        background: 'white',
+      }}
     >
       {({ index, style }) => (
         <div style={style}>
