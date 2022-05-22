@@ -15,6 +15,10 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
+afterEach(() => {
+  jest.clearAllMocks();
+});
+
 describe('Routes component tests', () => {
   const mock = new MockAdapter(Api.getInstance(), {
     onNoMatch: 'throwException',
@@ -81,5 +85,61 @@ describe('Routes component tests', () => {
     expect(logoutSpy).toHaveBeenNthCalledWith(1);
     expect(mockedUsedNavigate).toHaveBeenNthCalledWith(1, '/', { replace: true });
     logoutSpy.mockRestore();
+  });
+  describe('Authenticated routes component renders on specific path', () => {
+    it('Should render announcement page on path /announcement', async () => {
+      mock.onGet('auth/refresh-token').reply(200, {
+        accessToken: 'fakeAccessToken',
+      });
+      mockPrivate.onGet('users/me').reply(200, {
+        user: {
+          _id: '_id',
+          name: 'name',
+          email: 'email',
+          createdAt: 'createdAt',
+          updatedAt: 'updatedAt',
+        },
+      });
+      renderWithClient(<Routes />, {
+        route: '/announcement',
+      });
+      const announcementPage = await screen.findByTestId('announcement-page');
+      expect(announcementPage).toBeVisible();
+    });
+    it('Should render not found page on no matched route', async () => {
+      mock.onGet('auth/refresh-token').reply(200, {
+        accessToken: 'fakeAccessToken',
+      });
+      mockPrivate.onGet('users/me').reply(200, {
+        user: {
+          _id: '_id',
+          name: 'name',
+          email: 'email',
+          createdAt: 'createdAt',
+          updatedAt: 'updatedAt',
+        },
+      });
+      renderWithClient(<Routes />, {
+        route: '/test',
+      });
+      const notFoundPage = await screen.findByTestId('not-found-page');
+      expect(notFoundPage).toBeVisible();
+    });
+  });
+  describe('Un authenticated routes component renders on specific path', () => {
+    it('Should render home page on path /', async () => {
+      mock.onGet('auth/refresh-token').reply(403);
+      renderWithClient(<Routes />);
+      const homePage = await screen.findByTestId('home-page');
+      expect(homePage).toBeVisible();
+    });
+    it('Should render not found page on no matched route /', async () => {
+      mock.onGet('auth/refresh-token').reply(403);
+      renderWithClient(<Routes />, {
+        route: '/not-matched',
+      });
+      const notFoundPage = await screen.findByTestId('not-found-page');
+      expect(notFoundPage).toBeVisible();
+    });
   });
 });

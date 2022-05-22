@@ -18,7 +18,7 @@ function HomePage() {
     );
 
   return (
-    <Container maxW="container.xl" flexGrow={1} width="100%">
+    <Container maxW="container.xl" flexGrow={1} width="100%" data-testid="home-page">
       <Box padding="3rem 0">
         <Heading fontSize="4xl" textAlign="center" marginBottom="3rem" marginTop="1rem">
           Create a great canine community and help each other.

@@ -16,7 +16,7 @@ function AnnouncementPage() {
     );
   };
   return (
-    <Container maxW="container.xl" pt="1rem">
+    <Container maxW="container.xl" pt="1rem" data-testid="announcement-page">
       <Box display="flex" justifyContent="flex-end">
         <CustomButton
           mb=".5rem"
