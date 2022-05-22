@@ -4,13 +4,11 @@ import { Modal as ChakraModal, ModalOverlay, ModalContent, ModalCloseButton } fr
 import Signup from '@components/modal/signup/Signup';
 import Signin from '@components/modal/signin/Signin';
 import { useAppSelector, useAppDispatch } from '@hooks/useRedux';
-import Announcement from '@/components/modal/announcement/Announcement';
 import { modalSelector, closeModal, ModalTypes } from '@/redux/modal/modal.slice';
 
 const MODAL_COMPONENTS = {
   [ModalTypes.SIGN_UP]: Signup,
   [ModalTypes.SIGN_IN]: Signin,
-  [ModalTypes.ANNOUNCEMENT]: Announcement,
 } as const;
 
 const modalSizes = {
@@ -38,9 +36,6 @@ function Modal() {
   useEffect(() => {
     if (modalType) {
       switch (modalType) {
-        case ModalTypes.ANNOUNCEMENT:
-          setSize(modalSizes.xl);
-          break;
         default:
           setSize(modalSizes.md);
           break;

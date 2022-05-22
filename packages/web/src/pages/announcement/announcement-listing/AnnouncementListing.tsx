@@ -1,32 +1,21 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Input } from '@chakra-ui/react';
 
 import { CustomButton } from '@components/shared/index';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { openModal, ModalTypes } from '@/redux/modal/modal.slice';
 
 function AnnouncementListing() {
-  const dispatch = useAppDispatch();
-
-  const handleCreateNew = () => {
-    dispatch(
-      openModal({
-        modalType: ModalTypes.ANNOUNCEMENT,
-      }),
-    );
-  };
   return (
     <div>
       <Box display="flex" justifyContent="flex-end">
         <CustomButton
-          mb=".5rem"
+          mb="1rem"
           display="flex"
           colorScheme="green"
           bgGradient="linear(to-r, green.400, green.500, green.600)"
           padding="1.25rem"
-          onClick={handleCreateNew}
         >
-          Add new
+          <Link to="new">Add new</Link>
         </CustomButton>
       </Box>
       <TableContainer border="1px solid green" borderRadius="5px" mt="0.5rem" py="0.5">

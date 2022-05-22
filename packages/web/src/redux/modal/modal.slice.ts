@@ -4,7 +4,6 @@ import type { RootState } from '@/redux/store';
 export enum ModalTypes {
   SIGN_UP = 'SIGN_UP',
   SIGN_IN = 'SIGN_IN',
-  ANNOUNCEMENT = 'ANNOUNCEMENT',
 }
 
 export interface IModalState {
@@ -23,9 +22,6 @@ type ModalActionPayload =
     }
   | {
       modalType: ModalTypes.SIGN_IN;
-    }
-  | {
-      modalType: ModalTypes.ANNOUNCEMENT;
     };
 
 export const modalSlice = createSlice({

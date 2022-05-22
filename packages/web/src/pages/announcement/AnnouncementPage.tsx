@@ -5,7 +5,7 @@ import { Container } from '@chakra-ui/react';
 
 function AnnouncementPage() {
   return (
-    <Container maxW="container.xl" pt="1rem" data-testid="announcement-page">
+    <Container maxW="container.xl" data-testid="announcement-page">
       <Outlet />
     </Container>
   );
