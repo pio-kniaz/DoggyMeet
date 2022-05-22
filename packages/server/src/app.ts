@@ -4,6 +4,7 @@ import cors from 'cors';
 import morgan from 'morgan';
 import cookieParser from 'cookie-parser';
 import chalk from 'chalk';
+import path from 'path';
 import { corsOptions } from '@config/corsOptions';
 
 import { credentials } from '@/middlewares/credentials/credentials';
@@ -36,6 +37,13 @@ app.use(credentials);
 app.use(cors(corsOptions));
 
 app.use('/api', routes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../web')));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.resolve(__dirname, '../web', 'index.html'));
+  });
+}
 
 app.use(errorNoMatch);
 app.use(errorHandler);
