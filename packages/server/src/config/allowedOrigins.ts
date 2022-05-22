@@ -1,1 +1,1 @@
-export const allowedOrigins = ['http://localhost:8081'];
+export const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(', ') || [];
