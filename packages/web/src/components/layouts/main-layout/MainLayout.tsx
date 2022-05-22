@@ -26,7 +26,7 @@ function MainLayout() {
           </Flex>
         }
       >
-        <Box flexGrow={1}>
+        <Box flexGrow={1} py="2rem">
           <Outlet />
         </Box>
       </Suspense>
