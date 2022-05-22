@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 function NotFoundPage() {
   return (
     <Box
+      data-testid="not-found-page"
       textAlign="center"
       py={10}
       px={6}

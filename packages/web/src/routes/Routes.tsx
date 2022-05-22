@@ -4,9 +4,9 @@ import { useNavigate, useRoutes } from 'react-router-dom';
 import { useRefreshToken } from '@queries/auth/auth-queries';
 import { useGetMe } from '@queries/users/users-queries';
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
-import { authRoutes } from '@routes/AuthenticatedRoutes';
-import { unAuthRoutes } from '@routes/UnAuthenticatedRoutes';
 import { isApiError } from '@helpers/index';
+import { unAuthRoutes } from '@/routes/unauthenticated-routes/UnAuthenticatedRoutes';
+import { authRoutes } from '@/routes/authenticated-routes/AuthenticatedRoutes';
 import { clearAccessToken, authSelector, setAccessToken, setUser } from '@/redux/auth/auth.slice';
 import { PlaceHolder } from './Routes.styles';
 

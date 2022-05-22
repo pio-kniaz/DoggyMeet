@@ -7,7 +7,6 @@ const NotFoundPage = React.lazy(() => import('@pages/not-found/NotFoundPage'));
 
 export const unAuthRoutes = [
   {
-    path: '/',
     element: (
       <div data-testid="routes-unAuthenticated">
         <BasicLayout />
