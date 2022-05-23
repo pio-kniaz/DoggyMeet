@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Input } from '@chakra-ui/react';
 
-import { CustomButton } from '@components/shared/index';
+import { CustomLink } from '@components/shared/index';
 
 function AnnouncementListing() {
   return (
     <div>
-      <Box display="flex" justifyContent="flex-end">
-        <CustomButton
-          mb="1rem"
-          display="flex"
+      <Box display="flex" justifyContent="flex-end" zIndex="2">
+        <CustomLink
+          color="white"
+          to="new"
+          variant="solid"
           colorScheme="green"
           bgGradient="linear(to-r, green.400, green.500, green.600)"
-          padding="1.25rem"
         >
-          <Link to="new">Add new</Link>
-        </CustomButton>
+          Add new
+        </CustomLink>
       </Box>
       <TableContainer border="1px solid green" borderRadius="5px" mt="0.5rem" py="0.5">
         <Table variant="striped">
