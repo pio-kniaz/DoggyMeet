@@ -1,22 +1,11 @@
 import { useState, useRef } from 'react';
-import {
-  Box,
-  Flex,
-  Text,
-  Stack,
-  useColorModeValue,
-  useBreakpointValue,
-  Image,
-  useToast,
-  Divider,
-  useOutsideClick,
-} from '@chakra-ui/react';
+import { Box, Flex, Text, Stack, useColorModeValue, Image, useToast, Divider, useOutsideClick } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
-import { CustomButton } from '@components/shared';
+import { CustomButton, CustomLink } from '@components/shared';
 import logo from '@assets/images/logo.jpg';
 import { useLogout } from '@queries/auth/auth-queries';
 import avatarImg from '@assets/images/Abi-avatar.jpeg';
@@ -146,17 +135,9 @@ function Header({ type }: IHeader) {
         px={{ base: 4 }}
       >
         <Flex flex={1} justify="start">
-          <CustomButton variant="link" as="span">
-            <Link to="/">
-              <Text
-                textAlign={useBreakpointValue({ base: 'left' })}
-                fontFamily="heading"
-                color={useColorModeValue('gray.800', 'white')}
-              >
-                <Image src={logo} boxSize="80px" objectFit="contain" alt="Doggy Meet" />
-              </Text>
-            </Link>
-          </CustomButton>
+          <CustomLink to="" variant="link">
+            <Image src={logo} boxSize="80px" objectFit="contain" alt="Doggy Meet" />
+          </CustomLink>
         </Flex>
         {type === 'basic' && <BasicHeader />}
         {type === 'main' && <MainHeader />}

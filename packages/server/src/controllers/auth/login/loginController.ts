@@ -15,7 +15,7 @@ export const loginController = async (
   next: NextFunction
 ) => {
   const { error: validationErrors } = loginValidationSchema.validate(req.body, {
-    abortEarly: true,
+    abortEarly: false,
   });
   if (validationErrors) {
     return next(

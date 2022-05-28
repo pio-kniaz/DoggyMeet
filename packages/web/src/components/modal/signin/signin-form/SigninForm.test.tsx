@@ -170,6 +170,40 @@ describe('SigninForm component tests', () => {
           expect(submitButton).toBeEnabled();
         });
       });
+      it('Should display form validation when returns fieldsError', async () => {
+        renderWithClient(<SigninForm />);
+        mock.onPost('/auth/login').reply(400, {
+          status: 400,
+          metaData: {
+            fieldsError: {
+              email: 'invalid',
+              password: 'invalid',
+            },
+          },
+          name: 'ClientError',
+        });
+        const emailInput = screen.getByRole('textbox', { name: /email/i });
+        const passwordInput = screen.getByLabelText('Password');
+        const submitButton = screen.getByRole('button', { name: /submit/i });
+
+        fireEvent.change(emailInput, { target: { value: 'testEmail@op.pl' } });
+        fireEvent.change(passwordInput, { target: { value: 'wrongPassword' } });
+        fireEvent.click(submitButton);
+        await waitFor(() => {
+          expect(submitButton).toBeDisabled();
+        });
+        expect(mock.history.post[0].data).toBe(
+          JSON.stringify({
+            email: 'testEmail@op.pl',
+            password: 'wrongPassword',
+          }),
+        );
+        expect(emailInput).toBeInvalid();
+        expect(passwordInput).toBeInvalid();
+        await waitFor(() => {
+          expect(submitButton).toBeEnabled();
+        });
+      });
     });
   });
 });

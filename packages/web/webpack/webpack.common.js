@@ -51,6 +51,6 @@ module.exports = ({env}) => {
         systemvars: true,
       }),
     ],
-    stats: 'normal',
+    stats: 'errors-only',
   };
 }

@@ -1,6 +1,5 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { CustomButton } from '@components/shared';
-import { Link } from 'react-router-dom';
+import { CustomLink } from '@components/shared';
 
 function NotFoundPage() {
   return (
@@ -28,18 +27,15 @@ function NotFoundPage() {
         Page Not Found
       </Text>
       <Text mb={6}>The page you&apos;re looking for does not seem to exist</Text>
-
-      <Link to="/">
-        <CustomButton
-          colorScheme="teal"
-          bgGradient="linear(to-r, green.400, green.500, green.600)"
-          color="white"
-          variant="solid"
-          as="span"
-        >
-          Go to Home
-        </CustomButton>
-      </Link>
+      <CustomLink
+        color="white"
+        to="/"
+        variant="solid"
+        colorScheme="green"
+        bgGradient="linear(to-r, green.400, green.500, green.600)"
+      >
+        Go to Home
+      </CustomLink>
     </Box>
   );
 }

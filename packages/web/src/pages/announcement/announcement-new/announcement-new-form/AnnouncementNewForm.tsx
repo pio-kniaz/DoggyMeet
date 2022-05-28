@@ -1,14 +1,19 @@
 import React from 'react';
-import { Box, Code, AspectRatio, Image } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import isPlainObject from 'lodash/isPlainObject';
+import { Box, Code, AspectRatio, Image, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import cities from '@assets/cities.json';
 import { createFilter } from 'chakra-react-select';
-import { SelectField, CustomButton, TextAreaField } from '@components/shared';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { FixedSizeList as List } from 'react-window';
+
+import cities from '@assets/cities.json';
+import { SelectField, CustomButton, TextAreaField } from '@components/shared';
+import { isApiError, setFieldsError } from '@helpers/index';
 import mapImgPlaceholder from '@assets/images/placeholder-map.png';
-import { announcementFormValidationSchema } from './announcementFormValidationSchema';
-import { ListWrapper } from './AnnouncementForm.styles';
+import { useCreateAnnouncement } from '@queries/announcements/announcements-queries';
+import { announcementFormValidationSchema } from './announcementNewFormValidationSchema';
+import { ListWrapper } from './AnnouncementNewForm.styles';
 
 const defaultValues = {
   city: null,
@@ -46,6 +51,9 @@ function MenuList({ options: selectOptions, children, maxHeight, getValue }: any
       itemSize={height}
       initialScrollOffset={initialOffset}
       width="100%"
+      style={{
+        background: 'white',
+      }}
     >
       {({ index, style }) => (
         <div style={style}>
@@ -56,24 +64,81 @@ function MenuList({ options: selectOptions, children, maxHeight, getValue }: any
   );
 }
 
-function AnnouncementForm() {
+function AnnouncementNewForm() {
   const {
     control,
     handleSubmit,
     register,
     watch,
+    setError,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     defaultValues,
     resolver: yupResolver(announcementFormValidationSchema),
   });
 
+  const { mutateAsync, isLoading } = useCreateAnnouncement();
+  const toast = useToast();
+  const navigate = useNavigate();
+
   const watchCity = watch('city');
 
   const currentMapPlace = React.useMemo(() => cities.find((city) => city.id === watchCity), [watchCity]);
 
-  const handleOnSubmit = (values: FormData) => {
-    console.log(values);
+  const handleOnSubmit = async (values: FormData) => {
+    toast.closeAll();
+    const selectedCity = cities.find((city) => city.id === values.city);
+    if (selectedCity) {
+      const payload = {
+        city: selectedCity.label,
+        coordinates: {
+          lat: selectedCity.lat,
+          lng: selectedCity.lng,
+        },
+        description: values.description,
+      };
+      try {
+        const toastId = 'new-announcement-success';
+        await mutateAsync(payload);
+        reset(defaultValues);
+        toast({
+          id: toastId,
+          position: 'top-right',
+          title: 'New announcement has been added.',
+          description: '',
+          status: 'success',
+          duration: 2500,
+          isClosable: true,
+        });
+        navigate('/announcement', {
+          replace: true,
+        });
+      } catch (err: unknown) {
+        if (isApiError(err)) {
+          const fieldsError = err.response?.data?.metaData?.fieldsError;
+          if (isPlainObject(fieldsError)) {
+            setFieldsError({
+              fieldsError,
+              setError,
+            });
+          } else {
+            const toastId = 'new-announcement-error';
+            if (!toast.isActive(toastId)) {
+              toast({
+                id: toastId,
+                position: 'top-right',
+                title: 'Announcement not created.',
+                description: `Unable to create announcement try again.`,
+                status: 'error',
+                duration: 2500,
+                isClosable: true,
+              });
+            }
+          }
+        }
+      }
+    }
   };
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} autoComplete="off">
@@ -90,13 +155,13 @@ function AnnouncementForm() {
       </Box>
       {currentMapPlace && (
         <Box mb="2">
-          <AspectRatio ratio={3 / 2}>
-            <Image src={mapImgPlaceholder} alt="naruto" objectFit="cover" />
+          <AspectRatio ratio={17 / 8}>
+            <Image src={mapImgPlaceholder} alt="map" objectFit="cover" />
           </AspectRatio>
           <Code>
             {currentMapPlace?.lat} : LAT
             <br />
-            {currentMapPlace?.lon} : LON
+            {currentMapPlace?.lng} : LON
           </Code>
         </Box>
       )}
@@ -119,6 +184,7 @@ function AnnouncementForm() {
         mt="4"
         colorScheme="green"
         type="submit"
+        isLoading={isLoading}
       >
         Add
       </CustomButton>
@@ -126,4 +192,4 @@ function AnnouncementForm() {
   );
 }
 
-export default AnnouncementForm;
+export default AnnouncementNewForm;

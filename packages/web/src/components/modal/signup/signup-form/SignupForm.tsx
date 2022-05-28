@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, InputLeftElement, InputRightElement, useToast } from '@chakra-ui/react';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 import { useUserCreate } from '@queries/users/users-queries';
 import { CustomButton, InputField } from '@components/shared';
-import { isApiError } from '@helpers/index';
+import { useAppDispatch } from '@hooks/useRedux';
+import { isApiError, setFieldsError } from '@helpers/index';
+import { closeModal } from '@/redux/modal/modal.slice';
 import { signupValidationSchema, Signup } from './signupValidationSchema';
 
 const defaultValues = {
@@ -32,6 +33,7 @@ function SignupForm() {
     resolver: yupResolver(signupValidationSchema),
   });
   const { isLoading, mutateAsync } = useUserCreate();
+  const dispatch = useAppDispatch();
 
   const handleOnSubmit = async (values: Signup) => {
     try {
@@ -49,16 +51,14 @@ function SignupForm() {
         });
       }
       reset(defaultValues);
-      // TODO: CLOSE MODAL
+      dispatch(closeModal());
     } catch (err: unknown) {
       if (isApiError(err)) {
-        if (isArray(err.response?.data?.metaData?.fieldsError)) {
-          err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
-            const fieldName = Object.keys(elem)[index] as keyof Signup;
-            setError(fieldName, {
-              type: 'manual',
-              message: elem[fieldName],
-            });
+        const fieldsError = err.response?.data?.metaData?.fieldsError;
+        if (isPlainObject(fieldsError)) {
+          setFieldsError({
+            fieldsError,
+            setError,
           });
         } else {
           const toastId = 'register-form-error';

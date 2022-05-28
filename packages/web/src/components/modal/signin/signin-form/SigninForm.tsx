@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import isPlainObject from 'lodash/isPlainObject';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, InputLeftElement, InputRightElement, useToast } from '@chakra-ui/react';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -8,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { InputField, CustomButton } from '@components/shared';
 import { useLogin } from '@queries/auth/auth-queries';
 import { useAppDispatch } from '@hooks/useRedux';
-import { isApiError } from '@helpers/index';
+import { isApiError, setFieldsError } from '@helpers/index';
 import { closeModal } from '@/redux/modal/modal.slice';
 import { setAccessToken } from '@/redux/auth/auth.slice';
 import { signinValidationSchema, Signin } from './signinValidationSchema';
@@ -26,6 +27,7 @@ function SigninForm() {
   const {
     handleSubmit,
     register,
+    setError,
     formState: { errors },
     reset,
   } = useForm<Signin>({
@@ -42,7 +44,13 @@ function SigninForm() {
       dispatch(setAccessToken({ accessToken }));
     } catch (err: unknown) {
       if (isApiError(err)) {
-        if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
+        const fieldsError = err.response?.data?.metaData?.fieldsError;
+        if (isPlainObject(fieldsError)) {
+          setFieldsError({
+            fieldsError,
+            setError,
+          });
+        } else if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
           toast({
             id: toastId,
             position: 'top-right',

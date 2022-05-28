@@ -1,5 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 import { typography } from '@/theme/typography';
+import components from './components';
 
 export const theme = extendTheme({
   ...typography,
@@ -16,5 +17,5 @@ export const theme = extendTheme({
       },
     },
   },
-  components: {},
+  components,
 });
