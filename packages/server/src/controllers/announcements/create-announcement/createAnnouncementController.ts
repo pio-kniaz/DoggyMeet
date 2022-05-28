@@ -25,7 +25,7 @@ export const createAnnouncementController = async (
   if (validationErrors) {
     return next(
       new ErrorException(errorCodeName.ClientError, {
-        fieldsError: [fieldValidation(validationErrors)],
+        fieldsError: fieldValidation(validationErrors),
       })
     );
   }

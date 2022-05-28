@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import isArray from 'lodash/isArray';
+import isPlainObject from 'lodash/isPlainObject';
 import { Box, Code, AspectRatio, Image, useToast } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { createFilter } from 'chakra-react-select';
@@ -9,7 +9,7 @@ import { FixedSizeList as List } from 'react-window';
 
 import cities from '@assets/cities.json';
 import { SelectField, CustomButton, TextAreaField } from '@components/shared';
-import { isApiError } from '@helpers/index';
+import { isApiError, setFieldsError } from '@helpers/index';
 import mapImgPlaceholder from '@assets/images/placeholder-map.png';
 import { useCreateAnnouncement } from '@queries/announcements/announcements-queries';
 import { announcementFormValidationSchema } from './announcementNewFormValidationSchema';
@@ -116,13 +116,11 @@ function AnnouncementNewForm() {
         });
       } catch (err: unknown) {
         if (isApiError(err)) {
-          if (isArray(err.response?.data?.metaData?.fieldsError)) {
-            err.response?.data?.metaData?.fieldsError?.forEach((elem: Record<string, string>, index: number) => {
-              const fieldName = Object.keys(elem)[index] as keyof FormData;
-              setError(fieldName, {
-                type: 'manual',
-                message: elem[fieldName],
-              });
+          const fieldsError = err.response?.data?.metaData?.fieldsError;
+          if (isPlainObject(fieldsError)) {
+            setFieldsError({
+              fieldsError,
+              setError,
             });
           } else {
             const toastId = 'new-announcement-error';
