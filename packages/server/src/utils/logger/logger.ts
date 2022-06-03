@@ -42,4 +42,11 @@ if (process.env.NODE_ENV !== 'production') {
       handleExceptions: true,
     })
   );
+  logger.add(
+    new winston.transports.File({
+      filename: `${process.cwd()}/logs/debug.log`,
+      level: 'debug',
+      maxsize: 5242880,
+    })
+  );
 }

@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import chalk from 'chalk';
 import path from 'path';
 import { corsOptions } from '@config/corsOptions';
+import { logger } from '@/utils/logger/logger';
 
 import { credentials } from '@/middlewares/credentials/credentials';
 import { errorHandler } from '@/middlewares/error-handler/error-handler';
@@ -19,7 +20,7 @@ const app = express();
 
 app.use(
   morgan((tokens, req, res) => {
-    return [
+    const output = [
       chalk.green(tokens.method(req, res)),
       chalk.blue(tokens.url(req, res)),
       chalk.yellow(tokens.status(req, res)),
@@ -27,6 +28,10 @@ app.use(
       '-',
       chalk.red(`${tokens['response-time'](req, res)} ms`),
     ].join(' ');
+    if (process.env.NODE_ENV !== 'production') {
+      logger.debug(output);
+    }
+    return output;
   })
 );
 

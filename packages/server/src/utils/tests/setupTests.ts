@@ -1,4 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { logger } from '@/utils/logger/logger';
 
-logger.silent = true;
+if (process.env.NODE_ENV === 'production') {
+  logger.silent = true;
+}
