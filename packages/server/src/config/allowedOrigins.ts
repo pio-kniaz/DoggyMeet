@@ -1,1 +1,3 @@
-export const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(', ') || [];
+import { config } from '@config/index';
+
+export const allowedOrigins = config.ALLOWED_ORIGIN;

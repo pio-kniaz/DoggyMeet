@@ -7,7 +7,7 @@ export const credentials = (
   next: NextFunction
 ) => {
   const { origin } = req.headers;
-  if (origin && allowedOrigins.includes(origin)) {
+  if (origin && allowedOrigins?.includes(origin)) {
     // @ts-ignore
     res.header('Access-Control-Allow-Credentials', true);
   }
