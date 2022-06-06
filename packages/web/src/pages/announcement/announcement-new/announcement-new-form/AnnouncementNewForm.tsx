@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import isPlainObject from 'lodash/isPlainObject';
-import { Box, Code, AspectRatio, Image, useToast } from '@chakra-ui/react';
+import { Box, Code, AspectRatio, Image, useToast, useTheme } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import { createFilter } from 'chakra-react-select';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -42,6 +42,7 @@ const options: CityOption[] = cities
 const height = 37;
 
 function MenuList({ options: selectOptions, children, maxHeight, getValue }: any) {
+  const theme = useTheme();
   const [value] = getValue();
   const initialOffset = selectOptions.indexOf(value) * height;
   return (
@@ -53,6 +54,8 @@ function MenuList({ options: selectOptions, children, maxHeight, getValue }: any
       width="100%"
       style={{
         background: 'white',
+        border: `1px solid ${theme.colors.gray[300]}`,
+        borderRadius: '4px',
       }}
     >
       {({ index, style }) => (
