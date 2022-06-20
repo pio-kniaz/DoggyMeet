@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Flex, Square, Text } from '@chakra-ui/react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
@@ -12,6 +12,12 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
   const currentPage = page - 1;
   const isPrevDisable = currentPage <= 0;
   const isNextDisable = currentPage >= totalPages - 1;
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      changePage(totalPages - 1 || 0);
+    }
+  }, [changePage, currentPage, totalPages]);
   const handleChangePage = (val: number) => {
     changePage(val);
   };

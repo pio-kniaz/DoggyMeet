@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
+import pick from 'lodash/pick';
 import { useForm } from 'react-hook-form';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Heading } from '@chakra-ui/react';
 import { paginationInitial } from '@constants';
@@ -25,7 +26,7 @@ function AnnouncementListing() {
   });
 
   const { register, watch, control, reset } = useForm({
-    defaultValues: filters,
+    defaultValues: pick(filters, ['author', 'status', 'city']),
   });
 
   const handleResetFilter = () => {
@@ -34,21 +35,13 @@ function AnnouncementListing() {
   };
 
   const updateFilters = useCallback(
-    debounce(
-      (val) =>
-        setFilters((prev: any) => {
-          return {
-            ...prev,
-            ...val,
-          };
-        }),
-      750,
-    ),
+    debounce((val) => setFilters(val), 750),
     [],
   );
 
   useEffect(() => {
     const subscription = watch((value) => {
+      console.log(value, 'value');
       updateFilters(value);
     });
     return () => subscription.unsubscribe();
@@ -85,7 +78,7 @@ function AnnouncementListing() {
             <Tr>
               <Th>
                 <Box>
-                  <Box mb="3">
+                  <Box mb="3" minWidth="150px">
                     <InputField placeholder="Type author..." borderRadius="0" register={register} name="author" />{' '}
                   </Box>
                   Author
@@ -93,7 +86,7 @@ function AnnouncementListing() {
               </Th>
               <Th>
                 <Box>
-                  <Box mb="3">
+                  <Box mb="3" minWidth="150px">
                     <InputField placeholder="Type city..." borderRadius="0" register={register} name="city" />{' '}
                   </Box>
                   City
@@ -101,7 +94,7 @@ function AnnouncementListing() {
               </Th>
               <Th>
                 <Box>
-                  <Box mb="3" minWidth="150px">
+                  <Box mb="3" minWidth="200px">
                     <SelectField
                       control={control}
                       placeholder="Type status..."
