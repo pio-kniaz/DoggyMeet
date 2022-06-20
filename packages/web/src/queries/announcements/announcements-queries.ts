@@ -40,7 +40,7 @@ export interface IAnnouncementCreateResponse extends ISuccessResponse {
   createdAt: string;
 }
 
-const announcementKeys = {
+export const announcementKeys = {
   root: [baseUrl] as const,
   list: (filters: string) => {
     if (!filters) {

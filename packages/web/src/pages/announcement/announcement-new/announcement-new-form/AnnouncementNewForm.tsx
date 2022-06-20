@@ -1,4 +1,5 @@
 import React from 'react';
+import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import isPlainObject from 'lodash/isPlainObject';
 import { Box, Code, AspectRatio, Image, useToast, useTheme } from '@chakra-ui/react';
@@ -6,12 +7,11 @@ import { useForm } from 'react-hook-form';
 import { createFilter } from 'chakra-react-select';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FixedSizeList as List } from 'react-window';
-
 import cities from '@assets/cities.json';
 import { SelectField, CustomButton, TextAreaField } from '@components/shared';
 import { isApiError, setFieldsError } from '@helpers/index';
 import mapImgPlaceholder from '@assets/images/placeholder-map.png';
-import { useCreateAnnouncement } from '@queries/announcements/announcements-queries';
+import { useCreateAnnouncement, announcementKeys } from '@queries/announcements/announcements-queries';
 import { announcementFormValidationSchema } from './announcementNewFormValidationSchema';
 import { ListWrapper } from './AnnouncementNewForm.styles';
 
@@ -80,11 +80,11 @@ function AnnouncementNewForm() {
     defaultValues,
     resolver: yupResolver(announcementFormValidationSchema),
   });
+  const queryClient = useQueryClient();
 
   const { mutateAsync, isLoading } = useCreateAnnouncement();
   const toast = useToast();
   const navigate = useNavigate();
-
   const watchCity = watch('city');
 
   const currentMapPlace = React.useMemo(() => cities.find((city) => city.id === watchCity), [watchCity]);
@@ -101,6 +101,7 @@ function AnnouncementNewForm() {
         },
         description: values.description,
       };
+      // TODO: ADD REFRESH Announcement list
       try {
         const toastId = 'new-announcement-success';
         await mutateAsync(payload);
@@ -114,6 +115,7 @@ function AnnouncementNewForm() {
           duration: 2500,
           isClosable: true,
         });
+        queryClient.invalidateQueries(announcementKeys.root);
         navigate('/announcement', {
           replace: true,
         });
