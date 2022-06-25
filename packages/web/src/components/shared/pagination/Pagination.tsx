@@ -14,7 +14,7 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
   const isNextDisable = currentPage >= totalPages - 1;
 
   useEffect(() => {
-    if (currentPage > totalPages) {
+    if (currentPage >= totalPages) {
       changePage(totalPages - 1 || 0);
     }
   }, [changePage, currentPage, totalPages]);
