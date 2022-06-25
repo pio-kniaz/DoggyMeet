@@ -10,7 +10,7 @@ export interface IAnnouncement {
     lat: number;
     lng: number;
   };
-  status: 'open' | 'closed';
+  status: 'open' | 'close';
   updatedAt: string;
   createdAt: string;
 }

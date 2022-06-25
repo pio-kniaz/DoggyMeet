@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { Box, Flex, Text, Stack, useColorModeValue, Image, useToast, Divider, useOutsideClick } from '@chakra-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
+import { FaUser, FaBell } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '@hooks/useRedux';
@@ -93,10 +92,12 @@ function MainHeader() {
   return (
     <Stack flex={{ base: 1 }} justify="flex-end" direction="row">
       <Box mr={3} cursor="pointer">
-        <FontAwesomeIcon icon={faBell} size="lg" />
+        <FaBell size="1.75rem" />
       </Box>
       <Box cursor="pointer">
-        <FontAwesomeIcon icon={faUser} size="lg" onClick={handleBioToggle} forwardedRef={ref} />
+        <Box ref={ref}>
+          <FaUser size="1.75rem" onClick={handleBioToggle} />
+        </Box>
       </Box>
       <UserBioWrapper isOpen={isUserBioOpen}>
         <AvatarImg src={avatarImg} alt="avatar" />

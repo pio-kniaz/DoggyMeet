@@ -46,6 +46,31 @@ function SelectField<TFormValues>({ name, control, options, errors, ...restProps
         value={currentValue}
         onChange={onChange}
         {...restProps}
+        chakraStyles={{
+          dropdownIndicator: (provided) => ({
+            ...provided,
+            p: 0,
+            w: '38px',
+          }),
+          singleValue: (provided) => ({
+            ...provided,
+            fontSize: 'md',
+            fontWeight: '500',
+            textTransform: 'capitalize',
+          }),
+          placeholder: (provided) => ({
+            ...provided,
+            fontSize: 'md',
+            fontWeight: '500',
+            textTransform: 'capitalize',
+          }),
+          option: (provided) => ({
+            ...provided,
+            fontSize: 'md',
+            fontWeight: '500',
+            textTransform: 'capitalize',
+          }),
+        }}
       />
       <FormErrorMessage>{hasError && errorMessages.message}</FormErrorMessage>
     </FormControl>

@@ -1,8 +1,9 @@
 import type { IAnnouncement } from '@interfaces/index';
 
-import mongoose, { Schema, Model } from 'mongoose';
+import mongoose, { Schema, PaginateModel } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-type IAnnouncementModel = Model<IAnnouncement>;
+type IAnnouncementModel = PaginateModel<IAnnouncement>;
 
 const announcementSchema = new Schema<IAnnouncement, IAnnouncementModel>(
   {
@@ -48,7 +49,7 @@ const announcementSchema = new Schema<IAnnouncement, IAnnouncementModel>(
     timestamps: true,
   }
 );
-
+announcementSchema.plugin(mongoosePaginate);
 export const Announcement = mongoose.model<IAnnouncement, IAnnouncementModel>(
   'Announcement',
   announcementSchema

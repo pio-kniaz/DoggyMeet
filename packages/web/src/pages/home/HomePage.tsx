@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, AspectRatio, Heading, Box, Text, List, ListItem, Container } from '@chakra-ui/react';
-import { faInfoCircle, faHandsHelping, faPaw } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaInfoCircle, FaHandsHelping, FaPaw } from 'react-icons/fa';
 
 import girlWithDogImg from '@assets/icons/girl-with-dog.svg';
 import { CustomButton } from '@components/shared';
@@ -29,14 +28,14 @@ function HomePage() {
         <Box maxWidth="600" textAlign="left" margin="2rem auto">
           <List spacing={3} aria-label="info-list">
             <ListItem display="flex" alignItems="baseline">
-              <FontAwesomeIcon icon={faInfoCircle} size="1x" />
+              <FaInfoCircle />
               <Text fontSize="xl" marginLeft="1rem">
                 {' '}
                 Add information about the need for a walk for your dog.
               </Text>
             </ListItem>
             <ListItem display="flex" alignItems="baseline">
-              <FontAwesomeIcon icon={faHandsHelping} size="1x" />
+              <FaHandsHelping />
               <Text fontSize="xl" marginLeft="1rem">
                 {' '}
                 Help others by taking someone&apos;s dog for a walk.
@@ -49,7 +48,7 @@ function HomePage() {
             onClick={handleOpenRegistration}
             width="100%"
             display="flex"
-            rightIcon={<FontAwesomeIcon icon={faPaw} size="1x" />}
+            rightIcon={<FaPaw size="1.25rem" />}
             colorScheme="green"
             bgGradient="linear(to-r, green.400, green.500, green.600)"
             margin="1.5rem auto"
