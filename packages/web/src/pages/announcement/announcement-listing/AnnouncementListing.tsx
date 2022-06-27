@@ -1,13 +1,17 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
+import { Column } from 'react-table';
+
 import pick from 'lodash/pick';
+import { FaEye } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
-import { Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Heading } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 import { paginationInitial } from '@constants';
-import { CustomLink, Loader, InputField, SelectField, CustomButton, Pagination } from '@components/shared/index';
+import { CustomLink, CustomButton, Table, InputField, SelectField } from '@components/shared/index';
 import debounce from 'lodash/debounce';
 
 import { useGetAllAnnouncement } from '@queries/announcements/announcements-queries';
 import { useFilters } from '@hooks/useFilters';
+import { IAnnouncement } from '@/utils/interfaces';
 
 const initialFilters = {
   city: '',
@@ -25,10 +29,79 @@ function AnnouncementListing() {
     initialFilters: initialQuery,
   });
 
-  const { register, watch, control, reset } = useForm({
+  const { watch, reset, register, control } = useForm({
     defaultValues: pick(filters, ['author', 'status', 'city']),
   });
 
+  const columns: Column<IAnnouncement>[] = useMemo(
+    () => [
+      {
+        id: 'author',
+        Header: (
+          <Box>
+            <Box mb="3" minWidth="150px">
+              <InputField placeholder="Author..." borderRadius="0" register={register} name="author" />{' '}
+            </Box>
+            Author
+          </Box>
+        ),
+        accessor: (originalRow) => {
+          return originalRow.author.name;
+        },
+      },
+      {
+        id: 'city',
+        Header: (
+          <Box>
+            <Box mb="3" minWidth="150px">
+              <InputField placeholder="City..." borderRadius="0" register={register} name="city" />{' '}
+            </Box>
+            City
+          </Box>
+        ),
+        accessor: 'city',
+      },
+      {
+        id: 'status',
+        Header: (
+          <Box>
+            <Box mb="3" minWidth="200px">
+              <SelectField
+                control={control}
+                placeholder="status..."
+                name="status"
+                options={[
+                  { value: 'open', label: 'open' },
+                  { value: 'closed', label: 'closed' },
+                ]}
+              />
+            </Box>
+            Status
+          </Box>
+        ),
+        accessor: 'status',
+      },
+      {
+        Header: 'CREATED AT',
+        accessor: 'createdAt',
+        width: 100,
+      },
+      {
+        Header: 'Actions',
+        width: 250,
+        Cell: () => {
+          return (
+            <>
+              <CustomLink variant="unstyled" to="new" display="inline-flex" justifyContent="center">
+                <FaEye size="1.55rem" />
+              </CustomLink>
+            </>
+          );
+        },
+      },
+    ],
+    [control, register],
+  );
   const handleResetFilter = () => {
     reset();
     resetFilters();
@@ -41,17 +114,17 @@ function AnnouncementListing() {
 
   useEffect(() => {
     const subscription = watch((value) => {
-      console.log(value, 'value');
       updateFilters(value);
     });
     return () => subscription.unsubscribe();
   }, [setFilters, watch, filters, updateFilters]);
 
-  const { isLoading, data, isError, isSuccess } = useGetAllAnnouncement({
+  const { data, status } = useGetAllAnnouncement({
     query: {
       ...filters,
     },
   });
+
   const handleChangePage = (val: number) => {
     setFilters({
       page: val,
@@ -72,82 +145,13 @@ function AnnouncementListing() {
         </CustomLink>
         <CustomButton onClick={handleResetFilter}>Reset Filters</CustomButton>
       </Box>
-      <TableContainer border="1px solid green" borderRadius="5px" mt="0.5rem" py="0.5">
-        <Table variant="striped">
-          <Thead>
-            <Tr>
-              <Th>
-                <Box>
-                  <Box mb="3" minWidth="150px">
-                    <InputField placeholder="Type author..." borderRadius="0" register={register} name="author" />{' '}
-                  </Box>
-                  Author
-                </Box>
-              </Th>
-              <Th>
-                <Box>
-                  <Box mb="3" minWidth="150px">
-                    <InputField placeholder="Type city..." borderRadius="0" register={register} name="city" />{' '}
-                  </Box>
-                  City
-                </Box>
-              </Th>
-              <Th>
-                <Box>
-                  <Box mb="3" minWidth="200px">
-                    <SelectField
-                      control={control}
-                      placeholder="Type status..."
-                      name="status"
-                      options={[
-                        { value: 'open', label: 'open' },
-                        { value: 'closed', label: 'closed' },
-                      ]}
-                    />
-                  </Box>
-                  Status
-                </Box>
-              </Th>
-              <Th />
-              <Th>
-                <Box>Actions</Box>
-              </Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isSuccess &&
-              !isError &&
-              !isLoading &&
-              data?.announcements?.docs.map((elem) => {
-                return (
-                  <Tr key={elem._id}>
-                    <Td>{elem.author.name}</Td>
-                    <Td>{elem.city}</Td>
-                    <Td>{elem.status}</Td>
-                    <Td>{elem.createdAt}</Td>
-                    <Td>-</Td>
-                  </Tr>
-                );
-              })}
-          </Tbody>
-        </Table>
-        {isError && (
-          <Box py="2rem">
-            <Heading as="h2" textAlign="center" color="red.500">
-              Something went wrong
-            </Heading>
-          </Box>
-        )}
-        {isLoading && (
-          <Box py="2rem" textAlign="center">
-            <Loader size="xl" />
-          </Box>
-        )}
-      </TableContainer>
-      <Pagination
+      <Table<IAnnouncement>
+        columns={columns}
+        data={data?.announcements?.docs ?? []}
         totalPages={data?.announcements?.totalPages ?? 0}
         page={data?.announcements?.page ?? 0}
         changePage={handleChangePage}
+        status={status}
       />
     </div>
   );
