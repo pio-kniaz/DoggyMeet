@@ -6,9 +6,10 @@ interface IPagination {
   totalPages: number;
   page: number;
   changePage: Function;
+  isLoading: boolean;
 }
 
-function Pagination({ totalPages, page, changePage }: IPagination) {
+function Pagination({ totalPages, page, changePage, isLoading }: IPagination) {
   const currentPage = page - 1;
   const isPrevDisable = currentPage <= 0;
   const isNextDisable = currentPage >= totalPages - 1;
@@ -19,15 +20,17 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
     }
   }, [changePage, currentPage, totalPages]);
   const handleChangePage = (val: number) => {
-    changePage(val);
+    if (!isLoading) {
+      changePage(val);
+    }
   };
   const handleNextPage = () => {
-    if (!isNextDisable) {
+    if (!isNextDisable && !isLoading) {
       changePage(currentPage + 1);
     }
   };
   const handlePrevPage = () => {
-    if (!isPrevDisable) {
+    if (!isPrevDisable && !isLoading) {
       changePage(currentPage - 1);
     }
   };
@@ -58,12 +61,12 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
       return (
         <Flex color="whiteAlpha" align="center" justifyContent="center">
           <Square
-            disabled={isPrevDisable}
+            disabled={isPrevDisable || isLoading}
             bg="whiteAlpha.500"
             size="40px"
             onClick={handlePrevPage}
             as="button"
-            opacity={isPrevDisable ? 0.3 : 1}
+            opacity={isPrevDisable || isLoading ? 0.3 : 1}
           >
             <FaAngleLeft />
           </Square>
@@ -96,12 +99,12 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
             );
           })}
           <Square
-            disabled={isNextDisable}
+            disabled={isNextDisable || isLoading}
             bg="whiteAlpha.500"
             size="40px"
             onClick={handleNextPage}
             as="button"
-            opacity={isNextDisable ? 0.3 : 1}
+            opacity={isNextDisable || isLoading ? 0.3 : 1}
           >
             <FaAngleRight />
           </Square>
@@ -111,53 +114,6 @@ function Pagination({ totalPages, page, changePage }: IPagination) {
 
     return null;
   };
-  // const renderPagination = () => {
-  //   const result: number[] = [];
-  //   for (let index = 0; index < totalPages; index += 1) {
-  //     result.push(index);
-  //   }
-  //   if (result.length > 0) {
-  //     return (
-  //       <Flex color="whiteAlpha" align="center" justifyContent="center">
-  //         <Square
-  //           disabled={isPrevDisable}
-  //           bg="whiteAlpha.500"
-  //           size="40px"
-  //           onClick={handlePrevPage}
-  //           as="button"
-  //           opacity={isPrevDisable ? 0.3 : 1}
-  //         >
-  //           <FaAngleLeft />
-  //         </Square>
-  //         {result.map((val) => {
-  //           return (
-  //             <Square
-  //               as="button"
-  //               bg={val + 1 === page ? 'green.500' : 'whiteAlpha.500'}
-  //               color={val + 1 === page ? 'white' : 'black.200'}
-  //               size="40px"
-  //               key={val}
-  //               onClick={() => handleChangePage(val)}
-  //             >
-  //               <Text>{val + 1}</Text>
-  //             </Square>
-  //           );
-  //         })}
-  //         <Square
-  //           disabled={isNextDisable}
-  //           bg="whiteAlpha.500"
-  //           size="40px"
-  //           onClick={handleNextPage}
-  //           as="button"
-  //           opacity={isNextDisable ? 0.3 : 1}
-  //         >
-  //           <FaAngleRight />
-  //         </Square>
-  //       </Flex>
-  //     );
-  //   }
-  //   return null;
-  // };
 
   return <>{renderPaginationSec()}</>;
 }

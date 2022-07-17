@@ -1,25 +1,11 @@
 import MainLayout from '@components/layouts/main-layout/MainLayout';
 import { renderWithClient } from 'utils/tests/createWrapper';
+import { screen } from '@testing-library/react';
 
-const mockedUsedNavigate = jest.fn();
-
-jest.mock('react-router-dom', () => {
-  const originalModule = jest.requireActual('react-router-dom');
-  return {
-    ...originalModule,
-    useNavigate: () => mockedUsedNavigate,
-  };
-});
-
-afterEach(() => {
-  jest.clearAllMocks();
-});
-
-describe('MainLayout test', () => {
-  it('Should redirect to /announcement path when path is "/"', () => {
-    renderWithClient(<MainLayout />, {
-      path: '/',
-    });
-    expect(mockedUsedNavigate).toHaveBeenNthCalledWith(1, '/announcement', { replace: true });
+describe('MainLayout component tests', () => {
+  it('Should render the main layout', () => {
+    renderWithClient(<MainLayout />);
+    const mainLayout = screen.getByTestId('mainLayout');
+    expect(mainLayout).toBeInTheDocument();
   });
 });

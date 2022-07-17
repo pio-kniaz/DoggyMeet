@@ -1,8 +1,9 @@
 import { useMutation, useQuery, UseQueryOptions } from 'react-query';
-import { ISuccessResponse, IApiError, IQueries, IAnnouncement, IPaginable } from '@interfaces/index';
+import { ISuccessResponse, IApiError, IQueries, IPaginable } from '@interfaces/index';
+import { IAnnouncement } from 'shared';
 import { queryBuilder } from '@helpers/index';
 
-import { Api } from '@/utils/services/api'; // eslint-disable-line import/no-cycle
+import { Api } from '@/utils/services/Api'; // eslint-disable-line import/no-cycle
 
 const baseUrl = '/announcements';
 

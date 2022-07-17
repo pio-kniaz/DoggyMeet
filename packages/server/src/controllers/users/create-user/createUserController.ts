@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { IUser } from '@interfaces/index';
+import type { IUser } from 'shared';
 import { errorCodeName } from '@const/index';
 import { ErrorException } from '@/utils/error-handler/error-exception';
 import { fieldValidation } from '@/utils/field-validation/fieldValidation';
@@ -53,11 +53,9 @@ export const createUserController = async (
     if (error?.code === 11000 && error?.keyValue?.email) {
       return next(
         new ErrorException(errorCodeName.ClientError, {
-          fieldsError: [
-            {
-              [Object.keys(error.keyValue)[0]]: 'Email already exists',
-            },
-          ],
+          fieldsError: {
+            [Object.keys(error.keyValue)[0]]: 'Email already exists',
+          },
         })
       );
     }

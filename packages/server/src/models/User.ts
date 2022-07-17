@@ -1,4 +1,4 @@
-import type { IUser } from '@interfaces/index';
+import type { IUser } from 'shared';
 import mongoose, { Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { errorCodeName } from '@const/index';

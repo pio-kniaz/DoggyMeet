@@ -2,9 +2,9 @@ import React from 'react';
 // import mockAxios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { Api } from '@/utils/services/api';
-import RegisterForm from './SignupForm';
+import { Api } from '@/utils/services/Api';
 import { renderWithClient } from '@/utils/tests/createWrapper';
+import RegisterForm from './SignupForm';
 
 describe('SignupForm component tests', () => {
   describe('Submit button', () => {
@@ -179,7 +179,7 @@ describe('SignupForm component tests', () => {
       renderWithClient(<RegisterForm />);
       mock.onPost('/users').reply(400, {
         status: 400,
-        metaData: { fieldsError: [{ email: 'Email already exists' }] },
+        metaData: { fieldsError: { email: 'Email already exists' } },
         name: 'ClientError',
       });
       const nameInput = screen.getByRole('textbox', { name: /name/i });

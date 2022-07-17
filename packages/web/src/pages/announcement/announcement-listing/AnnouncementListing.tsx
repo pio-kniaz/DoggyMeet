@@ -6,12 +6,12 @@ import { FaEye } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { Box } from '@chakra-ui/react';
 import { paginationInitial } from '@constants';
-import { CustomLink, CustomButton, Table, InputField, SelectField } from '@components/shared/index';
+import { CustomLink, CustomButton, Table } from '@components/shared/index';
 import debounce from 'lodash/debounce';
 
 import { useGetAllAnnouncement } from '@queries/announcements/announcements-queries';
 import { useFilters } from '@hooks/useFilters';
-import { IAnnouncement } from '@/utils/interfaces';
+import { IAnnouncement } from 'shared';
 
 const initialFilters = {
   city: '',
@@ -19,9 +19,14 @@ const initialFilters = {
   status: '',
 };
 
+const initialSort = {
+  sort: 'createdAt:desc',
+};
+
 const initialQuery = {
   ...paginationInitial,
   ...initialFilters,
+  ...initialSort,
 };
 
 function AnnouncementListing() {
@@ -37,12 +42,13 @@ function AnnouncementListing() {
     () => [
       {
         id: 'author',
+        // Header: 'Author',
         Header: (
-          <Box>
+          <Box as="span">
             <Box mb="3" minWidth="150px">
-              <InputField placeholder="Author..." borderRadius="0" register={register} name="author" />{' '}
+              {/* <InputField placeholder="Author..." borderRadius="0" register={register} name="author" />{' '} */}
+              Author
             </Box>
-            Author
           </Box>
         ),
         accessor: (originalRow) => {
@@ -51,11 +57,12 @@ function AnnouncementListing() {
       },
       {
         id: 'city',
+        // Header: 'city',
         Header: (
-          <Box>
-            <Box mb="3" minWidth="150px">
-              <InputField placeholder="City..." borderRadius="0" register={register} name="city" />{' '}
-            </Box>
+          <Box as="span" minWidth="150px">
+            {/* <Box mb="3" minWidth="150px"> */}
+            {/* <InputField placeholder="City..." borderRadius="0" register={register} name="city" />{' '} */}
+            {/* </Box> */}
             City
           </Box>
         ),
@@ -63,22 +70,23 @@ function AnnouncementListing() {
       },
       {
         id: 'status',
-        Header: (
-          <Box>
-            <Box mb="3" minWidth="200px">
-              <SelectField
-                control={control}
-                placeholder="status..."
-                name="status"
-                options={[
-                  { value: 'open', label: 'open' },
-                  { value: 'closed', label: 'closed' },
-                ]}
-              />
-            </Box>
-            Status
-          </Box>
-        ),
+        Header: 'status',
+        // Header: (
+        //   <Box>
+        //     <Box mb="3" minWidth="200px">
+        //       <SelectField
+        //         control={control}
+        //         placeholder="status..."
+        //         name="status"
+        //         options={[
+        //           { value: 'open', label: 'open' },
+        //           { value: 'closed', label: 'closed' },
+        //         ]}
+        //       />
+        //     </Box>
+        //     Status
+        //   </Box>
+        // ),
         accessor: 'status',
       },
       {
@@ -119,17 +127,21 @@ function AnnouncementListing() {
     return () => subscription.unsubscribe();
   }, [setFilters, watch, filters, updateFilters]);
 
-  const { data, status } = useGetAllAnnouncement({
+  const { data, status, isPreviousData } = useGetAllAnnouncement({
     query: {
       ...filters,
     },
+    queryOptions: {
+      keepPreviousData: true,
+    },
   });
 
-  const handleChangePage = (val: number) => {
+  const handleChangeFilter = ({ key, value }: { key: string; value: string | number }) => {
     setFilters({
-      page: val,
+      [key]: value,
     });
   };
+
   return (
     <div>
       <Box display="flex" justifyContent="flex-end" zIndex="2">
@@ -150,8 +162,10 @@ function AnnouncementListing() {
         data={data?.announcements?.docs ?? []}
         totalPages={data?.announcements?.totalPages ?? 0}
         page={data?.announcements?.page ?? 0}
-        changePage={handleChangePage}
+        changeFilter={handleChangeFilter}
         status={status}
+        isPreviousData={isPreviousData}
+        sort={['createdAt', 'city', 'author']}
       />
     </div>
   );

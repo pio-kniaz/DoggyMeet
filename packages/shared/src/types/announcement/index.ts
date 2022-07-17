@@ -1,4 +1,4 @@
-import type { IAuthor, ICoordinates } from './index';
+import type { IAuthor, ICoordinates } from '../index';
 
 export interface IAnnouncement {
   _id: string;

@@ -3,7 +3,7 @@ import MockAdapter from 'axios-mock-adapter';
 
 import SigninForm from '@components/modal/signin/signin-form/SigninForm';
 import { screen, fireEvent, waitFor } from '@testing-library/react';
-import { Api } from '@/utils/services/api';
+import { Api } from '@/utils/services/Api';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 import * as modalSlice from '@/redux/modal/modal.slice';
 import * as authSlice from '@/redux/auth/auth.slice';

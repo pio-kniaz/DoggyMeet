@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { validationMessage } from '@constants';
+import { validationMessage } from 'shared';
 
 export const announcementFormValidationSchema = Yup.object().shape({
   city: Yup.string().trim().nullable().required(validationMessage.requiredFiled),

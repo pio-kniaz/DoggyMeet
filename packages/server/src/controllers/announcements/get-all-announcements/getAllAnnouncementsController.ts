@@ -4,6 +4,8 @@ import type { IVerifyJWTRequest } from '@interfaces/index';
 import type { Response, NextFunction } from 'express';
 import { Announcement } from '@models/Announcements';
 import { getPagination } from '@helpers/getPagination';
+import { getSort } from '@helpers/getSort';
+import isString from 'lodash/isString';
 
 interface IAnnouncementQuery {
   status?: {
@@ -30,8 +32,19 @@ export const getAllAnnouncementsController = async (
   next: NextFunction
 ) => {
   try {
-    const { page = 0, size = 0, status, city, name, author } = req.query;
+    const {
+      page = 0,
+      size = 0,
+      status,
+      city,
+      name,
+      author,
+      sort: sortQuery,
+    } = req.query;
     const { limit, offset } = getPagination(+page, +size);
+    const sort = isString(sortQuery)
+      ? getSort(sortQuery)
+      : { createdAt: 'desc' };
     const query: IAnnouncementQuery = {};
     if (typeof status === 'string') {
       query.status = { $regex: new RegExp(status), $options: 'i' };
@@ -48,7 +61,7 @@ export const getAllAnnouncementsController = async (
     const result = await Announcement.paginate(query, {
       offset,
       limit,
-      sort: { createdAt: -1 },
+      sort,
     });
     return res.status(200).json({
       success: true,
