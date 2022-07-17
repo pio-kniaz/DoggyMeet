@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { validationMessage, regex } from '@const/index';
+import { validationMessage, regex } from 'shared';
 
 export const addUserValidationSchema = Joi.object({
   name: Joi.string().trim().max(30).required().messages({

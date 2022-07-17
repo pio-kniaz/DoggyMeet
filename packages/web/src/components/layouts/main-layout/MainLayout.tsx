@@ -8,7 +8,7 @@ import Header from '@/components/layouts/header/Header';
 
 function MainLayout() {
   return (
-    <Flex flexDirection="column" height="100vh">
+    <Flex flexDirection="column" height="100vh" data-testid="mainLayout">
       <Header type="main" />
       <Suspense
         fallback={

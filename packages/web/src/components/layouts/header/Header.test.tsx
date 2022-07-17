@@ -7,7 +7,7 @@ import Header from '@/components/layouts/header/Header';
 import { renderWithClient } from '@/utils/tests/createWrapper';
 import * as modalSlice from '@/redux/modal/modal.slice';
 import * as authSlice from '@/redux/auth/auth.slice';
-import { Api } from '@/utils/services/api';
+import { Api } from '@/utils/services/Api';
 
 const mockedUsedNavigate = jest.fn();
 

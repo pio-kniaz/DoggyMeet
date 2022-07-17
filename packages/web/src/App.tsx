@@ -6,16 +6,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { printName } from 'shared';
 
 import Routes from '@routes/Routes';
 import Modal from '@components/modal/Modal';
-import { Api } from '@/utils/services/api';
+import { Api } from '@/utils/services/Api';
+// eslint-disable-next-line import/no-unresolved
 import { theme } from './theme';
 
 function App() {
   return (
     <QueryClientProvider client={Api.queryClient()}>
       <ChakraProvider resetCSS theme={theme}>
+        {printName('Piotr', 'K')}
         <BrowserRouter>
           <Routes />
         </BrowserRouter>

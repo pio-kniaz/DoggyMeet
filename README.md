@@ -22,7 +22,8 @@
 
 - [x] Lerna
 - [x] Husky
+- [x] Yarn
 - [x] Webpack
 - [x] Babel
 - [x] Eslint
-- [x] Precomit Lint
+- [x] Precommit Lint

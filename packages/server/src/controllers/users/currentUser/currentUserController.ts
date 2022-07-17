@@ -1,5 +1,6 @@
 import { Response, NextFunction } from 'express';
-import type { IVerifyJWTRequest, IUser } from '@interfaces/index';
+import type { IVerifyJWTRequest } from '@interfaces/index';
+import type { IUser } from 'shared';
 import pick from 'lodash/pick';
 
 import { User } from '@models/User';

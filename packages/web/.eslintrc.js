@@ -42,7 +42,6 @@ module.exports = {
     'react/prop-types': 'off',
     'react/require-default-props': 'off',
     'react/jsx-props-no-spreading': 'off',
-    'import/no-unresolved': 'error',
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     'import/prefer-default-export': 'off',
@@ -71,6 +70,7 @@ module.exports = {
       },
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts', '**/*.test.tsx'] }],
+    'import/no-unresolved': [2, { caseSensitive: false }],
   },
   settings: {
     'import/parsers': {

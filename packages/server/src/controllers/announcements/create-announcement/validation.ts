@@ -1,6 +1,6 @@
-import type { IAnnouncement } from '@interfaces/index';
+import type { IAnnouncement } from 'shared';
 import Joi from 'joi';
-import { validationMessage } from '@const/index';
+import { validationMessage } from 'shared';
 
 export const addAnnouncementValidationSchema = Joi.object<IAnnouncement>({
   city: Joi.string().trim().required().messages({

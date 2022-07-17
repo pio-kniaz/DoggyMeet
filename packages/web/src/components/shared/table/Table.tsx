@@ -9,11 +9,22 @@ interface ITable<T extends object = {}> {
   data: T[];
   totalPages: number;
   page: number;
-  changePage: Function;
+  changeFilter: Function;
   status: 'error' | 'idle' | 'loading' | 'success';
+  isPreviousData?: boolean;
+  sort: string[];
 }
 
-function Table<T extends {}>({ data, columns, totalPages, page, changePage, status }: ITable<T>) {
+function Table<T extends {}>({
+  data,
+  columns,
+  totalPages,
+  page,
+  changeFilter,
+  status,
+  isPreviousData = false,
+  sort,
+}: ITable<T>) {
   const defaultColumn = useMemo(
     () => ({
       width: 'auto',
@@ -30,6 +41,10 @@ function Table<T extends {}>({ data, columns, totalPages, page, changePage, stat
     usePagination,
   );
 
+  const handleChangePage = (val: number) => {
+    changeFilter({ key: 'page', value: val });
+  };
+
   if (status === 'error') {
     <Box py="2rem">
       <Heading as="h2" textAlign="center" color="red.500">
@@ -38,6 +53,11 @@ function Table<T extends {}>({ data, columns, totalPages, page, changePage, stat
     </Box>;
   }
 
+  console.log(sort, 'sort');
+
+  const handleChangeSort = ({ type, dir }: { type: string; dir: 'asc' | 'desc' }) => {
+    changeFilter({ key: 'sort', value: `${type}:${dir}` });
+  };
   return (
     <>
       <TableContainer border="1px solid green" borderRadius="5px" mt="0.5rem" py="0.5" position="relative">
@@ -51,7 +71,35 @@ function Table<T extends {}>({ data, columns, totalPages, page, changePage, stat
                       style: { minWidth: column.minWidth, width: column.width },
                     })}
                   >
-                    {column.render('Header')}
+                    {sort.includes(column.id) ? (
+                      <>
+                        {column.render('Header')}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleChangeSort({
+                              type: column.id,
+                              dir: 'asc',
+                            })
+                          }
+                        >
+                          asc
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleChangeSort({
+                              type: column.id,
+                              dir: 'desc',
+                            })
+                          }
+                        >
+                          desc
+                        </button>
+                      </>
+                    ) : (
+                      column.render('Header')
+                    )}
                   </Th>
                 ))}
               </Tr>
@@ -94,7 +142,7 @@ function Table<T extends {}>({ data, columns, totalPages, page, changePage, stat
           </Box>
         )}
       </TableContainer>
-      <Pagination totalPages={totalPages} page={page} changePage={changePage} />
+      <Pagination isLoading={isPreviousData} totalPages={totalPages} page={page} changePage={handleChangePage} />
     </>
   );
 }

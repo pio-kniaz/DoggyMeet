@@ -8,8 +8,8 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { Router } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { createMemoryHistory } from 'history';
-import { theme } from '../../theme';
 import { rootReducer } from '@/redux/store';
+import { theme } from '../../theme';
 
 const createTestQueryClient = () =>
   new QueryClient({
@@ -21,7 +21,7 @@ const createTestQueryClient = () =>
   });
 
 export function renderWithClient(
-  ui: React.ReactElement,
+  ui: React.ReactNode,
   {
     preloadedState,
     store = configureStore({ reducer: rootReducer, preloadedState }),
@@ -36,7 +36,7 @@ export function renderWithClient(
       <QueryClientProvider client={testQueryClient}>
         <ChakraProvider resetCSS theme={theme}>
           <Router location={history.location} navigator={history}>
-            {ui}
+            <>{ui}</>
           </Router>
         </ChakraProvider>
       </QueryClientProvider>
@@ -54,6 +54,8 @@ export function renderWithClient(
 export function createWrapper() {
   const testQueryClient = createTestQueryClient();
   return ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={testQueryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={testQueryClient}>
+      <>{children}</>
+    </QueryClientProvider>
   );
 }

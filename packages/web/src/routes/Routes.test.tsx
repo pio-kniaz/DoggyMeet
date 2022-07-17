@@ -1,8 +1,8 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import MockAdapter from 'axios-mock-adapter';
 import Routes from '@routes/Routes';
-import { Api } from '@/utils/services/api';
+import { Api } from '@/utils/services/Api';
 
 import { renderWithClient } from '@/utils/tests/createWrapper';
 
@@ -103,8 +103,10 @@ describe('Routes component tests', () => {
       renderWithClient(<Routes />, {
         route: '/announcement',
       });
-      const announcementPage = await screen.findByTestId('announcement-page');
-      expect(announcementPage).toBeVisible();
+      await waitFor(() => {
+        const announcementPage = screen.getByTestId('announcement-page');
+        expect(announcementPage).toBeVisible();
+      });
     });
     it('Should render not found page on no matched route', async () => {
       mock.onGet('auth/refresh-token').reply(200, {

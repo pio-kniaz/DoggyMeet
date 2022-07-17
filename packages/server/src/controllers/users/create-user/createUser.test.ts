@@ -2,32 +2,32 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-extraneous-dependencies */
 import supertest from 'supertest';
-import mongoose from 'mongoose';
+import { TestDB } from '@utils/tests/testDB';
+import { config } from '@/config';
 
-import { validationMessage } from '@const/index';
+import { validationMessage } from 'shared';
+
 import app from '@/app';
 
-beforeEach(() => {
-  jest.spyOn(console, 'warn').mockImplementation(() => {});
-});
-
-beforeAll((done) => {
-  mongoose.connect('mongodb://localhost:27017/JestDB', () => done());
-});
-
-afterAll((done) => {
-  mongoose.connection.db.dropDatabase(() => {
-    mongoose.connection.close(() => done());
-  });
-});
-
 describe('POST /api/users', () => {
+  beforeEach(() => {
+    console.error('boo');
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  beforeAll(async () => {
+    await TestDB.initDB();
+  });
+
+  afterAll(async () => {
+    await TestDB.dropDB();
+  });
   describe('Add new users', () => {
     it('Should add new user and returns correct response', async () => {
       const dataPayload = {
-        name: 'Piotr',
-        email: '123@doggyMeet-test.pl',
-        password: 'JSON',
+        name: config.TEST_USER,
+        email: config.TEST_USER_EMAIL,
+        password: config.TEST_USER_PASSWORD,
       };
       await supertest(app)
         .post('/api/users')
@@ -36,8 +36,8 @@ describe('POST /api/users', () => {
         .then((response) => {
           expect(response.body.success).toBe(true);
           expect(response.body.user._id).toBeTruthy();
-          expect(response.body.user.name).toBe('Piotr');
-          expect(response.body.user.email).toBe('123@doggyMeet-test.pl');
+          expect(response.body.user.name).toBe(config.TEST_USER);
+          expect(response.body.user.email).toBe(config.TEST_USER_EMAIL);
         });
     });
     it('Should check max length fields validation', async () => {
@@ -108,9 +108,9 @@ describe('POST /api/users', () => {
     describe('email field', () => {
       it('Should return error with correct message when email has been already exists', async () => {
         const dataPayload = {
-          name: 'Piotr',
-          email: '123@doggyMeet-test.pl',
-          password: '123',
+          name: config.TEST_USER,
+          email: config.TEST_USER_EMAIL,
+          password: config.TEST_USER_PASSWORD,
         };
         await supertest(app).post('/api/users').send(dataPayload);
         const { statusCode, body } = await supertest(app)
@@ -120,11 +120,9 @@ describe('POST /api/users', () => {
         expect(body).toEqual({
           status: 400,
           metaData: {
-            fieldsError: [
-              {
-                email: 'Email already exists',
-              },
-            ],
+            fieldsError: {
+              email: 'Email already exists',
+            },
           },
           name: 'ClientError',
         });

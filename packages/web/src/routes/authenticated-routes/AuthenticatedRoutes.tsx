@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import MainLayout from '@components/layouts/main-layout/MainLayout';
 
 const AnnouncementPage = React.lazy(() => import('@pages/announcement/AnnouncementPage'));
@@ -15,7 +15,7 @@ export const authRoutes = [
       </div>
     ),
     children: [
-      { path: '/', element: <Navigate to="/announcement" /> },
+      // { path: '/', element: <Navigate to="/announcement" /> },
       {
         path: 'announcement',
         element: <AnnouncementPage />,
