@@ -44,20 +44,18 @@ function Modal() {
   }, [modalType]);
 
   return (
-    <>
-      <ChakraModal
-        isOpen={!!(modalType && MODAL_COMPONENTS[modalType])}
-        onClose={handleCloseModal}
-        size={size}
-        motionPreset="scale"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-          {modalComponent}
-        </ModalContent>
-      </ChakraModal>
-    </>
+    <ChakraModal
+      isOpen={!!(modalType && MODAL_COMPONENTS[modalType])}
+      onClose={handleCloseModal}
+      size={size}
+      motionPreset="scale"
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalCloseButton />
+        {modalComponent}
+      </ModalContent>
+    </ChakraModal>
   );
 }
 

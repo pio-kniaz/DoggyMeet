@@ -22,7 +22,7 @@
 
 - [x] Lerna
 - [x] Husky
-- [x] Yarn
+- [x] NPM
 - [x] Webpack
 - [x] Babel
 - [x] Eslint
