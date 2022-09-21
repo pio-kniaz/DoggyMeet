@@ -22,7 +22,7 @@ function SigninForm() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const toast = useToast();
-  const { isLoading, mutateAsync } = useLogin();
+  const { isLoading, mutate } = useLogin();
   const {
     handleSubmit,
     register,
@@ -36,42 +36,44 @@ function SigninForm() {
   const handleOnSubmit = async (values: Signin) => {
     const toastId = 'signin-toast';
     toast.closeAll();
-    try {
-      const { accessToken } = await mutateAsync(values);
-      reset(defaultValues);
-      dispatch(closeModal());
-      dispatch(setAccessToken({ accessToken }));
-    } catch (err: unknown) {
-      if (isApiError(err)) {
-        const fieldsError = err.response?.data?.metaData?.fieldsError;
-        if (isPlainObject(fieldsError)) {
-          setFieldsError({
-            fieldsError,
-            setError,
-          });
-        } else if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
-          toast({
-            id: toastId,
-            position: 'top-right',
-            title: 'Unable to login.',
-            description: err.response?.data?.metaData?.message ?? '',
-            status: 'error',
-            duration: 2500,
-            isClosable: true,
-          });
-        } else if (!toast.isActive(toastId)) {
-          toast({
-            id: toastId,
-            position: 'top-right',
-            title: 'Unable to login.',
-            description: 'Something went wrong',
-            status: 'error',
-            duration: 2500,
-            isClosable: true,
-          });
+    mutate(values, {
+      onSuccess: (data) => {
+        reset(defaultValues);
+        dispatch(closeModal());
+        dispatch(setAccessToken({ accessToken: data.accessToken }));
+      },
+      onError(err) {
+        if (isApiError(err)) {
+          const fieldsError = err.response?.data?.metaData?.fieldsError;
+          if (isPlainObject(fieldsError)) {
+            setFieldsError({
+              fieldsError,
+              setError,
+            });
+          } else if (err.response?.data?.metaData?.message && !toast.isActive(toastId)) {
+            toast({
+              id: toastId,
+              position: 'top-right',
+              title: 'Unable to login.',
+              description: err.response?.data?.metaData?.message ?? '',
+              status: 'error',
+              duration: 2500,
+              isClosable: true,
+            });
+          } else if (!toast.isActive(toastId)) {
+            toast({
+              id: toastId,
+              position: 'top-right',
+              title: 'Unable to login.',
+              description: 'Something went wrong',
+              status: 'error',
+              duration: 2500,
+              isClosable: true,
+            });
+          }
         }
-      }
-    }
+      },
+    });
   };
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);

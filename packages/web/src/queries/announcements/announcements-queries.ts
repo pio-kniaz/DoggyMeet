@@ -1,6 +1,6 @@
 import { useMutation, useQuery, UseQueryOptions } from 'react-query';
 import { ISuccessResponse, IApiError, IQueries, IPaginable } from '@interfaces/index';
-import { IAnnouncement } from 'shared';
+import { IAnnouncement } from '@doggy-meet/shared';
 import { queryBuilder } from '@helpers/index';
 
 import { Api } from '@/utils/services/Api'; // eslint-disable-line import/no-cycle

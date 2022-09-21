@@ -82,7 +82,7 @@ function AnnouncementNewForm() {
   });
   const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useCreateAnnouncement();
+  const { mutate, isLoading } = useCreateAnnouncement();
   const toast = useToast();
   const navigate = useNavigate();
   const watchCity = watch('city');
@@ -102,47 +102,49 @@ function AnnouncementNewForm() {
         description: values.description,
       };
       // TODO: ADD REFRESH Announcement list
-      try {
-        const toastId = 'new-announcement-success';
-        await mutateAsync(payload);
-        reset(defaultValues);
-        toast({
-          id: toastId,
-          position: 'top-right',
-          title: 'New announcement has been added.',
-          description: '',
-          status: 'success',
-          duration: 2500,
-          isClosable: true,
-        });
-        queryClient.invalidateQueries(announcementKeys.root);
-        navigate('/announcement', {
-          replace: true,
-        });
-      } catch (err: unknown) {
-        if (isApiError(err)) {
-          const fieldsError = err.response?.data?.metaData?.fieldsError;
-          if (isPlainObject(fieldsError)) {
-            setFieldsError({
-              fieldsError,
-              setError,
-            });
-          } else {
-            const toastId = 'new-announcement-error';
-            if (!toast.isActive(toastId)) {
-              toast({
-                id: toastId,
-                position: 'top-right',
-                title: 'Announcement not created.',
-                description: `Unable to create announcement try again.`,
-                status: 'error',
-                duration: 2500,
-                isClosable: true,
+      mutate(payload, {
+        onSuccess() {
+          const toastId = 'new-announcement-success';
+          reset(defaultValues);
+          toast({
+            id: toastId,
+            position: 'top-right',
+            title: 'New announcement has been added.',
+            description: '',
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
+          });
+          queryClient.invalidateQueries(announcementKeys.root);
+          navigate('/announcement', {
+            replace: true,
+          });
+        },
+        onError(err) {
+          if (isApiError(err)) {
+            const fieldsError = err.response?.data?.metaData?.fieldsError;
+            if (isPlainObject(fieldsError)) {
+              setFieldsError({
+                fieldsError,
+                setError,
               });
+            } else {
+              const toastId = 'new-announcement-error';
+              if (!toast.isActive(toastId)) {
+                toast({
+                  id: toastId,
+                  position: 'top-right',
+                  title: 'Announcement not created.',
+                  description: `Unable to create announcement try again.`,
+                  status: 'error',
+                  duration: 2500,
+                  isClosable: true,
+                });
+              }
             }
           }
-        }
-      }
+        },
+      });
     }
   };
   return (

@@ -11,7 +11,7 @@ import debounce from 'lodash/debounce';
 
 import { useGetAllAnnouncement } from '@queries/announcements/announcements-queries';
 import { useFilters } from '@hooks/useFilters';
-import { IAnnouncement } from 'shared';
+import { IAnnouncement } from '@doggy-meet/shared';
 
 const initialFilters = {
   city: '',
@@ -34,7 +34,7 @@ function AnnouncementListing() {
     initialFilters: initialQuery,
   });
 
-  const { watch, reset, register, control } = useForm({
+  const { watch, reset } = useForm({
     defaultValues: pick(filters, ['author', 'status', 'city']),
   });
 
@@ -43,14 +43,7 @@ function AnnouncementListing() {
       {
         id: 'author',
         // Header: 'Author',
-        Header: (
-          <Box as="span">
-            <Box mb="3" minWidth="150px">
-              {/* <InputField placeholder="Author..." borderRadius="0" register={register} name="author" />{' '} */}
-              Author
-            </Box>
-          </Box>
-        ),
+        Header: <Box as="span">Author</Box>,
         accessor: (originalRow) => {
           return originalRow.author.name;
         },
@@ -99,16 +92,14 @@ function AnnouncementListing() {
         width: 250,
         Cell: () => {
           return (
-            <>
-              <CustomLink variant="unstyled" to="new" display="inline-flex" justifyContent="center">
-                <FaEye size="1.55rem" />
-              </CustomLink>
-            </>
+            <CustomLink variant="unstyled" to="new" display="inline-flex" justifyContent="center">
+              <FaEye size="1.55rem" />
+            </CustomLink>
           );
         },
       },
     ],
-    [control, register],
+    [],
   );
   const handleResetFilter = () => {
     reset();

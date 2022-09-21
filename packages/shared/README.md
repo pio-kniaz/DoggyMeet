@@ -7,6 +7,6 @@
 ## Usage
 
 ```
-import { regex, validationMessage } from 'shared';
+import { regex, validationMessage } from '@doggy-meet/shared';
 
 ```

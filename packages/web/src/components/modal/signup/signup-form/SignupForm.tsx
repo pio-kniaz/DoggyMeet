@@ -31,50 +31,52 @@ function SignupForm() {
     defaultValues,
     resolver: yupResolver(signupValidationSchema),
   });
-  const { isLoading, mutateAsync } = useUserCreate();
+  const { isLoading, mutate } = useUserCreate();
   const dispatch = useAppDispatch();
 
   const handleOnSubmit = async (values: Signup) => {
-    try {
-      await mutateAsync(values);
-      const toastId = 'register-form-success';
-      if (!toast.isActive(toastId)) {
-        toast({
-          id: toastId,
-          position: 'top-right',
-          title: 'Account created.',
-          description: `Thank ${values.name} for joining us 🐶`,
-          status: 'success',
-          duration: 2500,
-          isClosable: true,
-        });
-      }
-      reset(defaultValues);
-      dispatch(closeModal());
-    } catch (err: unknown) {
-      if (isApiError(err)) {
-        const fieldsError = err.response?.data?.metaData?.fieldsError;
-        if (isPlainObject(fieldsError)) {
-          setFieldsError({
-            fieldsError,
-            setError,
+    mutate(values, {
+      onSuccess: () => {
+        const toastId = 'register-form-success';
+        if (!toast.isActive(toastId)) {
+          toast({
+            id: toastId,
+            position: 'top-right',
+            title: 'Account created.',
+            description: `Thank ${values.name} for joining us 🐶`,
+            status: 'success',
+            duration: 2500,
+            isClosable: true,
           });
-        } else {
-          const toastId = 'register-form-error';
-          if (!toast.isActive(toastId)) {
-            toast({
-              id: toastId,
-              position: 'top-right',
-              title: 'Account not created.',
-              description: `Unable to create account`,
-              status: 'error',
-              duration: 2500,
-              isClosable: true,
+        }
+        reset(defaultValues);
+        dispatch(closeModal());
+      },
+      onError(err) {
+        if (isApiError(err)) {
+          const fieldsError = err.response?.data?.metaData?.fieldsError;
+          if (isPlainObject(fieldsError)) {
+            setFieldsError({
+              fieldsError,
+              setError,
             });
+          } else {
+            const toastId = 'register-form-error';
+            if (!toast.isActive(toastId)) {
+              toast({
+                id: toastId,
+                position: 'top-right',
+                title: 'Account not created.',
+                description: `Unable to create account`,
+                status: 'error',
+                duration: 2500,
+                isClosable: true,
+              });
+            }
           }
         }
-      }
-    }
+      },
+    });
   };
 
   const handleShowPassword = () => {

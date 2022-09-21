@@ -20,7 +20,7 @@ function Router() {
     onSuccess: (data) => {
       dispatch(setAccessToken({ accessToken: data.accessToken }));
     },
-    onError: (error: unknown) => {
+    onError: (error) => {
       dispatch(clearAccessToken());
       if (isApiError(error) && error.response?.data?.metaData?.message === 'jwt expired') {
         navigate('/', { replace: true });

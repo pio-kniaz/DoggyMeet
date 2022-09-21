@@ -1,4 +1,4 @@
-import type { IAnnouncement } from 'shared';
+import type { IAnnouncement } from '@doggy-meet/shared';
 
 import mongoose, { Schema, PaginateModel } from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';

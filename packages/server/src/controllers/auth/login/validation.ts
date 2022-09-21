@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { validationMessage, regex } from 'shared';
+import { validationMessage, regex } from '@doggy-meet/shared';
 
 export const loginValidationSchema = Joi.object({
   email: Joi.string().trim().pattern(regex.email).required().messages({
