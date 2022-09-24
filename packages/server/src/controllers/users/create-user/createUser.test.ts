@@ -5,7 +5,7 @@ import supertest from 'supertest';
 import { TestDB } from '@utils/tests/testDB';
 import { config } from '@/config';
 
-import { validationMessage } from 'shared';
+import { validationMessage } from '@doggy-meet/shared';
 
 import app from '@/app';
 

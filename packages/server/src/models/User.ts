@@ -1,4 +1,4 @@
-import type { IUser } from 'shared';
+import type { IUser } from '@doggy-meet/shared';
 import mongoose, { Model } from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { errorCodeName } from '@const/index';

@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { regex, validationMessage } from 'shared';
+import { regex, validationMessage } from '@doggy-meet/shared';
 
 export const signupValidationSchema = Yup.object({
   name: Yup.string().trim().required(validationMessage.requiredFiled),

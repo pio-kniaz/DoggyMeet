@@ -1,6 +1,6 @@
 import { Response, NextFunction } from 'express';
 import type { IVerifyJWTRequest } from '@interfaces/index';
-import type { IUser } from 'shared';
+import type { IUser } from '@doggy-meet/shared';
 import pick from 'lodash/pick';
 
 import { User } from '@models/User';

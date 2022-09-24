@@ -1,7 +1,4 @@
-export const printName = (firstName: string, lastName: string) => {
-    const fullName = firstName + " " + lastName;
-    return fullName;
-  }
+export const xxx = (a: number,b: number) => a+ b;
 export { regex } from './regex/regex';
 export { validationMessage } from './validationMessage/validationMessage';
 export * from './types/index';

@@ -12,11 +12,12 @@
     "@commitlint/cli": "^13.2.1",
     "@commitlint/config-conventional": "^13.2.0"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "start": "lerna run start  --parallel --scope={shared,web,server}",
+    "start": "lerna run start  --parallel --scope={@doggy-meet/shared,@doggy-meet/web,@doggy-meet/server}",
+    "publish": "lerna publish --no-push",
+    "clean": "lerna run clean",
+    "build": "lerna run build",
+    "link": "lerna bootstrap",
     "diff": "lerna diff",
     "new-version": "lerna version --conventional-commits --yes",
     "test": "lerna run test --stream --scope={web,server}",

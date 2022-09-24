@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { validationMessage, regex } from 'shared';
+import { validationMessage, regex } from '@doggy-meet/shared';
 
 export const addUserValidationSchema = Joi.object({
   name: Joi.string().trim().max(30).required().messages({

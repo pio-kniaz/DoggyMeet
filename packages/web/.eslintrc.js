@@ -71,6 +71,7 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts', '**/*.test.tsx'] }],
     'import/no-unresolved': [2, { caseSensitive: false }],
+    'react/no-unstable-nested-components': [2, { allowAsProps: true }],
   },
   settings: {
     'import/parsers': {

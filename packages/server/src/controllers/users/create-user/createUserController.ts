@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { IUser } from 'shared';
+import type { IUser } from '@doggy-meet/shared';
 import { errorCodeName } from '@const/index';
 import { ErrorException } from '@/utils/error-handler/error-exception';
 import { fieldValidation } from '@/utils/field-validation/fieldValidation';
